@@ -24,7 +24,7 @@ Require-Bundle: org.eclipse.ui.ide,
  org.eclipse.wst.sse.sieditor.model,
  org.eclipse.wst.common.ui,
  org.eclipse.wst.common.core
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.wst.sse.sieditor.ui;
   uses:="org.eclipse.ui.views.properties.tabbed,

@@ -17,3 +17,4 @@ Export-Package: org.eclipse.wst.sse.sieditor.core,
  org.eclipse.wst.sse.sieditor.core.modelapis
 Bundle-ClassPath: .,
  api/
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

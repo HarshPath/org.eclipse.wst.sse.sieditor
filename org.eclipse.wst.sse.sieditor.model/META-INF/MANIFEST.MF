@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.xsd,
  org.eclipse.wst.wsdl.ui,
  org.eclipse.gef,
  org.eclipse.wst.xsd.ui
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
 Export-Package: org.eclipse.wst.sse.sieditor.command.common;
