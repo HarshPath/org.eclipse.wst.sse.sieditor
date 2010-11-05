@@ -14,10 +14,10 @@
  
 	<modules>
 	    <!-- sieditor functionality -->
-		<module>org.eclipse.wst.sse.sieditor.core</module>
-		<module>org.eclipse.wst.sse.sieditor.fwk</module>
-		<module>org.eclipse.wst.sse.sieditor.model</module>
-		<module>org.eclipse.wst.sse.sieditor.ui</module>
+		<module>../org.eclipse.wst.sse.sieditor.core</module>
+		<module>../org.eclipse.wst.sse.sieditor.fwk</module>
+		<module>../org.eclipse.wst.sse.sieditor.model</module>
+		<module>../org.eclipse.wst.sse.sieditor.ui</module>
 	</modules>
 
 	<build>
