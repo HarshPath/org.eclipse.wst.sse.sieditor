@@ -14,6 +14,6 @@
   <groupId>org.eclipse.wst.sse.sieditor</groupId>
   <artifactId>org.eclipse.wst.sse.sieditor.fwk</artifactId>
   <packaging>eclipse-update-site</packaging>
-  <name>SIEditor Update Site</name>
+  <name>Service Interface And Data Types Editor Framework Plugin</name>
 
 </project>
