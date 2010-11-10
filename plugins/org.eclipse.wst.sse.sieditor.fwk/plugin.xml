@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="modelProvider" name="SI Editor Model Provider" schema="schema/modelProvider.exsd"/>
+   <extension-point id="extnProvider" name="SI Editor Extensions Provider" schema="schema/extnProvider.exsd"/>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.ui.IFileEditorInput"
+            class="org.eclipse.wst.sse.sieditor.fwk.model.ModelProvider">
+         <adapter
+               type="org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot">
+         </adapter>
+         <adapter
+               type="org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.ui.IEditorInput"
+            class="org.eclipse.wst.sse.sieditor.fwk.model.URIModelProvider">
+         <adapter
+               type="org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot">
+         </adapter>
+         <adapter
+               type="org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot">
+         </adapter>
+      </factory>
+   </extension>
+   <extension
+         point="org.eclipse.wst.sse.sieditor.fwk.modelProvider">
+      <modelProvider
+            providerClass="org.eclipse.wst.sse.sieditor.fwk.model.URIModelProvider">
+      </modelProvider>
+   </extension>
+
+</plugin>

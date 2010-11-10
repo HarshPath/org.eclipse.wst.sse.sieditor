@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<constraints categories="wsdl-soap-validation">
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.address.location" id="soap.address.location" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.AddressLocationURI">
+		<description>Validates if address has non empty location</description>
+		<message/>
+		<target class="SOAPAddress">
+			<event name="Set">
+				<feature name="locationURI" />
+			</event>
+			<event name="Unset">
+				<feature name="locationURI" />
+			</event>
+		</target>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.address.binding" id="soap.address.binding" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.AddressBinding">
+		<description>Validates if address has non empty location</description>
+		<message/>
+		<target class="SOAPAddress">
+		</target>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.binding.transportURI" id="soap.binding.transportURI" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.BindingTransport">
+		<description>A valid (non empty) URI must be specified</description>
+		<message/>
+		<target class="SOAPBinding">
+		</target>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.operation.binding" id="soap.operation.binding" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.OperationBinding">
+		<description>A SOAP Binding must be specified to use an operation.</description>
+		<message/>
+		<target class="SOAPOperation"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.body.encodingstyle" id="soap.body.encodingstyle" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.BodyEncodingStyle">
+		<description>If encoded a body must have an encodingStyle.</description>
+		<message/>
+		<target class="SOAPBody"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.body.parts" id="soap.body.parts" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.BodyParts">
+		<description>Check that the parts are valid.</description>
+		<message/>
+		<target class="SOAPBody"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.body.parts.encoded.use" id="soap.body.parts.encoded.use" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.BodyPartsEncodedUse">
+		<description>if the use is encoded the parts must all have a type defined</description>
+		<message/>
+		<target class="SOAPBody"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.body.binding" id="soap.body.binding" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.BodyBinding">
+		<description>SOAPBody has SOAPBinding</description>
+		<message/>
+		<target class="SOAPBody"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.header.message" id="soap.header.message" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.HeaderMessage">
+		<description>Check if SOAPHeader message is defined</description>
+		<message/>
+		<target class="SOAPHeader"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.header.part" id="soap.header.part" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.HeaderPart">
+		<description>Check if SOAPHeader part is defined</description>
+		<message/>
+		<target class="SOAPHeader"/>
+	</constraint>	
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.header.encoded_use.encoding_style" id="soap.header.encoded_use.encoding_style" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.HeaderEncodedUseEncodingStyle">
+		<description>If the use is encoded, must have a non-empty encodingStyle</description>
+		<message/>
+		<target class="SOAPHeader"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.header.encoded_use.namespaceURI" id="soap.header.encoded_use.namespaceURI" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.HeaderEncodedUseNamespaceURI">
+		<description>If the use is encoded, must have a namespace defined</description>
+		<message/>
+		<target class="SOAPHeader"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.header.binding" id="soap.header.binding" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.HeaderBinding">
+		<description>SOAPHeader has SOAPBinding</description>
+		<message/>
+		<target class="SOAPHeader"/>
+	</constraint>
+	
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.header.fault.message" id="soap.header.fault.message" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.HeaderMessage">
+		<description>Check if SOAPHeader message is defined</description>
+		<message/>
+		<target class="SOAPHeaderFault"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.header.fault.part" id="soap.header.fault.part" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.HeaderPart">
+		<description>Check if SOAPHeader part is defined</description>
+		<message/>
+		<target class="SOAPHeaderFault"/>
+	</constraint>	
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.header.fault.encoded_use.encoding_style" id="soap.header.fault.encoded_use.encoding_style" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.HeaderEncodedUseEncodingStyle">
+		<description>If the use is encoded, must have a non-empty encodingStyle</description>
+		<message/>
+		<target class="SOAPHeaderFault"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.header.fault.encoded_use.namespaceURI" id="soap.header.fault.encoded_use.namespaceURI" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.HeaderEncodedUseNamespaceURI">
+		<description>If the use is encoded, must have a namespace defined</description>
+		<message/>
+		<target class="SOAPHeaderFault"/>
+	</constraint>
+	
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.fault.name" id="soap.fault.name" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.FaultName">
+		<description>The name specified must be the name from the fault parent element.</description>
+		<message/>
+		<target class="SOAPFault"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="soap.element.location" id="soap.element.location" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.soap.SOAPElementLocation">
+		<description>Check correct location of http binding elements</description>
+		<message/>
+		<target class="SOAPAddress"/>
+		<target class="SOAPBinding"/>
+		<target class="SOAPOperation"/>
+		<target class="SOAPBody"/>
+		<target class="SOAPHeader"/>
+		<target class="SOAPHeaderFault"/>
+		<target class="SOAPFault"/>
+	</constraint>
+</constraints>

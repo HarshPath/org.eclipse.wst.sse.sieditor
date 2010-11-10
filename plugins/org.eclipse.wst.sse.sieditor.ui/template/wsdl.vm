@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/$name/" xmlns:wsdl="$wsdlNamespace" xmlns:xsd="$schemaNamespace" name="$name" targetNamespace="http://www.example.org/${name}/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/$name/">
+      <xsd:element name="$operationName">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="$operationResponseName">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="$operationRequestName">
+    <wsdl:part element="tns:$operationName" name="Parameter"/>
+  </wsdl:message>
+  <wsdl:message name="$operationResponseName">
+    <wsdl:part element="tns:$operationResponseName" name="Parameter"/>
+  </wsdl:message>
+  <wsdl:portType name="$name">
+    <wsdl:operation name="$operationName">
+      <wsdl:input message="tns:$operationRequestName"/>
+      <wsdl:output message="tns:$operationResponseName"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="${name}SOAP" type="tns:$name">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="$operationName">
+      <soap:operation soapAction="http://www.example.org/$name/$operationName"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="$name">
+    <wsdl:port binding="tns:${name}SOAP" name="${name}SOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
