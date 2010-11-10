@@ -13,5 +13,5 @@
 	<artifactId>org.eclipse.wst.sse.sieditor.model</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
-	<name>Service Interface and Data Types Editors UI Plug-in</name>
+	<name>Service Interface and Data Types Editors Model Plug-in</name>
 </project>
