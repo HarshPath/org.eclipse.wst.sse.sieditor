@@ -18,7 +18,8 @@
 		<module>../../plugins/org.eclipse.wst.sse.sieditor.fwk</module>
 		<module>../../plugins/org.eclipse.wst.sse.sieditor.model</module>
 		<module>../../plugins/org.eclipse.wst.sse.sieditor.ui</module>
-		<!-- <module>../org.eclipse.wst.sse.sieditor.repository</module>  -->
+		<module>../../features/org.eclipse.wst.sse.sieditor.feature</module>
+		<module>../org.eclipse.wst.sse.sieditor.repository</module>
 		
 	</modules>
 
