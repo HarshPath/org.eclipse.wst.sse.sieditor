@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.wst.sse.sieditor.feature_1.0.0.qualifier.jar" id="org.eclipse.wst.sse.sieditor.feature" version="1.0.0.qualifier">
+      <category name="sieditor_feature_required"/>
+   </feature>
+   <category-def name="sieditor_feature_required" label="Service Interface and Data Types Editors (Incbuator)"/>
+</site>
