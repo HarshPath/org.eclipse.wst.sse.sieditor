@@ -16,7 +16,6 @@
 	<name>Service Interface and Data Types Editors Model Plug-in</name>
 	
 	<build>
-		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -28,7 +27,6 @@
 					</configuration>
 				</plugin>				
 			</plugins>
-		</pluginManagement>
 	</build>
 	
 </project>
