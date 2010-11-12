@@ -8,6 +8,7 @@
             class="org.eclipse.wst.sse.sieditor.ui.ServiceInterfaceEditor"
             contributorClass="org.eclipse.wst.sse.sieditor.ui.v2.common.CommonActionBarContributor"
             icon="icons/Interface.gif"
+            extensions="wsdl"
             id="org.eclipse.wst.sse.sieditor.ui.sieditor"
             name="Service Interface Editor">
       </editor>
@@ -15,6 +16,7 @@
             class="org.eclipse.wst.sse.sieditor.ui.DataTypesEditor"
             contributorClass="org.eclipse.wst.sse.sieditor.ui.v2.common.CommonActionBarContributor"
              icon="icons/Type Browser Panel/DataTypes.gif"
+             extensions="xsd"
             id="org.eclipse.wst.sse.sieditor.ui.dteditor"
             name="Data Types Editor">
       </editor>
