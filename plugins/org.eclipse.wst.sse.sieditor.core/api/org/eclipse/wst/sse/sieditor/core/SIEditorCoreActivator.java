@@ -37,7 +37,7 @@ public class SIEditorCoreActivator extends AbstractUIPlugin {
 	private DebugTrace debugTrace; 
 	
 	/**
-	 * The constructor
+	 * The constructor of the activator
 	 */
 	public SIEditorCoreActivator() {
 	}
