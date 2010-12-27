@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ROOT CONV_VERSION="1.2">
+<GENERAL>
+<UID>time:1258468780292_uuid:e45f47d4-b753-43ff-849d-d288d4bf1137</UID>
+<PACKAGE>esmp.tools</PACKAGE>
+<DOMAIN>BC</DOMAIN>
+<ORIGLANG>EN</ORIGLANG>
+<RESPONSIBLE>I028507</RESPONSIBLE>
+</GENERAL>
+<RESOURCES>
+<TEXT AKEY="AbstractEditorLabelProvider_0" LENGTH="255" PROCESSOR="none" TYPE="XSEL">&lt;Unresolved Type&gt;</TEXT>
+<TEXT AKEY="AbstractEditorWithSourcePage_0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Revert To Saved Model</TEXT>
+<TEXT AKEY="AbstractEditorWithSourcePage_1" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Can not revert</TEXT>
+<TEXT AKEY="AbstractEditorWithSourcePage_2" LENGTH="0" PROCESSOR="MessageFormat" TYPE="YMSI">Can not revert editor {0} to saved version.</TEXT>
+<TEXT AKEY="AbstractEditorWithSourcePage_3" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Reload SIE Model</TEXT>
+<TEXT AKEY="AbstractEditorWithSourcePage_4" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Reload SIE Model</TEXT>
+<TEXT AKEY="AbstractEditorWithSourcePage_5" LENGTH="0" PROCESSOR="MessageFormat" TYPE="YINF">Can not reload SIE model for editor {0}.</TEXT>
+<TEXT AKEY="AbstractFormPageController_0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Open New Editor</TEXT>
+<TEXT AKEY="AbstractFormPageController_1" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Editing the referenced file could invalidate the current one.</TEXT>
+<TEXT AKEY="AbstractFormPageController_2" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Do not show anymore</TEXT>
+<TEXT AKEY="AbstractFormPageController_4" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not open editor for location {0}</TEXT>
+<TEXT AKEY="AbstractFormPageController_5" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Can not open editor</TEXT>
+<TEXT AKEY="S50HGQiikP79bel_new_element_type" BKEY="AbstractFormPageController_cmd_label_new_element_type" LENGTH="255" PROCESSOR="none" TYPE="XFLD">New Element Type</TEXT>
+<TEXT AKEY="dYjFOtOZ8YpXabel_new_simple_type" BKEY="AbstractFormPageController_cmd_label_new_simple_type" LENGTH="255" PROCESSOR="none" TYPE="XFLD">New Simple Type</TEXT>
+<TEXT AKEY="Kka/f2OknyeOl_new_structure_type" BKEY="AbstractFormPageController_cmd_label_new_structure_type" LENGTH="255" PROCESSOR="none" TYPE="XFLD">New Structure Type</TEXT>
+<TEXT AKEY="ujqTM/UC5I4tdlg_err_msg_new_type" BKEY="AbstractFormPageController_dlg_err_msg_new_type" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Could not create new type with name {0}</TEXT>
+<TEXT AKEY="ljyQJRF1OLxrr_dlg_title_new_type" BKEY="AbstractFormPageController_dlg_title_new_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">New Type</TEXT>
+<TEXT AKEY="wsrIal4NV/SH_wizard_display_text" BKEY="AbstractFormPageController_type_wizard_display_text" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Set Type</TEXT>
+<TEXT AKEY="ZieriLTgbFvvPage_namespace_label" BKEY="AbstractServiceInterfaceEditorPage_namespace_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Target namespace:</TEXT>
+<TEXT AKEY="TCXtBrCyliY0ontextMenuListener_0" BKEY="AbstractTreeContextMenuListener_0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Open In New Editor</TEXT>
+<TEXT AKEY="H3Tsv2CL9kvLew_type_dialog_title" BKEY="AbstractTypeDialogStrategy_default_new_type_dialog_title" LENGTH="255" PROCESSOR="none" TYPE="XFRM">New Type</TEXT>
+<TEXT AKEY="WKCWcgVp14bcsg_error_duplicate_X" BKEY="AbstractTypeDialogStrategy_msg_error_duplicate_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">The target namespace contains an {0} with the same name</TEXT>
+<TEXT AKEY="A/lIF/yem47ior_duplicate_element" BKEY="AbstractTypeDialogStrategy_msg_error_duplicate_element" LENGTH="255" PROCESSOR="none" TYPE="XMSG">The target namespace already contains an element with the same name</TEXT>
+<TEXT AKEY="R5GvWquH/M9Wgy_msg_error_element" BKEY="AbstractTypeDialogStrategy_msg_error_element" LENGTH="255" PROCESSOR="none" TYPE="XMSG">element</TEXT>
+<TEXT AKEY="BVzdcoOvwRqdsg_error_simple_type" BKEY="AbstractTypeDialogStrategy_msg_error_simple_type" LENGTH="255" PROCESSOR="none" TYPE="XMSG">simple type</TEXT>
+<TEXT AKEY="Bhcn/GSLRvWTerror_structure_type" BKEY="AbstractTypeDialogStrategy_msg_error_structure_type" LENGTH="255" PROCESSOR="none" TYPE="XMSG">structure type</TEXT>
+<TEXT AKEY="DTTreeContextMenuListener_0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Copy</TEXT>
+<TEXT AKEY="DTTreeContextMenuListener_1" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Paste</TEXT>
+<TEXT AKEY="3lbYunjqnadMr_Add_global_element" BKEY="DTTreeContextMenuListener_Add_global_element" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Global Element</TEXT>
+<TEXT AKEY="We2lBtMEamyOr_add_element_action" BKEY="DTTreeContextMenuListener_add_element_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Element</TEXT>
+<TEXT AKEY="TKpAtMcofCJpadd_namespace_action" BKEY="DTTreeContextMenuListener_add_namespace_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Namespace</TEXT>
+<TEXT AKEY="3S5ku1xZPqxad_simple_type_action" BKEY="DTTreeContextMenuListener_add_simple_type_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Simple Type</TEXT>
+<TEXT AKEY="/skRbzZ9Qijftructure_type_action" BKEY="DTTreeContextMenuListener_add_structure_type_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Structure Type</TEXT>
+<TEXT AKEY="ho7j/SvsPdnYact_namespace_action" BKEY="DTTreeContextMenuListener_extract_namespace_action" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Extract Namespace...</TEXT>
+<TEXT AKEY="wQl3x+r9rU2utructure_type_action" BKEY="DTTreeContextMenuListener_inline_structure_type_action" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Convert to Anonymous Type with Type Contents</TEXT>
+<TEXT AKEY="0yZsokZFIXvEine_namespace_action" BKEY="DTTreeContextMenuListener_make_an_inline_namespace_action" LENGTH="255" PROCESSOR="none" TYPE="XBCB">Make an Inline Namespace</TEXT>
+<TEXT AKEY="D2VUtl5Hgzfus_context_menu_label" BKEY="DTTreeContextMenuListener_make_type_anonymous_context_menu_label" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Convert to Anonymous Type</TEXT>
+<TEXT AKEY="K2npkVcx3eyHl_context_menu_label" BKEY="DTTreeContextMenuListener_make_type_global_context_menu_label" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Convert to Global Type</TEXT>
+<TEXT AKEY="1RsY0WzS1SrDner_refactor_submenu" BKEY="DTTreeContextMenuListener_refactor_submenu" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Refactor</TEXT>
+<TEXT AKEY="/AvtYs6mL93Kstener_remove_action" BKEY="DTTreeContextMenuListener_remove_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Remove</TEXT>
+<TEXT AKEY="DataTypesEditorPage_form_title" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Data Types</TEXT>
+<TEXT AKEY="DataTypesFormPageController_0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Copy</TEXT>
+<TEXT AKEY="DataTypesFormPageController_1" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Copy</TEXT>
+<TEXT AKEY="DataTypesFormPageController_2" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Set Structure Type Base Type</TEXT>
+<TEXT AKEY="viG4la/0IYbOET_TO_ANONYMOUS_TYPE" BKEY="DataTypesFormPageController_CANNOT_SET_FACET_TO_ANONYMOUS_TYPE" LENGTH="0" PROCESSOR="MessageFormat" TYPE="YMSE">Can not set facet to anonymous type {0}</TEXT>
+<TEXT AKEY="yvlMKg7CZB9broller_SET_FACET_TTL" BKEY="DataTypesFormPageController_SET_FACET_TTL" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Set Facet</TEXT>
+<TEXT AKEY="adHvwQHNf9y6l_type_command_label" BKEY="DataTypesFormPageController_add_global_type_command_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Add Global Element</TEXT>
+<TEXT AKEY="r/d93x8ge0NHe_type_command_label" BKEY="DataTypesFormPageController_add_structure_type_command_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Add Structure Type</TEXT>
+<TEXT AKEY="sNiBOKyFak5e_element_Y_error_msg" BKEY="DataTypesFormPageController_cannot_set_anonymous_X_for_element_Y_error_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set anonymous={0} for element {1}</TEXT>
+<TEXT AKEY="UJJJGKm8YtSFlobal_type_dlg_title" BKEY="DataTypesFormPageController_convert_to_global_type_dlg_title" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Convert to Global Type</TEXT>
+<TEXT AKEY="utCPfJU4fONcdlg_set_length_facet" BKEY="DataTypesFormPageController_dlg_set_length_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Length Facet</TEXT>
+<TEXT AKEY="dTt1YE++mwRT_title_add_attribute" BKEY="DataTypesFormPageController_dlg_title_add_attribute" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Attribute</TEXT>
+<TEXT AKEY="uvJMAluMVzUdlg_title_add_element" BKEY="DataTypesFormPageController_dlg_title_add_element" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Element</TEXT>
+<TEXT AKEY="fOQN6NdErK65dd_enumeration_facet" BKEY="DataTypesFormPageController_dlg_title_add_enumeration_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Enumeration Facet</TEXT>
+<TEXT AKEY="qvMbU8GCDLV8le_add_pattern_facet" BKEY="DataTypesFormPageController_dlg_title_add_pattern_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Pattern Facet</TEXT>
+<TEXT AKEY="jGdMz4armwG5itle_add_simple_type" BKEY="DataTypesFormPageController_dlg_title_add_simple_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Simple Type</TEXT>
+<TEXT AKEY="MobKBiCfBLEoe_add_structure_type" BKEY="DataTypesFormPageController_dlg_title_add_structure_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Structure Type</TEXT>
+<TEXT AKEY="HKIuQIBI9Unqadd_whitespace_facet" BKEY="DataTypesFormPageController_dlg_title_add_whitespace_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Whitespace Facet</TEXT>
+<TEXT AKEY="ix/VylQ3Sd/Ttitle_delete_element" BKEY="DataTypesFormPageController_dlg_title_delete_element" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Delete Element</TEXT>
+<TEXT AKEY="0s3VgP4ToUCfte_enumeration_facet" BKEY="DataTypesFormPageController_dlg_title_delete_enumeration_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Delete Enumeration Facet</TEXT>
+<TEXT AKEY="xbv72NdJ3J+fdelete_pattern_facet" BKEY="DataTypesFormPageController_dlg_title_delete_pattern_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Delete Pattern Facet</TEXT>
+<TEXT AKEY="aOwYugRlatJrete_whitespace_facet" BKEY="DataTypesFormPageController_dlg_title_delete_whitespace_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Delete Whitespace Facet</TEXT>
+<TEXT AKEY="TNkJcLQCKUqme_edit_documentation" BKEY="DataTypesFormPageController_dlg_title_edit_documentation" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Edit Documentation</TEXT>
+<TEXT AKEY="BfdCsLY019ESlg_title_edit_schema" BKEY="DataTypesFormPageController_dlg_title_edit_schema" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Edit Schema</TEXT>
+<TEXT AKEY="7iZmJrZ1Ypaltitle_rename_element" BKEY="DataTypesFormPageController_dlg_title_rename_element" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Rename Element</TEXT>
+<TEXT AKEY="tBgKf9/dO9p5lg_title_rename_type" BKEY="DataTypesFormPageController_dlg_title_rename_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Rename Type</TEXT>
+<TEXT AKEY="W0ripxJe4Fn0_title_set_base_type" BKEY="DataTypesFormPageController_dlg_title_set_base_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Base Type</TEXT>
+<TEXT AKEY="AueUugoLL5BNset_element_nillable" BKEY="DataTypesFormPageController_dlg_title_set_element_nillable" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Element Nillable</TEXT>
+<TEXT AKEY="ELOF1r2c4DuGle_set_elements_type" BKEY="DataTypesFormPageController_dlg_title_set_elements_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Element's type</TEXT>
+<TEXT AKEY="eq9RCD6VG/4eet_enumeration_facet" BKEY="DataTypesFormPageController_dlg_title_set_enumeration_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Enumeration Facet</TEXT>
+<TEXT AKEY="vYFoPizFjkh5raction_digits_facet" BKEY="DataTypesFormPageController_dlg_title_set_fraction_digits_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Fraction Digits Facet</TEXT>
+<TEXT AKEY="D3OQ/GP8+58x_max_exclusive_facet" BKEY="DataTypesFormPageController_dlg_title_set_max_exclusive_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Max-Exclusive Facet</TEXT>
+<TEXT AKEY="cbPd29nSizHN_max_inclusive_facet" BKEY="DataTypesFormPageController_dlg_title_set_max_inclusive_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Max-Inclusive Facet</TEXT>
+<TEXT AKEY="I3AxylY8WRiOset_max_length_facet" BKEY="DataTypesFormPageController_dlg_title_set_max_length_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Max Length Facet</TEXT>
+<TEXT AKEY="ht4SkL4ZzIt0_min_exclusive_facet" BKEY="DataTypesFormPageController_dlg_title_set_min_exclusive_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Min-Exclusive Facet</TEXT>
+<TEXT AKEY="d64YmemroP9X_min_inclusive_facet" BKEY="DataTypesFormPageController_dlg_title_set_min_inclusive_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Min-Inclusive Facet</TEXT>
+<TEXT AKEY="9hsc9vS3iEmbset_min_length_facet" BKEY="DataTypesFormPageController_dlg_title_set_min_length_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Min Length Facet</TEXT>
+<TEXT AKEY="PVlhg8Hbw8WDtitle_set_min_occurs" BKEY="DataTypesFormPageController_dlg_title_set_min_occurs" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Min Occurs</TEXT>
+<TEXT AKEY="K+kbndlNjJZZle_set_pattern_facet" BKEY="DataTypesFormPageController_dlg_title_set_pattern_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Pattern Facet</TEXT>
+<TEXT AKEY="4vGT5lhMeLdmset_schema_namespace" BKEY="DataTypesFormPageController_dlg_title_set_schema_namespace" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Schema Namespace</TEXT>
+<TEXT AKEY="R4AnaDLAOhJXe_set_structure_type" BKEY="DataTypesFormPageController_dlg_title_set_structure_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Structure Type</TEXT>
+<TEXT AKEY="CEghrPGeJzBZt_total_digits_facet" BKEY="DataTypesFormPageController_dlg_title_set_total_digits_facet" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Total Digits Facet</TEXT>
+<TEXT AKEY="j7Ix6b0+M9W2n_simple_type_failed" BKEY="DataTypesFormPageController_error_msg_addition_simple_type_failed" LENGTH="0" PROCESSOR="none" TYPE="YMSE">Addition of Simple type failed</TEXT>
+<TEXT AKEY="6CEdEENf7Bg8tion_error_dlg_title" BKEY="DataTypesFormPageController_initialization_error_dlg_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Extract Namespace Error</TEXT>
+<TEXT AKEY="Iq5Jxc+iFKRTine_failed_error_msg" BKEY="DataTypesFormPageController_inline_failed_error_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Could not make an inlined namespace from XML Schema "{0}"</TEXT>
+<TEXT AKEY="owXLI+aatk9iinline_schema_failed" BKEY="DataTypesFormPageController_inline_schema_failed" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Inline XML Schema</TEXT>
+<TEXT AKEY="CVI3JK3rQO+fure_type_dlg_message" BKEY="DataTypesFormPageController_inline_structure_type_dlg_message" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Inline Structure Type Contents Failed</TEXT>
+<TEXT AKEY="kJPZ0C8kRrnScture_type_dlg_title" BKEY="DataTypesFormPageController_inline_structure_type_dlg_title" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Inline Structure Type Contents</TEXT>
+<TEXT AKEY="ORE0Xp53vs/P_not_add_new_element" BKEY="DataTypesFormPageController_msg_can_not_add_new_element" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Can not add new element.</TEXT>
+<TEXT AKEY="L675pq2wmZrI_not_add_simple_type" BKEY="DataTypesFormPageController_msg_can_not_add_simple_type" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Can not add simple type.</TEXT>
+<TEXT AKEY="jQXVn9s+4/hpt_add_structure_type" BKEY="DataTypesFormPageController_msg_can_not_add_structure_type" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Can not add structure type.</TEXT>
+<TEXT AKEY="zpo8dpCMz7rhn_not_delete_element" BKEY="DataTypesFormPageController_msg_can_not_delete_element" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Can not delete element.</TEXT>
+<TEXT AKEY="esoG4b+n/wKvntation_of_element_X" BKEY="DataTypesFormPageController_msg_can_not_edit_documentation_of_element_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not edit documentation of element {0}</TEXT>
+<TEXT AKEY="krwg7Q0ZeZM0ot_execute_command_X" BKEY="DataTypesFormPageController_msg_can_not_execute_command_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not execute command {0}</TEXT>
+<TEXT AKEY="3doarlTUh0yNSD_root_for_schema_X" BKEY="DataTypesFormPageController_msg_can_not_find_XSD_root_for_schema_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not find XSD root for XSD schema {0}.</TEXT>
+<TEXT AKEY="shV3WWNH1T8onot_rename_element_X" BKEY="DataTypesFormPageController_msg_can_not_rename_element_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not rename element {0}.</TEXT>
+<TEXT AKEY="hHRkt045jjhtent_X_is_not_allowed" BKEY="DataTypesFormPageController_msg_editing_element_X_is_not_allowed" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Editing object {0} is not allowed.</TEXT>
+<TEXT AKEY="CB1OKnuqgRWmschema_X_not_allowed" BKEY="DataTypesFormPageController_msg_edition_schema_X_not_allowed" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Editing schema {0} is not allowed</TEXT>
+<TEXT AKEY="xpNYHnzF201Wdd_attribute_command" BKEY="DataTypesFormPageController_msg_error_while_executing_add_attribute_command" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Error while executing add attribute command.</TEXT>
+<TEXT AKEY="oHLFczSFfhYmailure_add_attribute" BKEY="DataTypesFormPageController_msg_failure_add_attribute" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Can not add attribute.</TEXT>
+<TEXT AKEY="J/l2BuPewT4Kpattern_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_add_pattern_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not add pattern facet to type {0}.</TEXT>
+<TEXT AKEY="K6vt9DRQbLH8tespace_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_add_whitespace_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not add whitespace facet to type {0}.</TEXT>
+<TEXT AKEY="EJ+uEtvCX/Rderation_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_delete_enumeration_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not delete enumeration facet of type {0}.</TEXT>
+<TEXT AKEY="/HB9fuoNg8Wopattern_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_delete_pattern_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not delete pattern facet of type {0}.</TEXT>
+<TEXT AKEY="9z3xDT79QPIxtespace_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_delete_whitespace_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not delete whitespace facet of type {0}.</TEXT>
+<TEXT AKEY="sE4tTpklmVE0uting_delete_element" BKEY="DataTypesFormPageController_msg_failure_executing_delete_element" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Error while executing delete element command.</TEXT>
+<TEXT AKEY="lLBiPjpepzo+ailure_rename_type_X" BKEY="DataTypesFormPageController_msg_failure_rename_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not rename type {0}.</TEXT>
+<TEXT AKEY="FPos63dLc6szlure_set_base_type_X" BKEY="DataTypesFormPageController_msg_failure_set_base_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set base type of {0}</TEXT>
+<TEXT AKEY="bequP9vd+4Yceration_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_enumeration_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set enumeration facet to type {0}.</TEXT>
+<TEXT AKEY="IiXgJuLbsb8h_digits_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_fraction_digits_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not add fraction digits facet to type {0}.</TEXT>
+<TEXT AKEY="NOSZgBEaPnw8l_element_X_nillable" BKEY="DataTypesFormPageController_msg_failure_set_global_element_X_nillable" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set global element {0} nillable.</TEXT>
+<TEXT AKEY="JhoLLDCXLckL_length_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_length_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set length facet to type {0}.</TEXT>
+<TEXT AKEY="mrvu8aiH2Ueoclusive_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_max_eclusive_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set max-exclusive facet to type {0}.</TEXT>
+<TEXT AKEY="o9Mz6gKZKDUaclusive_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_max_inclusive_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set max-inclusive facet to type {0}.</TEXT>
+<TEXT AKEY="xyXK9AP9jptXngth_facet_to_type_X" BKEY="DataTypesFormPageController_msg_failure_set_max_length_facet_to_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set max length facet to type {0}.</TEXT>
+<TEXT AKEY="KbRAK5VGN2LVclusive_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_min_exclusive_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set min-exclusive facet to type {0}.</TEXT>
+<TEXT AKEY="J5cGbvrwp6COclusive_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_min_inclusive_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set min-inclusive facet to type {0}.</TEXT>
+<TEXT AKEY="g3d9O1oY+Nsr_length_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_min_length_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set min length facet to type {0}.</TEXT>
+<TEXT AKEY="Sk0I4iaiOwSOmin_occurs_element_X" BKEY="DataTypesFormPageController_msg_failure_set_min_occurs_element_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set min occurs to element {0}.</TEXT>
+<TEXT AKEY="Oq+xuim967MJt_namespace_schema_X" BKEY="DataTypesFormPageController_msg_failure_set_namespace_schema_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set namespace to schema {0}.</TEXT>
+<TEXT AKEY="60PP31nK/s0yt_nillable_element_X" BKEY="DataTypesFormPageController_msg_failure_set_nillable_element_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set nillable to element {0}.</TEXT>
+<TEXT AKEY="qIPW57fa3Btkpattern_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_pattern_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set pattern facet to type {0}.</TEXT>
+<TEXT AKEY="Cgm1yTVYMhao_digits_facet_type_X" BKEY="DataTypesFormPageController_msg_failure_set_total_digits_facet_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XROW">Can not add total digits facet to type {0}.</TEXT>
+<TEXT AKEY="tQdNU/cy2/A3g_failure_set_type_X" BKEY="DataTypesFormPageController_msg_failure_set_type_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Cannot set type {0}.</TEXT>
+<TEXT AKEY="dAPloA8ypaGl_type_of_structure_X" BKEY="DataTypesFormPageController_msg_failure_set_type_of_structure_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set type of structure {0}.</TEXT>
+<TEXT AKEY="m4oE51sR3YbKt_can_not_be_deleted" BKEY="DataTypesFormPageController_msg_target_element_can_not_be_deleted" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Target element can not be deleted.</TEXT>
+<TEXT AKEY="R0F0sifJF/FWame_X_already_exists" BKEY="DataTypesFormPageController_msg_type_with_name_X_already_exists" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Type with name "{0}" already exists.</TEXT>
+<TEXT AKEY="8fBTYC6eSzoPonymous_dialog_title" BKEY="DataTypesFormPageController_set_element_anonymous_dialog_title" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Use Type in Anonymous</TEXT>
+<TEXT AKEY="YUlBT/zM0drmanonymous_type_label" BKEY="DataTypesLabelProvider_anonymous_type_label" LENGTH="255" PROCESSOR="none" TYPE="XTXT">anonymous</TEXT>
+<TEXT AKEY="3919Wr+2Ne+Pock_AddGlobalElement" BKEY="DataTypesMasterDetailsBlock_AddGlobalElement" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Global Element</TEXT>
+<TEXT AKEY="UZ2qzAICNMxtadd_attribute_button" BKEY="DataTypesMasterDetailsBlock_add_attribute_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Attribute</TEXT>
+<TEXT AKEY="rNEfg9Y/Nm3t_complex_type_button" BKEY="DataTypesMasterDetailsBlock_add_complex_type_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Structure Type</TEXT>
+<TEXT AKEY="KXY1BxlznMstk_add_element_button" BKEY="DataTypesMasterDetailsBlock_add_element_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Element</TEXT>
+<TEXT AKEY="uUl4lbTEfnfiadd_namespace_button" BKEY="DataTypesMasterDetailsBlock_add_namespace_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Namespace</TEXT>
+<TEXT AKEY="duip+6ZUY+NGd_simple_type_button" BKEY="DataTypesMasterDetailsBlock_add_simple_type_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Simple Type</TEXT>
+<TEXT AKEY="FcG8I70wgdz4ion_title_data_types" BKEY="DataTypesMasterDetailsBlock_master_section_title_data_types" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Data Types</TEXT>
+<TEXT AKEY="TkF9CoawAavgsBlock_remove_button" BKEY="DataTypesMasterDetailsBlock_remove_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Remove</TEXT>
+<TEXT AKEY="Xpu5vYncvZRUection_section_title" BKEY="DocumentationSection_section_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Documentation</TEXT>
+<TEXT AKEY="bncmKrhLYgafing_detected_dlg_msg" BKEY="EditorTitleMessagesManager_X_errors_Y_warning_detected_dlg_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XFRM">{0} errors, {1} warning detected</TEXT>
+<TEXT AKEY="s8TuWg6Uzm9vgs_detected_page_msg" BKEY="EditorTitleMessagesManager_X_warnings_detected_page_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XFRM">{0} warnings detected</TEXT>
+<TEXT AKEY="aeg9aMx4wpm6ing_detected_dlg_msg" BKEY="EditorTitleMessagesManager_Y_error_X_warning_detected_dlg_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XFRM">{0} error, {1} warning detected</TEXT>
+<TEXT AKEY="8nbuDzfceU+bngs_detected_dlg_msg" BKEY="EditorTitleMessagesManager_Y_error_X_warnings_detected_dlg_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XFRM">{0} error, {1} warnings detected</TEXT>
+<TEXT AKEY="Awrwbq0czzKungs_detected_dlg_msg" BKEY="EditorTitleMessagesManager_Y_errors_X_warnings_detected_dlg_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XFRM">{0} errors, {1} warnings detected</TEXT>
+<TEXT AKEY="HMm7/nYfYA/Uors_detected_dlg_msg" BKEY="EditorTitleMessagesManager_Y_errors_detected_dlg_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XFRM">{0} errors detected</TEXT>
+<TEXT AKEY="Y/+i9KvbRD3o_X_of_Y_tooltip_text" BKEY="EditorTitleMessagesManager_errors_X_of_Y_tooltip_text" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XFLD">Errors ({0} of {1})\n</TEXT>
+<TEXT AKEY="ptEPXB5u+ew6rings_X_tooltip_text" BKEY="EditorTitleMessagesManager_warings_X_tooltip_text" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XFLD">Warnings ({0})</TEXT>
+<TEXT AKEY="BjlgWBgSEk58_X_of_Y_tooltip_text" BKEY="EditorTitleMessagesManager_warnings_X_of_Y_tooltip_text" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XFLD">Warnings ({0} of {1})\n</TEXT>
+<TEXT AKEY="ElementDetailsSection_0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Reference:</TEXT>
+<TEXT AKEY="ElementDetailsSection_baseType" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Base Type:</TEXT>
+<TEXT AKEY="g0KQSqdQ9+H9on_cardinality_label" BKEY="ElementDetailsSection_cardinality_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Cardinality:</TEXT>
+<TEXT AKEY="WVILZ1NAQd2Qction_nillable_label" BKEY="ElementDetailsSection_nillable_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Nillable:</TEXT>
+<TEXT AKEY="C7LzRpcs0f9Yection_section_title" BKEY="ElementDetailsSection_section_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Details</TEXT>
+<TEXT AKEY="OQ1XtHMOCIq7g_text_set_base_type" BKEY="ElementDetailsSection_type_dialog_text_set_base_type" LENGTH="255" PROCESSOR="none" TYPE="XTXT">Set Base Type</TEXT>
+<TEXT AKEY="zJKckph4tL5Gext_set_element_type" BKEY="ElementTypeEditor_type_dialog_text_set_element_type" LENGTH="255" PROCESSOR="none" TYPE="XTXT">Set Element Type</TEXT>
+<TEXT AKEY="cPcZIHo+D1ZAerror_status_dlg_msg" BKEY="ExtractNamespaceWizard_error_status_dlg_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Extract of namespace "{0}" failed</TEXT>
+<TEXT AKEY="D3LO+Z/5Qsthror_status_dlg_title" BKEY="ExtractNamespaceWizard_error_status_dlg_title" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Extract of Namespace Failed</TEXT>
+<TEXT AKEY="b9aElJUneUhdion_error_status_msg" BKEY="ExtractNamespaceWizard_initialization_error_status_msg" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Initialization of Extract Namespace wizard has failed</TEXT>
+<TEXT AKEY="SPDRq5C0rYF3eWizard_wizard_title" BKEY="ExtractNamespaceWizard_wizard_title" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Extract Namespace Wizard</TEXT>
+<TEXT AKEY="4a2YIcQjdmXCrdPage_browse_button" BKEY="ExtractSchemaWizardPage_browse_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Browse...</TEXT>
+<TEXT AKEY="Xw0U/2Mg4ALf_wsdl_checkbox_label" BKEY="ExtractSchemaWizardPage_keep_inlined_namespaces_in_current_wsdl_checkbox_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Keep extracted namespaces in current document</TEXT>
+<TEXT AKEY="ov8T3+Ua2Hiqage_page_description" BKEY="ExtractSchemaWizardPage_page_description" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Extract namespace "{0}" as an XML Schema.</TEXT>
+<TEXT AKEY="XGuS86gVeRCdizardPage_page_title" BKEY="ExtractSchemaWizardPage_page_title" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Extract Namespace</TEXT>
+<TEXT AKEY="MrydWndpKyDL_imports_description" BKEY="ExtractSchemaWizardPage_references_will_be_replaced_with_imports_description" LENGTH="255" PROCESSOR="none" TYPE="XMSG">References to it will be replaced with references to the extracted XML Schema file.</TEXT>
+<TEXT AKEY="4JhpuRcTQcqurdPage_save_as_label" BKEY="ExtractSchemaWizardPage_save_as_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Save as:</TEXT>
+<TEXT AKEY="6J5ymaBB6RD8Strategy_DialogTitle" BKEY="FaultTypeDialogStrategy_DialogTitle" LENGTH="255" PROCESSOR="none" TYPE="XMSG">New Fault Type</TEXT>
+<TEXT AKEY="2oy1LGg6emtcogStrategy_dlt_title" BKEY="GlobalElementDialogStrategy_dlt_title" LENGTH="255" PROCESSOR="none" TYPE="XFRM">New Global Element Type</TEXT>
+<TEXT AKEY="v7dx3AqlUiuV_base_type_dlg_title" BKEY="GlobalElementDialogStrategy_structure_type_base_type_dlg_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">New Base Type of Structure Type</TEXT>
+<TEXT AKEY="ImportedServicesNode_0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Imported Services</TEXT>
+<TEXT AKEY="ImportedTypesNode_node_name" LENGTH="255" PROCESSOR="none" TYPE="XTND">Imported Types</TEXT>
+<TEXT AKEY="m/7UkEHS5GjUnerator_QuickFixLbl0" BKEY="MarkerResolutionGenerator_QuickFixLbl0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Add W3C schema prefix www.w3.org/2001/XMLSchema</TEXT>
+<TEXT AKEY="MissingSchemaElementQuickFix_0" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Create a Default XSD Schema Element in Document</TEXT>
+<TEXT AKEY="MissingSchemaElementQuickFix_1" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Error in Command Execution</TEXT>
+<TEXT AKEY="MissingSchemaElementQuickFix_2" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Could not create a default XSD schema element in document.</TEXT>
+<TEXT AKEY="MissingSchemaForSchemaQuickFix_0" LENGTH="0" PROCESSOR="none" TYPE="YMSE">Error while adding schema for schema prefix</TEXT>
+<TEXT AKEY="jwFoLvEm7L1jtion_namespace_label" BKEY="NamespaceDetailsSection_namespace_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Namespace:</TEXT>
+<TEXT AKEY="z5Q2JvXBPaqXection_section_title" BKEY="NamespaceDetailsSection_section_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Details</TEXT>
+<TEXT AKEY="vimgiEGmNUiGrget_namespace_value" BKEY="NamespaceNode_no_target_namespace_value" LENGTH="255" PROCESSOR="none" TYPE="XTXT">(no target namespace specified)</TEXT>
+<TEXT AKEY="nO6jhUqmJoZielement_radio_button" BKEY="NewTypeDialog_element_radio_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Global Element</TEXT>
+<TEXT AKEY="nZU4wDFh8iwqror_message_new_line" BKEY="NewTypeDialog_error_message_new_line" LENGTH="255" PROCESSOR="none" TYPE="XMSG">\n -</TEXT>
+<TEXT AKEY="41NFt8StVYKh_title_type_category" BKEY="NewTypeDialog_group_title_type_category" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Type category</TEXT>
+<TEXT AKEY="NewTypeDialog_label_name" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Name:</TEXT>
+<TEXT AKEY="3VbjDoozxsd6_header_invalid_name" BKEY="NewTypeDialog_msg_error_header_invalid_name" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Invalid name:</TEXT>
+<TEXT AKEY="QE3pxHKaQgw4g_error_invalid_name" BKEY="NewTypeDialog_msg_error_invalid_name" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Invalid XML NCName</TEXT>
+<TEXT AKEY="2ZO7AdQHWxkDalid_name_whitespace" BKEY="NewTypeDialog_msg_error_invalid_name_whitespace" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Invalid XML NCName, excess white space characters</TEXT>
+<TEXT AKEY="ZFtHR/oqofOBle_type_radio_button" BKEY="NewTypeDialog_simple_type_radio_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Simple Type</TEXT>
+<TEXT AKEY="Omf03rz4ZXtUre_type_radio_button" BKEY="NewTypeDialog_structure_type_radio_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Structure Type</TEXT>
+<TEXT AKEY="0zl9s04KbXXeryNode_fault_tooltip" BKEY="OperationCategoryNode_fault_tooltip" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Fault</TEXT>
+<TEXT AKEY="k6BsAqOVBn3F_input_param_tooltip" BKEY="OperationCategoryNode_input_param_tooltip" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Input Parameter</TEXT>
+<TEXT AKEY="vSPkMt+xfj6Poutput_param_tooltip" BKEY="OperationCategoryNode_output_param_tooltip" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Output Parameter</TEXT>
+<TEXT AKEY="LtCxR4HwmBC5eneral_section_title" BKEY="OperationDetailsPage_general_section_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Details</TEXT>
+<TEXT AKEY="OperationDetailsPage_name_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Name:</TEXT>
+<TEXT AKEY="OperationDetailsPage_type_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Type:</TEXT>
+<TEXT AKEY="KesLiTP+vbG9tation_section_title" BKEY="ParameterDetailsPage_documentation_section_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Documentation</TEXT>
+<TEXT AKEY="mP/gICNehdb8eneral_section_title" BKEY="ParameterDetailsPage_general_section_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Details</TEXT>
+<TEXT AKEY="ParameterDetailsPage_name_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Name:</TEXT>
+<TEXT AKEY="IdmoNqE2Zkr9arameter_type_dialog" BKEY="ParameterTypeDialogStrategy_window_title_new_parameter_type_dialog" LENGTH="255" PROCESSOR="none" TYPE="XFRM">New Parameter Type</TEXT>
+<TEXT AKEY="L/4PUcy140RGt_set_parameter_type" BKEY="ParameterTypeEditor_type_dialog_text_set_parameter_type" LENGTH="255" PROCESSOR="none" TYPE="XTXT">Set Parameter Type</TEXT>
+<TEXT AKEY="ResourceChangeHandler_0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Reload</TEXT>
+<TEXT AKEY="ResourceChangeHandler_1" LENGTH="0" PROCESSOR="MessageFormat" TYPE="YINF">Edited file "{0}" was changed.</TEXT>
+<TEXT AKEY="ResourceChangeHandler_3" LENGTH="0" PROCESSOR="none" TYPE="YINF">Do you want to reload editor content?</TEXT>
+<TEXT AKEY="S+GkaO955wnVtatus_line_read_only" BKEY="SIEditorService_status_line_read_only" LENGTH="255" PROCESSOR="none" TYPE="XTXT">Read Only</TEXT>
+<TEXT AKEY="SIFormPageController_0" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Remove Referenced Input Parameters</TEXT>
+<TEXT AKEY="SIFormPageController_1" LENGTH="0" PROCESSOR="MessageFormat" TYPE="YINF">Input parameters of operation "{0}" are defined in other WSDL. \nDo you want to remove the reference to them, and add a new input parameter?</TEXT>
+<TEXT AKEY="SIFormPageController_2" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Remove Referenced Output Parameters</TEXT>
+<TEXT AKEY="SIFormPageController_3" LENGTH="0" PROCESSOR="MessageFormat" TYPE="YINF">Output parameters of operation "{0}" are defined in other WSDL. \nDo you want to remove the reference to them, and add a new output parameter?</TEXT>
+<TEXT AKEY="fmDourqMG/gF_dlg_title_add_fault" BKEY="SIFormPageController_dlg_title_add_fault" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add Fault</TEXT>
+<TEXT AKEY="ulBGujQ7pthG_new_input_parameter" BKEY="SIFormPageController_dlg_title_add_new_input_parameter" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add New Input Parameter</TEXT>
+<TEXT AKEY="BNIb0FeLMD1ple_add_new_operation" BKEY="SIFormPageController_dlg_title_add_new_operation" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add New Operation</TEXT>
+<TEXT AKEY="nWMUolMrABt9new_output_parameter" BKEY="SIFormPageController_dlg_title_add_new_output_parameter" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add New Output Parameter</TEXT>
+<TEXT AKEY="3M5fI87e7vORle_add_new_parameter" BKEY="SIFormPageController_dlg_title_add_new_parameter" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add New Parameter</TEXT>
+<TEXT AKEY="hkKsc3c/Hp1Gew_service_interface" BKEY="SIFormPageController_dlg_title_add_new_service_interface" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add New Service Interface</TEXT>
+<TEXT AKEY="4cIzca6vXl3utle_delete_operation" BKEY="SIFormPageController_dlg_title_delete_operation" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Delete Operation</TEXT>
+<TEXT AKEY="UL9DP9PK8A3he_edit_documentation" BKEY="SIFormPageController_dlg_title_edit_documentation" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Edit Documentation</TEXT>
+<TEXT AKEY="H9VxyYA51Hxr_dlg_title_edit_name" BKEY="SIFormPageController_dlg_title_edit_name" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Edit Name</TEXT>
+<TEXT AKEY="leD+i2EsJcYh_edit_operation_type" BKEY="SIFormPageController_dlg_title_edit_operation_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Edit Operation Type</TEXT>
+<TEXT AKEY="+9+roGZkj2Ij_edit_parameter_type" BKEY="SIFormPageController_dlg_title_edit_parameter_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Edit Parameter Type</TEXT>
+<TEXT AKEY="pj9hPiczBZHEle_editing_namespace" BKEY="SIFormPageController_dlg_title_editing_namespace" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Edit Namespace</TEXT>
+<TEXT AKEY="7aTmPPHNwPYTlg_title_rename_item" BKEY="SIFormPageController_dlg_title_rename_item" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Rename Item</TEXT>
+<TEXT AKEY="C+2zTrWU6TDpe_set_parameter_type" BKEY="SIFormPageController_dlg_title_set_parameter_type" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Set Parameter Type</TEXT>
+<TEXT AKEY="xKnEUtM/WPOQed_name_is_not_valid" BKEY="SIFormPageController_error_msg_entered_name_is_not_valid" LENGTH="0" PROCESSOR="none" TYPE="YMSE">Entered name is not valid</TEXT>
+<TEXT AKEY="If+s23cag24slement_X_not_allowed" BKEY="SIFormPageController_msg_editing_element_X_not_allowed" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMEN">Editing object {0} is not allowed.</TEXT>
+<TEXT AKEY="sAGzVrcJj6Vhg_wsdl_X_not_allowed" BKEY="SIFormPageController_msg_editing_wsdl_X_not_allowed" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Editing WSDL {0} is not allowed.</TEXT>
+<TEXT AKEY="8y0jNGlcJoWWmeter_to_operation_X" BKEY="SIFormPageController_msg_failure_add_new_input_parameter_to_operation_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not add new input parameter to operation {0}</TEXT>
+<TEXT AKEY="GbCb3cCTlk++_service_interface_X" BKEY="SIFormPageController_msg_failure_add_new_operation_to_service_interface_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not add new operation to service interface {0}</TEXT>
+<TEXT AKEY="asPx+k4cYW7+meter_to_operation_X" BKEY="SIFormPageController_msg_failure_add_new_output_parameter_to_operation_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not add new output parameter to operation {0}</TEXT>
+<TEXT AKEY="L40xulvBc8KQ_interface_to_wsdl_X" BKEY="SIFormPageController_msg_failure_add_new_service_interface_to_wsdl_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not add new service interface to WSDL {0}</TEXT>
+<TEXT AKEY="/H+zQ/jfiwjze_delete_operation_X" BKEY="SIFormPageController_msg_failure_delete_operation_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not delete operation {0}</TEXT>
+<TEXT AKEY="2UBTp9wqLaeze_edit_documentation" BKEY="SIFormPageController_msg_failure_edit_documentation" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Can not edit documentation</TEXT>
+<TEXT AKEY="Sfevp8l9bE74_type_of_operation_X" BKEY="SIFormPageController_msg_failure_edit_type_of_operation_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not edit type of operation {0}</TEXT>
+<TEXT AKEY="7eV4px7xEDJYet_new_name_X_item_Y" BKEY="SIFormPageController_msg_failure_set_new_name_X_item_Y" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set new name \{0} to item {1}</TEXT>
+<TEXT AKEY="KXghpPjtOyiTset_target_namespace" BKEY="SIFormPageController_msg_failure_set_target_namespace" LENGTH="255" PROCESSOR="none" TYPE="XMSG">can not set target namespace</TEXT>
+<TEXT AKEY="TLCA6pqSCBkcype_X_of_parameter_Y" BKEY="SIFormPageController_msg_failure_set_type_X_of_parameter_Y" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not set type {0} of parameter {1}</TEXT>
+<TEXT AKEY="qd/N8CtfheRNfault_to_operation_X" BKEY="SIFormPageController_smg_failure_add_fault_to_operation_X" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Can not add fault to operation {0}</TEXT>
+<TEXT AKEY="vMT0kL0GzR5Wock_add_fault_button" BKEY="SIMasterDetailsBlock_add_fault_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Fault</TEXT>
+<TEXT AKEY="/IsQLsz+Ql9yput_parameter_button" BKEY="SIMasterDetailsBlock_add_input_parameter_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Input Parameter</TEXT>
+<TEXT AKEY="6NFTPa0lIUBEadd_interface_button" BKEY="SIMasterDetailsBlock_add_interface_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Service</TEXT>
+<TEXT AKEY="MVoKPchiNoXIadd_operation_button" BKEY="SIMasterDetailsBlock_add_operation_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Operation</TEXT>
+<TEXT AKEY="LgT1ejAFM+hmput_parameter_button" BKEY="SIMasterDetailsBlock_add_output_parameter_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Add Output Parameter</TEXT>
+<TEXT AKEY="oUuvbSmO+bCeer_block_description" BKEY="SIMasterDetailsBlock_master_block_description" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Modify service interfaces and operations</TEXT>
+<TEXT AKEY="45YlE0IMmFrvk_master_block_title" BKEY="SIMasterDetailsBlock_master_block_title" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Service Interfaces and Operations</TEXT>
+<TEXT AKEY="ynG6oNV91TaesBlock_remove_button" BKEY="SIMasterDetailsBlock_remove_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Remove</TEXT>
+<TEXT AKEY="xs4RLOyIgF6zltip_show_categories" BKEY="SIMasterDetailsBlock_tooltip_show_categories" LENGTH="255" PROCESSOR="none" TYPE="XACT">Show Categories</TEXT>
+<TEXT AKEY="6Ao4IZUigE4Jart_source_tab_title" BKEY="SISourceEditorPart_source_tab_title" LENGTH="255" PROCESSOR="none" TYPE="XTBS">Source</TEXT>
+<TEXT AKEY="vYbWdyNvaKlyner_add_fault_action" BKEY="SITreeContextMenuListener_add_fault_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Fault</TEXT>
+<TEXT AKEY="mxWa450fVJMt_in_parameter_action" BKEY="SITreeContextMenuListener_add_in_parameter_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Input Parameter</TEXT>
+<TEXT AKEY="sB0A5kZz4R4fadd_operation_action" BKEY="SITreeContextMenuListener_add_operation_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Operation</TEXT>
+<TEXT AKEY="zRbt1+NcdT+Bout_parameter_action" BKEY="SITreeContextMenuListener_add_out_parameter_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Output Parameter</TEXT>
+<TEXT AKEY="6Yg6nkDarTPDr_add_service_action" BKEY="SITreeContextMenuListener_add_service_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Add Service</TEXT>
+<TEXT AKEY="JQcBm2JPyPIHstener_delete_action" BKEY="SITreeContextMenuListener_delete_action" LENGTH="255" PROCESSOR="none" TYPE="XMIT">Remove</TEXT>
+<TEXT AKEY="SI_FAULTS_XTND" LENGTH="255" PROCESSOR="none" TYPE="XTND">Faults</TEXT>
+<TEXT AKEY="SI_INPUT_XTND" LENGTH="255" PROCESSOR="none" TYPE="XTND">Input</TEXT>
+<TEXT AKEY="SI_OUTPUT_XTND" LENGTH="255" PROCESSOR="none" TYPE="XTND">Output</TEXT>
+<TEXT AKEY="bOHSoFCnfO1Ychemas_column_header" BKEY="SchemaDependenciesWizardPage_dependent_xml_schemas_column_header" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Dependent Namespaces</TEXT>
+<TEXT AKEY="sNpkhnsGL5On_files_column_header" BKEY="SchemaDependenciesWizardPage_files_column_header" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Files</TEXT>
+<TEXT AKEY="Kz+HwyxH0e6Vage_page_description" BKEY="SchemaDependenciesWizardPage_page_description" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Namespace "{0}" uses other namespaces from the current document. These namespaces need to be extracted as well.</TEXT>
+<TEXT AKEY="HdEw/UP5RUeLizardPage_page_title" BKEY="SchemaDependenciesWizardPage_page_title" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Dependent Namespaces</TEXT>
+<TEXT AKEY="imbEkNGCHIASe_service_interfaces" BKEY="ServiceIntefaceEditorPage_form_page_title_service_interfaces" LENGTH="255" PROCESSOR="none" TYPE="XHED">Service Interfaces</TEXT>
+<TEXT AKEY="SnB8MoWSd5HQe_service_interfaces" BKEY="ServiceIntefaceEditorPage_tab_title_service_interfaces" LENGTH="255" PROCESSOR="none" TYPE="XTBS">Service Interfaces</TEXT>
+<TEXT AKEY="wSMyLalPGflue_general_name_label" BKEY="ServiceInterfaceDetailsPage_general_name_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Name:</TEXT>
+<TEXT AKEY="/JKOE7wN9ECseneral_section_title" BKEY="ServiceInterfaceDetailsPage_general_section_title" LENGTH="255" PROCESSOR="none" TYPE="XGRP">Details</TEXT>
+<TEXT AKEY="hye7OvzmWx+zitorPreferencePage_1" BKEY="ServiceInterfaceEditorPreferencePage_1" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Preferences for Service Interface Editor</TEXT>
+<TEXT AKEY="hx3Vb1Opg6zditorPreferencePage_2" BKEY="ServiceInterfaceEditorPreferencePage_2" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Show warning on opening referenced file</TEXT>
+<TEXT AKEY="YLV1QULyFTP7_title_add_namespace" BKEY="SiEditorDataTypesFormPageController_dlg_title_add_namespace" LENGTH="255" PROCESSOR="none" TYPE="XFRM">Add XSD Schema</TEXT>
+<TEXT AKEY="cLV87zPZjA/2of_new_schema_failed" BKEY="SiEditorDataTypesFormPageController_error_msg_addition_of_new_schema_failed" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Addition of a new schema failed</TEXT>
+<TEXT AKEY="gqUqePILSMfaxsd_schema_to_wsdl_X" BKEY="SiEditorDataTypesFormPageController_msg_failure_add_xsd_schema_to_wsdl_X" LENGTH="0" PROCESSOR="MessageFormat" TYPE="YMSE">Can not add new XSD schema to WSDL {0}</TEXT>
+<TEXT AKEY="sz7JWlaAZwe2SPECIFIED_WHITESPACE" BKEY="SimpleTypeConstraintsSection_NOT_SPECIFIED_WHITESPACE" LENGTH="255" PROCESSOR="none" TYPE="XTXT">&lt;Default&gt;</TEXT>
+<TEXT AKEY="SimpleTypeConstraintsSection_add" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Add</TEXT>
+<TEXT AKEY="od+mSEAe/Mqjion_add_enum_dlg_msg" BKEY="SimpleTypeConstraintsSection_add_enum_dlg_msg" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Specify enumeration value</TEXT>
+<TEXT AKEY="A3kNcnlroo8Kn_add_enum_dlg_title" BKEY="SimpleTypeConstraintsSection_add_enum_dlg_title" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Add Enumeration</TEXT>
+<TEXT AKEY="9i/jfSOYbhkh_add_pattern_dlg_msg" BKEY="SimpleTypeConstraintsSection_add_pattern_dlg_msg" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Specify pattern value</TEXT>
+<TEXT AKEY="5GmvwQdNewnIdd_pattern_dlg_title" BKEY="SimpleTypeConstraintsSection_add_pattern_dlg_title" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Add Pattern</TEXT>
+<TEXT AKEY="A9nvETCJ4EIXintsSection_collapse" BKEY="SimpleTypeConstraintsSection_collapse" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Collapse</TEXT>
+<TEXT AKEY="wisifFBevAaesSection_constraints" BKEY="SimpleTypeConstraintsSection_constraints" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Constraints</TEXT>
+<TEXT AKEY="4A2a/O/DG6gLtraintsSection_enums" BKEY="SimpleTypeConstraintsSection_enums" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Enumerations:</TEXT>
+<TEXT AKEY="L8HFOU+SeL4Ution_fraction_digits" BKEY="SimpleTypeConstraintsSection_fraction_digits" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Fraction Digits:</TEXT>
+<TEXT AKEY="P8wSotXNwAMnraintsSection_length" BKEY="SimpleTypeConstraintsSection_length" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Length:</TEXT>
+<TEXT AKEY="snLH/fCDJFtkection_max_exclusive" BKEY="SimpleTypeConstraintsSection_max_exclusive" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Max Exclusive:</TEXT>
+<TEXT AKEY="hruowQGvmGBSection_max_inclusive" BKEY="SimpleTypeConstraintsSection_max_inclusive" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Max Inclusive:</TEXT>
+<TEXT AKEY="0apoKNWXcQ38tsSection_max_length" BKEY="SimpleTypeConstraintsSection_max_length" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Max Length:</TEXT>
+<TEXT AKEY="i0o+VXDD4NyCection_min_exclusive" BKEY="SimpleTypeConstraintsSection_min_exclusive" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Min Exclusive:</TEXT>
+<TEXT AKEY="KJrNwTmJ7BCGection_min_inclusive" BKEY="SimpleTypeConstraintsSection_min_inclusive" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Min Inclusive:</TEXT>
+<TEXT AKEY="AdfRmXpjCpkXtsSection_min_length" BKEY="SimpleTypeConstraintsSection_min_length" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Min Length:</TEXT>
+<TEXT AKEY="bo1inkmc8BxhintsSection_patterns" BKEY="SimpleTypeConstraintsSection_patterns" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Patterns:</TEXT>
+<TEXT AKEY="nfqSrnnxbiLlintsSection_preserve" BKEY="SimpleTypeConstraintsSection_preserve" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Preserve</TEXT>
+<TEXT AKEY="98DJHQUL7TaYraintsSection_remove" BKEY="SimpleTypeConstraintsSection_remove" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Remove</TEXT>
+<TEXT AKEY="OvrqKhyRGBuFaintsSection_replace" BKEY="SimpleTypeConstraintsSection_replace" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Replace</TEXT>
+<TEXT AKEY="29KyRhvfzGhySection_total_digits" BKEY="SimpleTypeConstraintsSection_total_digits" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Total Digits:</TEXT>
+<TEXT AKEY="eLVN+o/yQohrtsSection_whitespace" BKEY="SimpleTypeConstraintsSection_whitespace" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Whitespace:</TEXT>
+<TEXT AKEY="MX3EUErKpRRwnew_base_type_dialog" BKEY="SimpleTypeDialogStrategy_window_title_new_base_type_dialog" LENGTH="255" PROCESSOR="none" TYPE="XFRM">New Base Type</TEXT>
+<TEXT AKEY="c3uY3u8eS4onlsSection_name_label" BKEY="StructureDetailsSection_name_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Name:</TEXT>
+<TEXT AKEY="wDZuyL4yODIvection_section_title" BKEY="StructureDetailsSection_section_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Details</TEXT>
+<TEXT AKEY="TypePropertyEditor_browse_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">Browse...</TEXT>
+<TEXT AKEY="TypePropertyEditor_new_button" LENGTH="255" PROCESSOR="none" TYPE="XBUT">New...</TEXT>
+<TEXT AKEY="GG+IY7Ts3wFpdialog_text_set_type" BKEY="TypePropertyEditor_type_dialog_text_set_type" LENGTH="255" PROCESSOR="none" TYPE="XTXT">Set Type</TEXT>
+<TEXT AKEY="TypePropertyEditor_type_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Type:</TEXT>
+<TEXT AKEY="TypeSearchDialog_all_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">All</TEXT>
+<TEXT AKEY="dlSnLYwWulEQ_filter_filter_label" BKEY="TypeSearchDialog_filter_filter_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Filter</TEXT>
+<TEXT AKEY="DT6/sTcW1BcTg_filter_scope_label" BKEY="TypeSearchDialog_filter_scope_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Types Filter Scope</TEXT>
+<TEXT AKEY="BvDB1oSbPmGYlog_filter_text_text" BKEY="TypeSearchDialog_filter_text_text" LENGTH="255" PROCESSOR="none" TYPE="XTXT">Type filter text here</TEXT>
+<TEXT AKEY="TypeSearchDialog_inline_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Inline</TEXT>
+<TEXT AKEY="Ck00/6uF1EDP_msg_empty_namespace" BKEY="TypeSearchDialog_msg_empty_namespace" LENGTH="255" PROCESSOR="none" TYPE="XTXT">Empty Namespace</TEXT>
+<TEXT AKEY="BMF4GD9q0XEy_namespace_container" BKEY="TypeSearchDialog_msg_emtpy_namespace_container" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XTXT">( {0} )</TEXT>
+<TEXT AKEY="TypeSearchDialog_primitive_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Primitive</TEXT>
+<TEXT AKEY="NldTYrXsjJ9wog_types_table_label" BKEY="TypeSearchDialog_types_table_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Types</TEXT>
+<TEXT AKEY="TXlv51kEjDwote_NullNamespaceText" BKEY="TypeSelectionDialogDelegate_NullNamespaceText" LENGTH="255" PROCESSOR="none" TYPE="XLST">(no target namespace specified)</TEXT>
+<TEXT AKEY="4mMeBD9N1jtkte_filter_label_text" BKEY="TypeSelectionDialogDelegate_filter_label_text" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Name (? = any character, * = any string):</TEXT>
+<TEXT AKEY="onL8iinEs4XEate_types_list_label" BKEY="TypeSelectionDialogDelegate_types_list_label" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Types</TEXT>
+<TEXT AKEY="TypesDialogCreator_dialog_title" LENGTH="255" PROCESSOR="none" TYPE="XCAP">Available Type</TEXT>
+<TEXT AKEY="WIZARD_EDITOR_NOT_AVAILABLE_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Service Interface Editor is not available</TEXT>
+<TEXT AKEY="WIZARD_FILE_EXIST_XMSG" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">File with the name {0} already exists; Specify a different name</TEXT>
+<TEXT AKEY="WIZARD_FOLDER_SELECTION_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Select the parent folder</TEXT>
+<TEXT AKEY="sUqRfZ34ifrfACE_NOT_DEFINED_XMSG" BKEY="WIZARD_INTERFACE_NOT_DEFINED_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Interface name is not defined</TEXT>
+<TEXT AKEY="V0HW6JNasL5z_INTERFACE_NAME_XMSG" BKEY="WIZARD_INVALID_INTERFACE_NAME_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Interface name is not valid</TEXT>
+<TEXT AKEY="WIZARD_LOC_NOT_EXISTS_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">The specified location does not exist; File cannot be created</TEXT>
+<TEXT AKEY="WIZARD_LOC_NOT_EXISTS_XTIT" LENGTH="255" PROCESSOR="none" TYPE="XTIT">File Creation Error</TEXT>
+<TEXT AKEY="WIZARD_NAME_XFLD" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Interface Name</TEXT>
+<TEXT AKEY="WIZARD_NO_NAMESPACE_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">WSDL namespace is not defined</TEXT>
+<TEXT AKEY="WIZARD_NO_PROJECT_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Project is not available</TEXT>
+<TEXT AKEY="WIZARD_NO_SCHEMA_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Schema namespace is not defined</TEXT>
+<TEXT AKEY="WIZARD_PAGE_DESC_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Create a new Service Interface</TEXT>
+<TEXT AKEY="WIZARD_PROJECT_NOT_EXISTS_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">The specified project location does not exist</TEXT>
+<TEXT AKEY="WIZARD_SAVE_LOC_XFLD" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Save Location</TEXT>
+<TEXT AKEY="WIZARD_SCHEMA_INVALID_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Specified schema namespace is an invalid URI</TEXT>
+<TEXT AKEY="WIZARD_SCHEMA_NS_XFLD" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Schema Namespace</TEXT>
+<TEXT AKEY="WIZARD_SRC_SELECTION_XTIT" LENGTH="255" PROCESSOR="none" TYPE="XTIT">Source Folder Selection</TEXT>
+<TEXT AKEY="WIZARD_TITLE_XTIT" LENGTH="255" PROCESSOR="none" TYPE="XTIT">New Service Interface</TEXT>
+<TEXT AKEY="WIZARD_WSDL_INVALID_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Specified WSDL namespace is an invalid URI</TEXT>
+<TEXT AKEY="WIZARD_WSDL_NAMESPACE_XFLD" LENGTH="255" PROCESSOR="none" TYPE="XFLD">WSDL Namespace</TEXT>
+<TEXT AKEY="WIZARD_WSDL_NOT_DEFINED_XMSG" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Location to save WSDL is not defined</TEXT>
+<TEXT AKEY="NqvqoRZOFCjt_filenames_error_msg" BKEY="WizardPageValidationUtils_duplicate_target_filenames_error_msg" LENGTH="255" PROCESSOR="none" TYPE="XMSG">Duplicate target filenames</TEXT>
+<TEXT AKEY="KlnxIjcwzWMWady_exists_error_msg" BKEY="WizardPageValidationUtils_file_X_already_exists_error_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">File "{0}" aready exists</TEXT>
+<TEXT AKEY="ULjrvMwvG253_X_invalid_error_msg" BKEY="WizardPageValidationUtils_filename_X_invalid_error_msg" LENGTH="255" PROCESSOR="MessageFormat" TYPE="XMSG">Filename "{0}" invalid</TEXT>
+<TEXT AKEY="XMLModelNotifierWrapper_0" LENGTH="255" PROCESSOR="none" TYPE="XFLD">Source Edit</TEXT>
+</RESOURCES>
+</ROOT>
