@@ -22,8 +22,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
  * this is the interface of the set type command builders. implementors are
  * responsible for the creation of the set type command
  * 
- * 
- * 
  */
 public interface ISetTypeCommandBuilder {
 

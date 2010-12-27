@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
@@ -22,28 +21,41 @@ import org.eclipse.swt.widgets.Composite;
 
 import org.eclipse.wst.sse.sieditor.ui.v2.AbstractDetailsPage;
 import org.eclipse.wst.sse.sieditor.ui.v2.IFormPageController;
-import org.eclipse.wst.sse.sieditor.ui.v2.sections.StructureDetailsSection;
 import org.eclipse.wst.sse.sieditor.ui.v2.sections.DocumentationSection;
 import org.eclipse.wst.sse.sieditor.ui.v2.sections.IDetailsPageSection;
+import org.eclipse.wst.sse.sieditor.ui.v2.sections.StructureTypeDetailsSection;
+import org.eclipse.wst.sse.sieditor.ui.v2.sections.elements.ElementNodeDetailsController;
 
 public class StructureNodeDetailsPage extends AbstractDetailsPage {
 
-    public StructureNodeDetailsPage(IFormPageController controller) {
-        super(controller);
+    private final ITypeDisplayer typeDisplayer;
+    private final ElementNodeDetailsController detailsController;
+
+    @Deprecated
+    public StructureNodeDetailsPage(final IFormPageController controller) {
+        this(controller, null);
     }
-    
+
+    public StructureNodeDetailsPage(final IFormPageController controller, final ITypeDisplayer typeDisplayer) {
+        super(controller);
+        this.typeDisplayer = typeDisplayer;
+        this.detailsController = new ElementNodeDetailsController((IDataTypesFormPageController) controller);
+    }
+
     @Override
-    protected void createSections(Composite parent) {
-        List<IDetailsPageSection> sections = new ArrayList<IDetailsPageSection>();
-        
-        StructureDetailsSection detailsSection = new StructureDetailsSection(getController(), getToolkit(), getManagedForm());
+    protected void createSections(final Composite parent) {
+        final List<IDetailsPageSection> sections = new ArrayList<IDetailsPageSection>();
+
+        final StructureTypeDetailsSection detailsSection = new StructureTypeDetailsSection(getController(), getToolkit(),
+                getManagedForm(), detailsController, typeDisplayer);
         detailsSection.createContents(parent);
         sections.add(detailsSection);
-        
-        DocumentationSection documentationSection = new DocumentationSection(getController(), getToolkit(), getManagedForm());
+
+        final DocumentationSection documentationSection = new DocumentationSection(getController(), getToolkit(),
+                getManagedForm());
         documentationSection.createContents(parent);
         sections.add(documentationSection);
-        
+
         super.setSections(sections);
     }
 }

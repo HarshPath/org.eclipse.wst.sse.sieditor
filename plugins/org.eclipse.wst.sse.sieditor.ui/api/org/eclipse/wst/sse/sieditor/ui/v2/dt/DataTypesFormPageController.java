@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
@@ -37,6 +36,7 @@ import org.eclipse.xsd.XSDPackage;
 import org.eclipse.wst.sse.sieditor.command.common.AbstractCompositeNotificationOperation;
 import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
 import org.eclipse.wst.sse.sieditor.command.common.DeleteSetCommand;
+import org.eclipse.wst.sse.sieditor.command.emf.wsdl.InlineNamespaceCompositeCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.AddAttributeCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.AddElementCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.AddEnumFacetToElementCommand;
@@ -58,6 +58,7 @@ import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetElementOccurences;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetElementTypeCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetGlobalElementNillableCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetNamespaceCommand;
+import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetStructureTypeBaseTypeCompositeCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetStructureTypeCommand;
 import org.eclipse.wst.sse.sieditor.core.common.Logger;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
@@ -86,8 +87,8 @@ import org.eclipse.wst.sse.sieditor.ui.Activator;
 import org.eclipse.wst.sse.sieditor.ui.DataTypesEditor;
 import org.eclipse.wst.sse.sieditor.ui.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.ui.v2.AbstractFormPageController;
-import org.eclipse.wst.sse.sieditor.ui.v2.dt.extract.wizard.ExtractNamespaceWizard;
-import org.eclipse.wst.sse.sieditor.ui.v2.dt.extract.wizard.utils.ExtractSchemaWizardConstants;
+import org.eclipse.wst.sse.sieditor.ui.v2.dt.extractwizard.ExtractNamespaceWizard;
+import org.eclipse.wst.sse.sieditor.ui.v2.dt.extractwizard.utils.ExtractSchemaWizardConstants;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.IDataTypesTreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.IElementNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.INamespaceNode;
@@ -107,6 +108,7 @@ public class DataTypesFormPageController extends AbstractFormPageController impl
     public static final String STRUCTURE_TYPE_DEFAULT_NAME = "StructureType"; //$NON-NLS-1$
     public static final String SIMPLE_TYPE_DEFAULT_NAME = "SimpleType"; //$NON-NLS-1$
     public static final String ATTRIBUTE_DEFAULT_NAME = "Attribute"; //$NON-NLS-1$
+    private static final String ANY_TYPE = "anyType"; //$NON-NLS-1$
 
     /**
      * Presenter would hold the View, and model instances along with the event
@@ -247,15 +249,7 @@ public class DataTypesFormPageController extends AbstractFormPageController impl
     }
 
     protected String getNewAttributeName(final IStructureType structureType) {
-        return getNewtAttributeDefaultName(structureType);
-    }
-
-    public static String getNewtAttributeDefaultName(final IStructureType structureType) {
-        return NameGenerator.generateName(ATTRIBUTE_DEFAULT_NAME, new ICondition<String>() {
-            public boolean isSatisfied(final String in) {
-                return structureType.getElements(in).size() == 0;
-            }
-        });
+        return NameGenerator.getNewAttributeDefaultName(structureType);
     }
 
     /**
@@ -1193,6 +1187,19 @@ public class DataTypesFormPageController extends AbstractFormPageController impl
         }
     }
 
+    @Override
+    public void setStructureTypeContent(final IStructureType structure, final IType type) {
+        if (!isEditAllowedWithDialog(type)) {
+            return;
+        }
+        final IStatus status = executeCommand(new SetStructureTypeBaseTypeCompositeCommand(model, structure, type));
+        if (!StatusUtils.canContinue(status)) {
+            StatusUtils.showStatusDialog(Messages.DataTypesFormPageController_2, MessageFormat.format(
+                    Messages.DataTypesFormPageController_msg_failure_set_type_of_structure_X, structure.getName()), status);
+        }
+    }
+
+    @Override
     public void setStructureType(final IStructureType structure, final IType type) {
         if (!isEditAllowedWithDialog(type)) {
             return;
@@ -1307,16 +1314,39 @@ public class DataTypesFormPageController extends AbstractFormPageController impl
             return false;
         }
 
-        if (modelObject instanceof IStructureType) {
-            final IStructureType strType = (IStructureType) modelObject;
-            final XSDConcreteComponent component = strType.getComponent();
-            if ((component instanceof XSDElementDeclaration) && strType != null && strType.getType() != null
-                    && (!strType.getType().isAnonymous() || strType.getType() instanceof ISimpleType)) {
+        IStructureType structureType = null;
+        if (modelObject instanceof IElement) {
+            structureType = getGlobalStructureType(modelObject);
+        } else if (modelObject instanceof IStructureType) {
+            structureType = (IStructureType) modelObject;
+        }
+
+        if (structureType != null) {
+            if (structureType.isComplexTypeSimpleContent()) {
+                return false;
+            }
+            if (structureType.isElement() && structureType.getType() != null
+                    && (!structureType.getType().isAnonymous() || structureType.getType() instanceof ISimpleType)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private IStructureType getGlobalStructureType(final IModelObject modelObject) {
+        if (modelObject == null) {
+            return null;
+        }
+        if (modelObject.getParent() instanceof IStructureType) {
+            final IStructureType structureType = (IStructureType) modelObject.getParent();
+            final IModelObject parentOfParent = ((AbstractType) structureType).getDirectParent();
+            if (parentOfParent instanceof ISchema) {
+                return (IStructureType) modelObject.getParent();
+            }
+            return getGlobalStructureType(parentOfParent);
+        }
+        return getGlobalStructureType(modelObject.getParent());
     }
 
     public boolean isAddSimpleTypeEnabled(final IDataTypesTreeNode selectedNode) {
@@ -1557,12 +1587,26 @@ public class DataTypesFormPageController extends AbstractFormPageController impl
 
     @Override
     public boolean isConvertToAnonymousTypeWithTypeContentsEnabled(final IDataTypesTreeNode selectedNode) {
-        if (selectedNode != null && selectedNode.getModelObject() instanceof IStructureType) {
-            final IStructureType structureType = (IStructureType) selectedNode.getModelObject();
-            return !selectedNode.isReadOnly() && structureType.isElement() && !structureType.isAnonymous()
-                    && structureType.getType().getComponent() instanceof XSDComplexTypeDefinition;
+        if (selectedNode == null || selectedNode.isReadOnly()) {
+            return false;
         }
-        return false;
+        final IModelObject selectedModelObject = selectedNode.getModelObject();
+        if (!(selectedModelObject instanceof IStructureType)) {
+            return false;
+        }
+        final IStructureType selectedStructureType = (IStructureType) selectedModelObject;
+
+        if (!selectedStructureType.isElement() || selectedStructureType.isAnonymous()) {
+            return false;
+        }
+
+        final IType typeDefinitionOfSelectedStructureType = selectedStructureType.getType();
+        if (!(typeDefinitionOfSelectedStructureType.getComponent() instanceof XSDComplexTypeDefinition)) {
+            return false;
+        }
+        final XSDComplexTypeDefinition complexType = (XSDComplexTypeDefinition) typeDefinitionOfSelectedStructureType
+                .getComponent();
+        return complexType.getBaseType() != null && ANY_TYPE.equals(complexType.getBaseType().getName());
     }
 
     @Override
@@ -1628,6 +1672,27 @@ public class DataTypesFormPageController extends AbstractFormPageController impl
     }
 
     @Override
+    public boolean isMakeAnInlineNamespaceEnabled(final IDataTypesTreeNode selectedNode) {
+        return (selectedNode != null && selectedNode.getModelObject() instanceof ISchema)
+                && ((selectedNode.getCategories() & ITreeNode.CATEGORY_IMPORTED) == ITreeNode.CATEGORY_IMPORTED)
+                && selectedNode.getModelObject().getModelRoot().getRoot() instanceof IWsdlModelRoot;
+    }
+
+    @Override
+    public void handleMakeAnInlineNamespace(final ITreeNode selectedNode) {
+        final ISchema schemaToInline = (ISchema) selectedNode.getModelObject();
+
+        final InlineNamespaceCompositeCommand inlineNamespaceCompositeCommand = new InlineNamespaceCompositeCommand(
+                (IWsdlModelRoot) schemaToInline.getModelRoot().getRoot(), schemaToInline);
+        final IStatus status = executeCommand(inlineNamespaceCompositeCommand);
+        if (!StatusUtils.canContinue(status)) {
+            StatusUtils.showStatusDialog(Messages.DataTypesFormPageController_inline_schema_failed, MessageFormat.format(
+                    Messages.DataTypesFormPageController_inline_failed_error_msg, schemaToInline.getNamespace()), status);
+        }
+        fireTreeNodeExpandEvent(inlineNamespaceCompositeCommand.getNewInlinedSchema());
+    }
+
+    @Override
     public boolean isExtractNamespaceEnabled(final IDataTypesTreeNode selectedNode) {
         return (selectedNode != null && selectedNode.getModelObject() instanceof ISchema && !selectedNode.isReadOnly());
     }
@@ -1637,7 +1702,6 @@ public class DataTypesFormPageController extends AbstractFormPageController impl
         final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
         final ExtractNamespaceWizard wizard = new ExtractNamespaceWizard();
         final IStatus status = initWizard(node, wizard);
-
         if (!status.isOK()) {
             StatusUtils.showStatusDialog(Messages.DataTypesFormPageController_initialization_error_dlg_title, status);
             return;

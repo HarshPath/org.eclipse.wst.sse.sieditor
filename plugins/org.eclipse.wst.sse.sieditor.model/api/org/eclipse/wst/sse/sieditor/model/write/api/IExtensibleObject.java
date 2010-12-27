@@ -19,7 +19,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelExtension;
 
 /**
  * Represents Extensible components
- * 
  * @deprecated The write API is deprecated. Use commands instead.
  */
 public interface IExtensibleObject {

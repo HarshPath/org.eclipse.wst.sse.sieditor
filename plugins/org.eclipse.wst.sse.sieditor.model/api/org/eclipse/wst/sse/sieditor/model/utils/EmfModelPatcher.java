@@ -11,18 +11,20 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.utils;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.xsd.XSDConcreteComponent;
+import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.util.XSDConstants;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -32,6 +34,9 @@ import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 
 public class EmfModelPatcher implements IEmfModelPatcher {
+
+    private static final int MAX_PARENTS_TO_REFRESH = 10;
+    private static final int MAX_SEARCH_DEPTH = 15;
 
     private static final IEmfModelPatcher INSTANCE = new EmfModelPatcher();
 
@@ -46,93 +51,137 @@ public class EmfModelPatcher implements IEmfModelPatcher {
     @Override
     public void patchEMFModelAfterDomChange(final IModelRoot modelRoot, final Set<Node> changedNodes) {
         if (modelRoot instanceof IXSDModelRoot) {
-            this.patchEMFModelAfterDomChange((IXSDModelRoot) modelRoot, changedNodes);
+            this.patchXsdModelAfterDomChange((IXSDModelRoot) modelRoot, changedNodes);
         } else {
-            this.patchEMFModelAfterDomChange((IWsdlModelRoot) modelRoot, changedNodes);
+            this.patchWsdlModelAfterDomChange((IWsdlModelRoot) modelRoot, changedNodes);
+        }
+        changedNodes.clear();
+    }
+
+    private void patchWsdlModelAfterDomChange(final IWsdlModelRoot wsdlRoot, final Set<Node> changedNodes) {
+        final Definition definition = wsdlRoot.getDescription().getComponent();
+
+        final Element element = definition.getElement();
+        if (element == null) {
+            return;
+        }
+
+        definition.elementChanged(element);
+        refreshDefinitionTargetNamespace(definition, element);
+
+        if (EmfWsdlUtils.isSchemaForSchemaMissingForAnySchema(wsdlRoot)) {
+            return;
+        }
+
+        final List<ISchema> containedSchemas = wsdlRoot.getDescription().getContainedSchemas();
+        checkTargetNamespaceAttribute(containedSchemas);
+        updateChangedNodes(changedNodes, definition, containedSchemas);
+
+        for (final ISchema schema : containedSchemas) {
+            this.patchXsdModelAfterDomChange((IXSDModelRoot) schema.getModelRoot(), (HashSet<Node>) changedNodes);
         }
     }
 
-    private void patchEMFModelAfterDomChange(final IWsdlModelRoot wsdlRoot, final Set<Node> changedNodes) {
-        final Definition definition = wsdlRoot.getDescription().getComponent();
-        final Element element = definition.getElement();
-        if (element == null || EmfWsdlUtils.isSchemaForSchemaMissingForAnySchema(wsdlRoot)) {
-            return;
-        }
-        definition.elementChanged(element);
-        // explicit refresh of the targetNamespace in case of
-        // missing such attribute. Due to Bug in EMF model -
-        // TNS is not updated if the attribute is missing, though the change
-        // might be the sole attribute's deletion.
+    /**
+     * Explicit refresh of the targetNamespace in case of missing such
+     * attribute. Due to Bug in EMF model - TNS is not updated if the attribute
+     * is missing, though the change might be the sole attribute's deletion.
+     */
+    private void refreshDefinitionTargetNamespace(final Definition definition, final Element element) {
         if (!element.hasAttribute(XSDConstants.TARGETNAMESPACE_ATTRIBUTE)) {
             definition.setTargetNamespace(null);
         }
-        // update changed elements from source page in XSD schemas
-        final List<ISchema> containedSchemas = wsdlRoot.getDescription().getContainedSchemas();
-        // check the state of targetNamespace attribute and
-        // explicit refresh of the targetNamespace in case of
-        // missing such attribute. Due to the bug described above
-        this.checkTargetNamespaceAttribute(containedSchemas);
-
-        this.updateChangedNodes(changedNodes, definition, containedSchemas);
     }
 
-    @Override
-    public void updateChangedNodes(final Set<Node> changedNodes, final Definition definition, final List<ISchema> containedSchemas) {
-        final Set<XSDConcreteComponent> updatedComponents = new HashSet<XSDConcreteComponent>();
-        for (final Node node : changedNodes) {
-            for (final ISchema schema : containedSchemas) {
-                final XSDSchema xsdSchema = schema.getComponent();
-                final XSDConcreteComponent component = xsdSchema.getCorrespondingComponent(node);
-                if (component != null && !updatedComponents.contains(component) &&
-                // case when component is not found into xsdSchema
-                        xsdSchema != component) {
-                    EmfXsdUtils.updateModelReferencers(definition, component);
-                    updatedComponents.add(component);
-                    break;
-                }
-            }
-        }
-        // Do always patch schemas, even on empty 'changedNodes'
-        // There are cases when something is editted into source, and is not in changedNodes
-        // e.g.: change 'targetNamespace' attribute name of schema to 'targetspace'
-        for (final ISchema schema : containedSchemas) {
-            this.patchEMFModelAfterDomChange((IXSDModelRoot) schema.getModelRoot(), new HashSet<Node>(changedNodes));
-        }
-        changedNodes.clear();
-    }
-
-    private void patchEMFModelAfterDomChange(final IXSDModelRoot ixsdModelRoot, final Set<Node> changedNodes) {
-        final XSDSchema xsdSchema = ixsdModelRoot.getSchema().getComponent();
-        // if there is NO shcema element - there is nothing to be patched
-        if (xsdSchema.getElement() == null || EmfXsdUtils.isSchemaForSchemaMissing(ixsdModelRoot.getSchema())) {
+    private void patchXsdModelAfterDomChange(final IXSDModelRoot iXsdModelRoot, final Set<Node> changedNodes) {
+        final ISchema iSchema = iXsdModelRoot.getSchema();
+        final XSDSchema xsdSchema = iSchema.getComponent();
+        if (xsdSchema.getElement() == null) {
             return;
         }
-        xsdSchema.elementChanged(xsdSchema.getElement());
 
-        this.updateChangedNodes(changedNodes, xsdSchema);
+        xsdSchema.elementChanged(xsdSchema.getElement());
+        if (EmfXsdUtils.isSchemaForSchemaMissing(iSchema)) {
+            return;
+        }
+        this.updateChangedNodes(changedNodes, iSchema);
     }
 
-    @Override
-    public void updateChangedNodes(final Set<Node> changedNodes, final XSDSchema xsdSchema) {
-        // update changed elements from source page
-        final Set<XSDConcreteComponent> updatedComponents = new HashSet<XSDConcreteComponent>();
+    private void updateChangedNodes(final Set<Node> changedNodes, final Definition definition,
+            final List<ISchema> containedSchemas) {
+        final Set<Node> updatedNodes = updateChangedNodes(changedNodes, containedSchemas);
+        changedNodes.removeAll(updatedNodes);
+    }
 
+    private void updateChangedNodes(final Set<Node> changedNodes, final ISchema schema) {
+        final List<ISchema> schemas = new LinkedList<ISchema>();
+        schemas.add(schema);
+        final Set<Node> updatedNodes = updateChangedNodes(changedNodes, schemas);
+        changedNodes.removeAll(updatedNodes);
+    }
+
+    private Set<Node> updateChangedNodes(final Set<Node> changedNodes, final List<ISchema> containedSchemas) {
+        final Set<XSDConcreteComponent> updatedComponents = new HashSet<XSDConcreteComponent>();
+        final Set<Node> updatedNodes = new HashSet<Node>();
+        
         for (final Node node : changedNodes) {
-            final XSDConcreteComponent component = xsdSchema.getCorrespondingComponent(node);
-            if (component != null && !updatedComponents.contains(component) &&
-            // case when component is not found into xsdSchema
-                    xsdSchema != component) {
-                EmfXsdUtils.updateModelReferencers(xsdSchema, component);
-                updatedComponents.add(component);
+            for (final ISchema containedSchema : containedSchemas) {
+                final XSDSchema xsdSchema = containedSchema.getComponent();
+
+                final XSDConcreteComponent component = findCorrespondingRootComponent(node, xsdSchema);
+                if (component != null && !updatedComponents.contains(component) && xsdSchema != component) {
+                    updatedComponents.add(component);
+                    updatedNodes.add(node);
+                    EmfXsdUtils.updateModelReferencers(xsdSchema, component);
+                    break;
+                }
+
             }
         }
-        changedNodes.clear();
+        return updatedNodes;
+    }
+
+    private XSDConcreteComponent findCorrespondingRootComponent(final Node initialNode, final XSDSchema containerSchema) {
+        XSDConcreteComponent component = null;
+        Node currentNode = initialNode;
+
+        int currentDepth = 0;
+        do {
+            if (currentNode instanceof Attr) {
+                currentNode = ((Attr) currentNode).getOwnerElement();
+            }
+            if (currentNode == null) {
+                break;
+            }
+            if (component != null && component.eContainer() instanceof XSDConcreteComponent) {
+                component = (XSDConcreteComponent) component.eContainer();
+            } else {
+                component = containerSchema.getCorrespondingComponent(currentNode);
+            }
+            refreshComponents(component);
+
+            if (component instanceof XSDNamedComponent && ((XSDNamedComponent) component).getName() == null) {
+                component = containerSchema;
+            }
+            currentNode = currentNode.getParentNode();
+            currentDepth++;
+        } while (component instanceof XSDSchema && currentNode != null
+                && !currentNode.getNodeName().endsWith(XSDConstants.SCHEMA_ELEMENT_TAG) && currentDepth < MAX_SEARCH_DEPTH);
+
+        return component;
     }
 
     // =========================================================
     // helpers
     // =========================================================
 
+    /**
+     * check the state of targetNamespace attribute and explicit refresh of the
+     * targetNamespace in case of missing such attribute due to the bug: <br>
+     * TNS is not updated if the attribute is missing, though the change might
+     * be the sole attribute's deletion
+     * 
+     */
     private void checkTargetNamespaceAttribute(final List<ISchema> containedSchemas) {
         for (final ISchema schema : containedSchemas) {
             if (schema == null) {
@@ -146,6 +195,26 @@ public class EmfModelPatcher implements IEmfModelPatcher {
             if (!element.hasAttribute(XSDConstants.TARGETNAMESPACE_ATTRIBUTE)) {
                 currerntSchema.setTargetNamespace(null);
             }
+        }
+    }
+
+    private void refreshComponents(final XSDConcreteComponent component) {
+        refreshComponentsInternal(component, 0);
+    }
+
+    private void refreshComponentsInternal(final XSDConcreteComponent component, final int currentRefreshLevel) {
+        if (component == null) {
+            return;
+        }
+        component.elementChanged(component.getElement());
+
+        // if (component instanceof XSDNamedComponent && ((XSDNamedComponent)
+        // component).getName() != null) {
+        // return;
+        // }
+
+        if (currentRefreshLevel < MAX_PARENTS_TO_REFRESH && component.eContainer() instanceof XSDConcreteComponent) {
+            refreshComponentsInternal((XSDConcreteComponent) component.eContainer(), currentRefreshLevel + 1);
         }
     }
 

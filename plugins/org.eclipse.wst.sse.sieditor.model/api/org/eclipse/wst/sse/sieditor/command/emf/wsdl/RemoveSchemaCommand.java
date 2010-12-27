@@ -38,7 +38,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
  * Command for removing a service interface object
  * 
  * 
- * 
  */
 public class RemoveSchemaCommand extends AbstractWSDLNotificationOperation {
     private final ISchema _schema;

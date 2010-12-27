@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
  * Supports implementing an MVP-view if it is not possible to use one of the
  * base classes provided by MVP.
  * 
- *  * @see IView
+ * @see IView
  * @deprecated the old ui layer architecture is not being used any more rendering this class obsolete
  */
 @Deprecated

@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.search;
 
 /**
  * Represents the document type for the Project or Workspace file containing types
- * 
  *
  */
 public enum DocumentType {

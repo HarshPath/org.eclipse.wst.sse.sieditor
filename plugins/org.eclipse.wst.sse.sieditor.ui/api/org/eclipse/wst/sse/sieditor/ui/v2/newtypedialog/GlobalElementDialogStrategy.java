@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.newtypedialog;
 
@@ -48,6 +47,7 @@ public class GlobalElementDialogStrategy extends AbstractTypeDialogStrategy {
 
     @Override
     public String getDialogTitle() {
-        return Messages.GlobalElementDialogStrategy_dlt_title;
+        return (getElement() == null || getElement().isElement()) ? Messages.GlobalElementDialogStrategy_dlt_title
+                : Messages.GlobalElementDialogStrategy_structure_type_base_type_dlg_title;
     }
 }

@@ -26,7 +26,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IParameter;
  * Command for deleting an out parameter in operation
  * 
  * 
- * 
  */
 public class DeleteOutParameterCommand extends AbstractDeleteParameterCommand {
 

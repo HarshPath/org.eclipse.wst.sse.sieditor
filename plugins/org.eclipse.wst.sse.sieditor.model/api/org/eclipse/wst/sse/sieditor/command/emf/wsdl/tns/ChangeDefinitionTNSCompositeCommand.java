@@ -31,8 +31,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
  * invalidating the document. If such a use case is present, I suggest another
  * command to be implemented.<br>
  * 
- * 
- * 
  */
 public class ChangeDefinitionTNSCompositeCommand extends AbstractCompositeEnsuringDefinitionNotificationOperation {
 

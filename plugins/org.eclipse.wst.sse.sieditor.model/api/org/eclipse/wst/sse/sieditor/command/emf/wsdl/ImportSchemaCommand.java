@@ -49,7 +49,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema;
  * Command for adding a new service interface object
  * 
  * 
- * 
  */
 
 public class ImportSchemaCommand extends AbstractWSDLNotificationOperation {
@@ -158,7 +157,7 @@ public class ImportSchemaCommand extends AbstractWSDLNotificationOperation {
             // if the Namespace of current schema matches the type's schema
             if (visibleNamespace != null ? visibleNamespace.equals(namespace) : namespace == null) {
                 // check if they are one and the same, and if so return current.
-                if (current.equals(typeHandle.getParent())) {
+                if (typeHandle != null && current.equals(typeHandle.getParent())) {
                     return (Schema) current;
                 }
             }

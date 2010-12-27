@@ -40,7 +40,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
  * Command for deleting a local ElementDeclaration or AttributeDeclaration
  * 
  * 
- * 
  */
 public class DeleteElementCommand extends AbstractNotificationOperation {
     private final IElement _element;

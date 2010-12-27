@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.emf.xsd;
 
@@ -29,6 +28,7 @@ import org.eclipse.xsd.XSDParticleContent;
 
 import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
+import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
 
 public class SetElementDefaultValueCommand extends AbstractNotificationOperation {
@@ -36,7 +36,7 @@ public class SetElementDefaultValueCommand extends AbstractNotificationOperation
     private final String defaultValue;
 
     public SetElementDefaultValueCommand(final IModelRoot root, final IElement element, final String defaultValue) {
-        super(root, element, element.isAttribute() ? "Set Attribute Default Value" : "Set Element Default Value");
+        super(root, element, element.isAttribute() ? Messages.SetElementDefaultValueCommand_0 : Messages.SetElementDefaultValueCommand_1);
         this.defaultValue = defaultValue;
     }
 

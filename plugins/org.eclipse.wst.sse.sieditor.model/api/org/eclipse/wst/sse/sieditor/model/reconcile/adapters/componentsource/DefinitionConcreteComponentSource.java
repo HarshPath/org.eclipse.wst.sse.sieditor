@@ -25,8 +25,6 @@ import org.w3c.dom.Element;
  * {@link IConcreteComponentSource} interface. The equality is based on the
  * provided definition.
  * 
- * 
- * 
  */
 public class DefinitionConcreteComponentSource implements IConcreteComponentSource {
 

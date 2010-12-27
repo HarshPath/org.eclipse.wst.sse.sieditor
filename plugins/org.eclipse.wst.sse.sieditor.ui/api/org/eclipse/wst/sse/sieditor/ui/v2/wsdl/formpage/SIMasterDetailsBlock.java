@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.wsdl.formpage;
 
@@ -181,38 +180,6 @@ public class SIMasterDetailsBlock extends AbstractMasterDetailsBlock {
     private SIFormPageController getSIFormPageController() {
         return (SIFormPageController) controller;
     }
-
-    @Override
-    public void componentChanged(final IModelChangeEvent event) {
-        final IModelObject modelObject = event.getObject();
-        if (modelObject instanceof IDescription || modelObject instanceof ISchema) {
-            refreshTreeViewer();
-            if (detailsPart != null) {
-                detailsPart.refresh();
-            }
-            return;
-        }
-        List<ITreeNode> treeNodes = getSIFormPageController().getTreeNodeMapper().getTreeNode(modelObject,ITreeNode.CATEGORY_ALL);
-
-        for (ITreeNode treeNode : treeNodes) {
-            if (treeNode == null) {
-                continue;
-            }
-            treeViewer.refresh(treeNode, true);
-            
-            ITreeNode parentOfTheCurrentTreeNode = treeNode.getParent();
-            if (parentOfTheCurrentTreeNode != null) {
-                treeViewer.refresh(parentOfTheCurrentTreeNode, true);
-            }
-            
-            updateButtonsState((IStructuredSelection) treeViewer.getSelection());
-            treeViewer.reveal(treeNode);
-        }
-        if (detailsPart != null) {
-            detailsPart.refresh();
-        }
-    }
-
     /**
      * Method called when initialising the containing form (before
      * createPartControll) It's purpose is to set the object displaying the type

@@ -31,8 +31,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema;
  * subclass of the {@link AbstractNewTypeCompositeCommand}. This implementation
  * is responsible for the creation of new element type
  * 
- * 
- * 
  */
 public class NewElementTypeCompositeCommand extends AbstractNewTypeCompositeCommand {
 

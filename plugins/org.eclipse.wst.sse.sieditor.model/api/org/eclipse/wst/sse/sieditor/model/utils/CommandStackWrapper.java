@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.utils;
 
@@ -69,7 +68,9 @@ public class CommandStackWrapper extends WorkspaceCommandStackImpl implements
 
 	@Override
 	public void doDispose() {
+	    if(undoManager != null) {
 		undoManager.setCommandStack(wrappedCommandStack);
+	    }
 	}
 
 	public void addCommandStackListener(final ICommandStackListener l) {

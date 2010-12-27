@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.api;
 
 /**
  * Generic base class for all the Objects with Name
- * 
  *
  */
 public interface INamedObject extends IModelObject {

@@ -36,7 +36,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.Description;
  * Command for deleting a service interface
  * 
  * 
- * 
  */
 public class DeleteServiceInterfaceCommand extends AbstractWSDLNotificationOperation {
     private final IDescription _description;

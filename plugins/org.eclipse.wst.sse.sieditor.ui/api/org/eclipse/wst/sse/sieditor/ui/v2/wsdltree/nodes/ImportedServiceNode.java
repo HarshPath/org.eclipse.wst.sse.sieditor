@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.wsdltree.nodes;
 
@@ -23,14 +22,13 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.ui.Activator;
 import org.eclipse.wst.sse.sieditor.ui.v2.UIConstants;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.impl.AbstractTreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller.SIFormPageController;
 
-public class ImportedServiceNode extends AbstractTreeNode {
+public class ImportedServiceNode extends AbstractWsdlTreeNode {
 
     private SIFormPageController siFormPageController = null;
     
-    public ImportedServiceNode(IDescription description, ITreeNode parent, SIFormPageController siFormPageController) {
+    public ImportedServiceNode(final IDescription description, final ITreeNode parent, final SIFormPageController siFormPageController) {
         super(description, parent, siFormPageController.getTreeNodeMapper());
         this.siFormPageController = siFormPageController;
     }
@@ -38,11 +36,11 @@ public class ImportedServiceNode extends AbstractTreeNode {
     @Override
     public String getDisplayName() {
 
-        IDescription description = (IDescription) getModelObject();
+        final IDescription description = (IDescription) getModelObject();
         String importedWSDLlocation = description.getLocation();
         importedWSDLlocation = importedWSDLlocation == null ? "" : importedWSDLlocation; //$NON-NLS-1$
 
-        StringBuilder displayName = new StringBuilder(description.getNamespace());
+        final StringBuilder displayName = new StringBuilder(description.getNamespace());
         if (displayName.length() > 0) {
             displayName.append(UIConstants.SPACE);
         }
@@ -59,8 +57,8 @@ public class ImportedServiceNode extends AbstractTreeNode {
 
     @Override
     public Object[] getChildren() {
-        IDescription description = (IDescription) getModelObject();
-        List<ServiceInterfaceNode> serviceInterfaceNodes = siFormPageController.getServiceInterfaceNodes(this, description);
+        final IDescription description = (IDescription) getModelObject();
+        final List<ServiceInterfaceNode> serviceInterfaceNodes = siFormPageController.getServiceInterfaceNodes(this, description);
         return serviceInterfaceNodes.toArray();
     }
 }

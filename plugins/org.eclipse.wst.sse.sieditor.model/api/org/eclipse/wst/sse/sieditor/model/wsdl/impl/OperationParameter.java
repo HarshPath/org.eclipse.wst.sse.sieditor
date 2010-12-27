@@ -37,8 +37,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.AbstractType;
 
 /**
  * 
- * 
- * 
  */
 public class OperationParameter extends AbstractWSDLComponent implements IParameter,
         org.eclipse.wst.sse.sieditor.model.write.wsdl.api.IParameter {

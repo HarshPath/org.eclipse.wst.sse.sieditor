@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui;
 
@@ -111,7 +110,7 @@ public abstract class AbstractEditorPage extends FormPage implements IChangeList
     protected void expandTreeNode(final ISIEvent event) {
         for (final Object param : event.getEventParams()) {
             if (param instanceof ITreeNode) {
-                getMasterDetailsBlock().getTreeViewer().expandToLevel(param, TreeViewer.ALL_LEVELS);
+                getMasterDetailsBlock().getTreeViewer().expandToLevel(param, 1);
             }
         }
     }

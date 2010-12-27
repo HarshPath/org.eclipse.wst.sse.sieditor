@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
@@ -217,6 +216,8 @@ public interface IDataTypesFormPageController extends IFormPageController {
 
     public void deleteSimpleTypeEnumFacet(ISimpleType type, IFacet facet);
 
+    public void setStructureTypeContent(IStructureType structure, IType type);
+    
     public void setStructureType(IStructureType structure, IType type);
 
     public void setGlobalElementNillable(IStructureType structure, boolean nillable);
@@ -280,5 +281,9 @@ public interface IDataTypesFormPageController extends IFormPageController {
     public void handleExtractNamespace(ITreeNode firstElement);
 
     public boolean isExtractNamespaceEnabled(IDataTypesTreeNode firstElement);
+
+    public boolean isMakeAnInlineNamespaceEnabled(IDataTypesTreeNode firstElement);
+
+    public void handleMakeAnInlineNamespace(ITreeNode firstElement);
 
 }

@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.constraints;
 
@@ -45,6 +44,10 @@ public class UniqueMessagePartName extends AbstractConstraint {
         } else {
             Part part = (Part) target;
             message = (Message) part.getContainer();
+        }
+        
+        if(message == null) {
+            return ctx.createSuccessStatus();
         }
 
         Set<String> allNames = new HashSet<String>();

@@ -32,7 +32,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
  * Command for setting MinOccurs and MaxOccurs for {@link XSDParticle}
  * 
  * 
- * 
  */
 public class SetElementOccurences extends AbstractNotificationOperation {
     private final XSDConcreteComponent _particle;

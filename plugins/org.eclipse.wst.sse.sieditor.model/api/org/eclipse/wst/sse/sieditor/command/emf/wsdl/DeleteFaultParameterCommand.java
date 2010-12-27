@@ -28,7 +28,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.OperationFault;
  * Command for deleting the fault parameter
  * 
  * 
- * 
  */
 public class DeleteFaultParameterCommand extends AbstractDeleteParameterCommand {
 

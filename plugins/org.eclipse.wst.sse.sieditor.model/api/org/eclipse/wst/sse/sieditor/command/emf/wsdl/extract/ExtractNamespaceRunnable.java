@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract;
 
@@ -32,10 +31,10 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
-import org.eclipse.wst.sse.sieditor.command.emf.wsdl.ExtractXmlSchemaCompositeCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.dependencies.SchemaDependenciesUtils;
 import org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.dependencies.SchemaNode;
 import org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.utils.IXmlSchemaExtractor;
+import org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.utils.SchemaLocationUtils;
 import org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.utils.XmlSchemaExtractor;
 import org.eclipse.wst.sse.sieditor.core.common.Logger;
 import org.eclipse.wst.sse.sieditor.model.Activator;
@@ -53,22 +52,23 @@ public class ExtractNamespaceRunnable implements IRunnableWithProgress {
 
     private final Map<String, String> filenamesMap;
 
-    protected final boolean importExtractedSchemas;
+    protected final boolean keepInlinedNamespaces;
 
     private final IPath wsdlLocationPath;
 
     private final String wsdlEncoding;
 
     public ExtractNamespaceRunnable(final SchemaNode schemaNode, final Set<SchemaNode> dependenciesSet,
-            final boolean importExtractedSchemas, final IPath wsdlLocationPath) {
+            final boolean keepInlinedNamespaces, final IPath wsdlLocationPath) {
         this.schemaNode = schemaNode;
         this.dependenciesSet = dependenciesSet;
         this.filenamesMap = SchemaDependenciesUtils.instance().createFilenamesMap(schemaNode, dependenciesSet);
-        this.importExtractedSchemas = importExtractedSchemas;
+        this.keepInlinedNamespaces = keepInlinedNamespaces;
 
         String charset = null;
         try {
-            charset = ResourcesPlugin.getWorkspace().getRoot().getFile(wsdlLocationPath).getCharset();
+            charset = ResourcesPlugin.getWorkspace().getRoot().getFile(
+                    SchemaLocationUtils.instance().getLocationRelativeToWorkspace(wsdlLocationPath)).getCharset();
         } catch (final CoreException e) {
             charset = "UTF-8"; //$NON-NLS-1$
         }
@@ -86,9 +86,14 @@ public class ExtractNamespaceRunnable implements IRunnableWithProgress {
         try {
             status = extractSchemas(monitor, schemasToExtract, wsdlLocationPath, wsdlEncoding);
             if (status.getSeverity() == IStatus.CANCEL) {
+                rollbackExtraction(schemasToExtract, monitor);
                 return;
             }
             status = importExtractedSchemas(monitor, schemasToExtract);
+            if (status.getSeverity() == IStatus.CANCEL) {
+                rollbackExtraction(schemasToExtract, monitor);
+                return;
+            }
 
         } catch (final Exception e) {
             status = new Status(Status.ERROR, Activator.PLUGIN_ID, Status.ERROR, MessageFormat.format(
@@ -101,7 +106,7 @@ public class ExtractNamespaceRunnable implements IRunnableWithProgress {
         monitor.done();
     }
 
-    private IStatus extractSchemas(final IProgressMonitor monitor, final Set<SchemaNode> schemasToExtract,
+    protected IStatus extractSchemas(final IProgressMonitor monitor, final Set<SchemaNode> schemasToExtract,
             final IPath wsdlLocationPath, final String wsdlEncoding) throws IOException, CoreException {
         monitor.beginTask(Messages.ExtractNamespaceRunnable_extracting_xml_schema_subtask, dependenciesSet.size() + 1);
 
@@ -123,7 +128,7 @@ public class ExtractNamespaceRunnable implements IRunnableWithProgress {
 
     protected IStatus importExtractedSchemas(final IProgressMonitor monitor, final Set<SchemaNode> schemasToExtract)
             throws ExecutionException {
-        if (!importExtractedSchemas) {
+        if (keepInlinedNamespaces) {
             return Status.OK_STATUS;
         }
 

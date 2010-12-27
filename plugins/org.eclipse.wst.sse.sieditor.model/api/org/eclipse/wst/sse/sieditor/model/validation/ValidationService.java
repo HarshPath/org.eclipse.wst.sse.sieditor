@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation;
 
@@ -66,9 +65,9 @@ public class ValidationService extends EContentAdapter implements IValidationSer
 
     protected ILiveValidator liveValidator;
     protected IBatchValidator batchValidator;
-    
+
     private EditingDomainListener editingDomainListener;
-    
+
     private ResourceSet resourceSet;
 
     private static final ILog logger = Activator.getDefault().getLog();
@@ -95,29 +94,29 @@ public class ValidationService extends EContentAdapter implements IValidationSer
     }
 
     public void update(final ResourceSet resourceSet, final IModelRoot modelRoot) {
-    	detachFromCurrentResourceSet();
-    	final Adaptable editingDomainAdaptable = (Adaptable) WorkspaceEditingDomainFactory.INSTANCE.getEditingDomain(resourceSet);
-		final Lifecycle lifecycle = editingDomainAdaptable.getAdapter(Lifecycle.class);
-        
-		editingDomainListener = new EditingDomainListener(this);
-		lifecycle.addTransactionalEditingDomainListener(editingDomainListener);
+        detachFromCurrentResourceSet();
+        final Adaptable editingDomainAdaptable = (Adaptable) WorkspaceEditingDomainFactory.INSTANCE.getEditingDomain(resourceSet);
+        final Lifecycle lifecycle = editingDomainAdaptable.getAdapter(Lifecycle.class);
+
+        editingDomainListener = new EditingDomainListener(this);
+        lifecycle.addTransactionalEditingDomainListener(editingDomainListener);
 
         resourceSet.eAdapters().add(this);
         this.resourceSet = resourceSet;
     }
-    
+
     private void detachFromCurrentResourceSet() {
-    	if(resourceSet == null) {
-    		return;
-    	}
-    	final Adaptable editingDomainAdaptable = (Adaptable) WorkspaceEditingDomainFactory.INSTANCE.getEditingDomain(resourceSet);
-    	
-    	if(editingDomainAdaptable != null) {
-	    	final Lifecycle lifecycle = editingDomainAdaptable.getAdapter(Lifecycle.class);
-	    	
-	    	lifecycle.removeTransactionalEditingDomainListener(editingDomainListener);
-	        resourceSet.eAdapters().remove(this);
-    	}
+        if (resourceSet == null) {
+            return;
+        }
+        final Adaptable editingDomainAdaptable = (Adaptable) WorkspaceEditingDomainFactory.INSTANCE.getEditingDomain(resourceSet);
+
+        if (editingDomainAdaptable != null) {
+            final Lifecycle lifecycle = editingDomainAdaptable.getAdapter(Lifecycle.class);
+
+            lifecycle.removeTransactionalEditingDomainListener(editingDomainListener);
+            resourceSet.eAdapters().remove(this);
+        }
     }
 
     @Override
@@ -267,7 +266,7 @@ public class ValidationService extends EContentAdapter implements IValidationSer
     public List<IValidationListener> getValidationListeners() {
         return Collections.unmodifiableList(listeners);
     }
-    
+
     public Collection<IModelAdapter> getModelAdapters() {
         return adapters;
     }
@@ -316,15 +315,14 @@ public class ValidationService extends EContentAdapter implements IValidationSer
             return;
         }
 
-        final IConstraintStatus constraintStatus = (IConstraintStatus) status;
-        final EObject constraintStatusTarget = constraintStatus.getTarget();
+        final EObject constraintStatusTarget = ((IConstraintStatus)status).getTarget();
         final Collection<IModelObject> modelObjects = adaptToModelObject(constraintStatusTarget);
 
         for (final IModelObject modelObject : modelObjects) {
-            if (constraintStatusTarget instanceof XSDDiagnostic && !constraintStatus.isOK()) {
-                validationStatusList.add(new XSDDiagnosticValidationStatus(constraintStatus, modelObject));
+            if (constraintStatusTarget instanceof XSDDiagnostic && !status.isOK()) {
+                validationStatusList.add(new XSDDiagnosticValidationStatus((IConstraintStatus)status, modelObject));
             } else {
-                validationStatusList.add(new ValidationStatus(constraintStatus, modelObject));
+                validationStatusList.add(new ValidationStatus((IConstraintStatus)status, modelObject));
             }
         }
     }
@@ -378,10 +376,10 @@ public class ValidationService extends EContentAdapter implements IValidationSer
         }
     }
 
-	@Override
-	public void doDispose() {
-		detachFromCurrentResourceSet();
-		
-	}
+    @Override
+    public void doDispose() {
+        detachFromCurrentResourceSet();
+
+    }
 
 }

@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.impl;
 
@@ -29,29 +28,28 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.ui.Activator;
-import org.eclipse.wst.sse.sieditor.ui.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.IImportedTypesNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.factory.TreeNodeMapper;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.impl.AbstractTreeNode;
 
-public class ImportedTypesNode extends AbstractTreeNode implements IImportedTypesNode {
+public class ImportedTypesNode extends AbstractXsdTreeNode implements IImportedTypesNode {
 
-    public ImportedTypesNode(IModelObject modelObject, ITreeNode parent, TreeNodeMapper nodeMapper) {
+    public ImportedTypesNode(final IModelObject modelObject, final ITreeNode parent, final TreeNodeMapper nodeMapper) {
         this(modelObject, nodeMapper);
     }
 
-    public ImportedTypesNode(IModelObject modelObject, TreeNodeMapper nodeMapper) {
+    public ImportedTypesNode(final IModelObject modelObject, final TreeNodeMapper nodeMapper) {
         super(modelObject, null, nodeMapper, ITreeNode.CATEGORY_STATIC_ROOT);
     }
 
+    @Override
     public Object[] getChildren() {
 
-        Set<ISchema> referedSchemasSet = new HashSet<ISchema>();
+        final Set<ISchema> referedSchemasSet = new HashSet<ISchema>();
         final List<ISchema> containedSchemas = getContainedSchemas();
-        for (ISchema schema : containedSchemas) {
-            Collection<ISchema> allReferredSchemas = schema.getAllReferredSchemas();
-            for (ISchema referredSchema : allReferredSchemas) {
+        for (final ISchema schema : containedSchemas) {
+            final Collection<ISchema> allReferredSchemas = schema.getAllReferredSchemas();
+            for (final ISchema referredSchema : allReferredSchemas) {
                 // exclude built-in types schema
                 if (!XSDConstants.isSchemaForSchemaNamespace(referredSchema.getNamespace())) {
                     referedSchemasSet.add(referredSchema);
@@ -61,14 +59,14 @@ public class ImportedTypesNode extends AbstractTreeNode implements IImportedType
         referedSchemasSet.removeAll(containedSchemas);
         referedSchemasSet.addAll(getWSDLImportedSchemas());
 
-        List<ITreeNode> nodes = new ArrayList<ITreeNode>();
-        for (ISchema referredSchema : referedSchemasSet) {
-            List<ITreeNode> treeNodes = getNodeMapper().getTreeNode(referredSchema, getCategories(), this);
-            ITreeNode treeNode = treeNodes.isEmpty() ? null : treeNodes.get(0);
+        final List<ITreeNode> nodes = new ArrayList<ITreeNode>();
+        for (final ISchema referredSchema : referedSchemasSet) {
+            final List<ITreeNode> treeNodes = getNodeMapper().getTreeNode(referredSchema, getCategories(), this);
+            final ITreeNode treeNode = treeNodes.isEmpty() ? null : treeNodes.get(0);
             if (treeNode instanceof ImportedSchemaNode) {
                 nodes.add(treeNode);
             } else {
-                ImportedSchemaNode schemaNode = new ImportedSchemaNode(referredSchema, this, getNodeMapper());
+                final ImportedSchemaNode schemaNode = new ImportedSchemaNode(referredSchema, this, getNodeMapper());
                 getNodeMapper().addToNodeMap(referredSchema, schemaNode);
                 nodes.add(schemaNode);
             }
@@ -90,12 +88,12 @@ public class ImportedTypesNode extends AbstractTreeNode implements IImportedType
         List<ISchema> importedSchemas = new ArrayList<ISchema>();
 
         if (getModelObject() instanceof IDescription) {
-            IDescription description = (IDescription) getModelObject();
+            final IDescription description = (IDescription) getModelObject();
             importedSchemas = description.getAllVisibleSchemas();
             importedSchemas.removeAll(description.getContainedSchemas());
-            Iterator<ISchema> iterator = importedSchemas.iterator();
+            final Iterator<ISchema> iterator = importedSchemas.iterator();
             while (iterator.hasNext()) {
-                ISchema schema = iterator.next();
+                final ISchema schema = iterator.next();
                 if (XSDConstants.isSchemaForSchemaNamespace(schema.getNamespace())) {
                     iterator.remove();
                 }
@@ -105,10 +103,7 @@ public class ImportedTypesNode extends AbstractTreeNode implements IImportedType
         return importedSchemas;
     }
 
-    public String getDisplayName() {
-        return Messages.ImportedTypesNode_node_name;
-    }
-
+    @Override
     public Image getImage() {
         return getImageRegistry().get(Activator.NODE_IMPORTED_TYPES);
     }

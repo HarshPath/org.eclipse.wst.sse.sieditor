@@ -23,7 +23,7 @@ package org.eclipse.wst.sse.sieditor.fwk.mvp.ui;
  * is delegated to the {@link #handleViewDispose(IView)} hook method, thereafter
  * this MVP-presenter is detached from the MVP-view.
  * 
- *  * @param <T>
+ * @param <T>
  *            The type of the MVP-view.
  * @deprecated the old ui layer architecture is not being used any more rendering this class obsolete
  */

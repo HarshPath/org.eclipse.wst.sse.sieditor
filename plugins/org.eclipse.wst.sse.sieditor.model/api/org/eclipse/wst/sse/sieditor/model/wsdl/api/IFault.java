@@ -25,8 +25,6 @@ import org.eclipse.wst.sse.sieditor.model.api.INamedObject;
 
 /**
  * 
- * 
- *
  */
 public interface IFault extends INamedObject, IExtensibleObject {
 	

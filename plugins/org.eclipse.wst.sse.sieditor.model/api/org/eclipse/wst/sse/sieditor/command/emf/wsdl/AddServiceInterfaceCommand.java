@@ -36,7 +36,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.ServiceInterface;
  * Command for adding a new service interface object
  * 
  * 
- * 
  */
 public class AddServiceInterfaceCommand extends AbstractWSDLNotificationOperation {
     private final String _name;

@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.reconcile;
 
@@ -21,6 +20,7 @@ import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 
 public class ResolveUtils implements IResolveUtils {
@@ -36,10 +36,22 @@ public class ResolveUtils implements IResolveUtils {
     }
 
     @Override
-    public XSDTypeDefinition resolveTypeDefinition(final XSDSchema schema, final String namespaceURI, final String name) {
+    public XSDComplexTypeDefinition resolveComplexTypeDefinition(final XSDSchema schema, final String namespaceURI,
+            final String name) {
         return resolveDeclaration(schema, namespaceURI, name, XSDComplexTypeDefinition.class);
     }
-    
+
+    @Override
+    public XSDSimpleTypeDefinition resolveSimpleTypeDefinition(final XSDSchema schema, final String namespaceURI,
+            final String name) {
+        return resolveDeclaration(schema, namespaceURI, name, XSDSimpleTypeDefinition.class);
+    }
+
+    @Override
+    public XSDTypeDefinition resolveTypeDefinition(final XSDSchema schema, final String namespaceURI, final String name) {
+        return resolveDeclaration(schema, namespaceURI, name, XSDTypeDefinition.class);
+    }
+
     @Override
     public XSDElementDeclaration resolveElementDeclaration(final XSDSchema schema, final String namespaceURI,
             final String elementName) {
@@ -58,11 +70,14 @@ public class ResolveUtils implements IResolveUtils {
         for (final XSDConcreteComponent concreteComponent : schema.getContents()) {
             if (requiredInstanceClass.isInstance(concreteComponent)) {
                 final T namedComponent = (T) concreteComponent;
-                if (resolveName.equals(namedComponent.getName()) && namespaceURI == null) {
+
+                final boolean nameIsResolved = (resolveName == null && namedComponent.getName() == null)
+                        || (resolveName != null && resolveName.equals(namedComponent.getName()));
+
+                if (nameIsResolved && namespaceURI == null) {
                     return namedComponent;
                 }
-                if (resolveName.equals(namedComponent.getName()) && namespaceURI != null
-                        && namespaceURI.equals(namedComponent.getTargetNamespace())) {
+                if (nameIsResolved && namespaceURI != null && namespaceURI.equals(namedComponent.getTargetNamespace())) {
                     return namedComponent;
                 }
             }

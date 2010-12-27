@@ -20,8 +20,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 /**
  * Model Root for getting the XSD Model and all the project types available
  * for use in the model
- * 
- *
  */
 public interface IXSDModelRoot extends IModelRoot {
 	

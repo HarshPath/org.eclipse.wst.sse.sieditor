@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 /*******************************************************************************
  * Copyright (c) 2010 SAP AG.
  * All rights reserved. This program and the accompanying materials
@@ -12,9 +15,6 @@
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
  *******************************************************************************/
-/**
- * 
- */
 package org.eclipse.wst.sse.sieditor.ui.v2.common;
 
 import org.eclipse.jface.viewers.ICellModifier;
@@ -25,8 +25,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
 
 /**
  * A common parent for the cell modifiers of the SI and DT tree
- * 
- * 
  * 
  */
 public class AbstractTreeViewerCellModifier implements ICellModifier {

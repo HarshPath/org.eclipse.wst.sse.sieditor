@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.emf.common;
 
@@ -29,21 +28,20 @@ public abstract class BaseNewTypeCompositeCommand extends AbstractCompositeNotif
     protected final String typeName;
     protected final ISetTypeCommandBuilder setTypeCommandBuilder;
 
-    public BaseNewTypeCompositeCommand(IModelRoot root, IModelObject modelObjToRefresh, String operationLabel, ISchema schema,
-            final ISetTypeCommandBuilder setTypeCommandBuilder, String typeName) {
+    public BaseNewTypeCompositeCommand(final IModelRoot root, final IModelObject modelObjToRefresh, final String operationLabel, final ISchema schema,
+            final ISetTypeCommandBuilder setTypeCommandBuilder, final String typeName) {
         super(root, modelObjToRefresh, operationLabel);
         this.schema = schema;
         this.setTypeCommandBuilder = setTypeCommandBuilder;
         this.typeName = typeName;
     }
 
-    /**
-     * utility method
-     * 
-     * @return the created type
-     */
     public IType getType() {
         return type;
+    }
+    
+    protected ISetTypeCommandBuilder getTypeCommandBuilder() {
+        return setTypeCommandBuilder;
     }
 
 }

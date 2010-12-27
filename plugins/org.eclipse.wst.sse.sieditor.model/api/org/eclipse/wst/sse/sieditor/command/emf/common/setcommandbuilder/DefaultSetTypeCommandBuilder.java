@@ -19,6 +19,7 @@ import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation
 import org.eclipse.wst.sse.sieditor.command.emf.wsdl.SetParameterTypeCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetBaseTypeCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetElementTypeCommand;
+import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetStructureTypeBaseTypeCompositeCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetStructureTypeCommand;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IParameter;
@@ -31,11 +32,8 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
  * this is the default implementation of the {@link ISetTypeCommandBuilder}
  * interface
  * 
- * 
- * 
  */
 public class DefaultSetTypeCommandBuilder implements ISetTypeCommandBuilder {
-
 
     private final IModelObject modelObject;
 
@@ -48,8 +46,12 @@ public class DefaultSetTypeCommandBuilder implements ISetTypeCommandBuilder {
         if (modelObject instanceof IElement) {
             return new SetElementTypeCommand(((IElement) modelObject).getModelRoot(), (IElement) modelObject, newType);
         }
-        if (modelObject instanceof IStructureType) {
+        if (modelObject instanceof IStructureType && ((IStructureType) modelObject).isElement()) {
             return new SetStructureTypeCommand(((IStructureType) modelObject).getModelRoot(), (IStructureType) modelObject,
+                    newType);
+        }
+        if (modelObject instanceof IStructureType && !((IStructureType) modelObject).isElement()) {
+            return new SetStructureTypeBaseTypeCompositeCommand(((IStructureType) modelObject).getModelRoot(), (IStructureType) modelObject,
                     newType);
         }
         if (modelObject instanceof ISimpleType) {

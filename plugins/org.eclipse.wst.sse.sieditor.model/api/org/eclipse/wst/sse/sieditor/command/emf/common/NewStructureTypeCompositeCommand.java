@@ -32,8 +32,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
  * subclass of the {@link AbstractNewTypeCompositeCommand}. This implementation
  * is responsible for the creation of new structure type
  * 
- * 
- * 
  */
 public class NewStructureTypeCompositeCommand extends AbstractNewTypeCompositeCommand {
 

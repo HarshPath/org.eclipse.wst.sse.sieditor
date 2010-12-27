@@ -22,7 +22,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
 
 /**
  * @deprecated The write API is deprecated. Use commands instead.
- * 
  *
  */
 public interface IStructureType extends IType{

@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Dinko Ivanov - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
@@ -49,8 +48,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.impl.NamespaceNode;
  * Namespace The Standalone Data Types Editor is to be used by the
  * {@link DataTypesEditor}. In this case only one Schema is present, therefore
  * it is shown in the UI
- * 
- * 
  * 
  */
 public class StandaloneDtEditorPage extends DataTypesEditorPage {

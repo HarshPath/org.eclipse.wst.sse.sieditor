@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension-point id="esmSIEditorPreEditListener" name="SIEditor Pre Edit Listener" schema="schema/esmSIEditorPreEditListener.exsd"/>
+   <extension-point id="esmSIEditorPreEditListener" name="ESM SIEditor Pre Edit Listener" schema="schema/esmSIEditorPreEditListener.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -20,8 +20,8 @@
             id="org.eclipse.wst.sse.sieditor.ui.dteditor"
             name="Data Types Editor">
       </editor>
-   </extension>
 
+   </extension>
    	<extension point="org.eclipse.emf.validation.constraintBindings">
   		<clientContext default="false" id="org.eclipse.wst.sse.sieditor.model.validation.wsdlValidationContext">
      		<enablement>
@@ -62,7 +62,7 @@
           point="org.eclipse.ui.ide.markerResolution">
        <markerResolutionGenerator
              class="org.eclipse.wst.sse.sieditor.ui.v2.common.MarkerResolutionGenerator"
-             markerType="org.eclipse.wst.sse.sieditor.model.validation.problem">
+             markerType="org.eclipse.wst.sse.sieditor.validation.problem">
        </markerResolutionGenerator>
     </extension>
 </plugin>

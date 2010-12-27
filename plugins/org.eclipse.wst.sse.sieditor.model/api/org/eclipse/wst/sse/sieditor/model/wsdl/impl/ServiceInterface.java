@@ -40,8 +40,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IServiceInterface;
 
 /**
  * 
- * 
- * 
  */
 public class ServiceInterface extends AbstractWSDLComponent implements IServiceInterface,
         org.eclipse.wst.sse.sieditor.model.write.wsdl.api.IServiceInterface {

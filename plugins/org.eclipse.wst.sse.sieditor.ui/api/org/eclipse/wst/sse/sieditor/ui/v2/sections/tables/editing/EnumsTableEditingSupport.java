@@ -24,8 +24,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.sections.elements.ElementNodeDetailsCo
  * Editing support for the enumeration constraint section of the xsd
  * types/elements
  * 
- * 
- * 
  */
 public class EnumsTableEditingSupport extends PatternsTableEditingSupport {
 

@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Tsvetan Stoyanov - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.constraints;
 
@@ -35,7 +34,6 @@ import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 /**
  * WSDLDocument->parseOperations According to the WSDL 1.2 working draft
  * operation overloading is no longer allowed.
- * 
  * 
  * 
  */

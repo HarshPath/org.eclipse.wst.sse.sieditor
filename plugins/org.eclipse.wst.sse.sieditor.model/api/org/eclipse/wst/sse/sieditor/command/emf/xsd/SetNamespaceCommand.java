@@ -21,9 +21,9 @@ import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.xsd.XSDSchema;
 
 import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
-import org.eclipse.wst.sse.sieditor.command.emf.common.namespace.ImportsUpdaterUtils;
-import org.eclipse.wst.sse.sieditor.command.emf.common.namespace.NamespaceMappingsUtils;
-import org.eclipse.wst.sse.sieditor.command.emf.common.namespace.RemapReferencesUtils;
+import org.eclipse.wst.sse.sieditor.command.emf.common.utils.ImportsUpdaterUtils;
+import org.eclipse.wst.sse.sieditor.command.emf.common.utils.NamespaceMappingsUtils;
+import org.eclipse.wst.sse.sieditor.command.emf.common.utils.RemapReferencesUtils;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
@@ -33,7 +33,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 
 /**
  * Command for setting namespace for {@link XSDSchema}
- * 
  * 
  * 
  */

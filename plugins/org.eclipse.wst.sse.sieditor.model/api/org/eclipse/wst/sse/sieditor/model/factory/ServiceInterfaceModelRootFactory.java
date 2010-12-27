@@ -39,7 +39,6 @@ import org.eclipse.wst.sse.sieditor.model.reconcile.adapters.componentsource.Def
  * This is the Service Interface Editor model root factory. It builds the
  * {@link IWsdlModelRoot} from the given document.
  * 
- * 
  */
 @SuppressWarnings("restriction")
 public class ServiceInterfaceModelRootFactory extends AbstractModelRootFactory {

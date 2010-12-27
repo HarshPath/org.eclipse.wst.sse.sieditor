@@ -33,8 +33,6 @@ import org.eclipse.wst.sse.sieditor.model.reconcile.adapters.componentsource.ICo
  * This adapter workarounds the following eclipse bug: The EMF model is not
  * correctly updated on DOM model change.
  * 
- * 
- * 
  */
 public abstract class AbstractModelReconcileAdapter implements IModelStateListener, INodeAdapter, IDisposable {
 

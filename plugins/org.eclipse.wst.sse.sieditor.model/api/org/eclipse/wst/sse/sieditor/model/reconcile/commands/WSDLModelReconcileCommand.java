@@ -27,86 +27,92 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Import;
 import org.eclipse.wst.wsdl.Part;
-import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.wst.wsdl.XSDSchemaExtensibilityElement;
 import org.eclipse.xsd.XSDSchema;
 
+import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.IWsdlReconcileUtils;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.IXsdReconcileUtils;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.ObjectsForResolveContainer;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.ObjectsForResolveUtils;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.WsdlReconcileUtils;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.XsdReconcileUtils;
+import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 
 /**
  * The WSDL model reconcile command subclass of
  * {@link AbstractModelReconcileCommand}
  * 
- * 
- * 
  */
-public class WSDLModelReconcileCommand extends AbstractModelReconcileCommand {
+public class WSDLModelReconcileCommand extends AbstractNotificationOperation {
 
-    private final List<XSDSchema> changedSchemas;
-    private final Definition definition;
+    private final List<XSDSchema> allSchemas;
+    private final IDescription description;
 
-    public WSDLModelReconcileCommand(final IModelRoot modelRoot, final IModelObject modelObject,
-            final List<XSDSchema> changedSchemas, final Definition definition) {
+    @SuppressWarnings("unchecked")
+    public WSDLModelReconcileCommand(final IModelRoot modelRoot, final IModelObject modelObject, final IDescription description) {
         super(modelRoot, modelObject, Messages.WSDLModelReconcileCommand_wsdl_model_reconcile_operation_label);
-        this.changedSchemas = changedSchemas;
-        this.definition = definition;
+
+        allSchemas = new LinkedList<XSDSchema>();
+        if (description.getComponent().getETypes() != null) {
+            allSchemas.addAll(description.getComponent().getETypes().getSchemas());
+        }
+        this.description = description;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public IStatus run(final IProgressMonitor monitor, final IAdaptable info) throws ExecutionException {
-        final ObjectsForResolveContainer container = findObjectsForResolve(definition);
+        final Definition definition = description.getComponent();
+        final ObjectsForResolveContainer container = objectsForResolveUtils().findObjectsForResolve(definition, allSchemas);
 
-        reconcileSchemasContents(container.getElementsForReferenceResolve(), container.getElementsForTypeResolve(), container
-                .getAttributesForResolve());
+        reconcileSchemasContents(container);
         reconcileMessageParts(container.getMessagePartsForResolve());
-        reconcileUtils().reconcileMessages(container.getMessagesForResolve(), definition);
-        reconcileUtils().reconcileBindingsQNames(definition);
+        wsdlReconcileUtils().reconcileMessages(container.getMessagesForResolve(), definition);
+        wsdlReconcileUtils().reconcileBindingsQNames(definition);
 
         final List<Definition> definitionsForResolve = getDefinitionsForResolve();
         for (final Definition definitionForResolve : definitionsForResolve) {
             // this.reconcileUtils().reconcileBindingsQNames(definition.getEBindings(),
             // definition.getTargetNamespace(),
             // definitionForResolve.getEPortTypes());
-            reconcileUtils().reconcileOperationsMessagesReferences(container.getOperationsForResolve(), definition,
+            wsdlReconcileUtils().reconcileOperationsMessagesReferences(container.getOperationsForResolve(), definition,
                     definitionForResolve.getEMessages(), null);
             // this.reconcileUtils().reconcileBindingsPortTypes(definition,
             // definitionForResolve.getEPortTypes());
-            reconcileUtils().reconcileServicePortBindings(definition, definitionForResolve.getEBindings());
+            wsdlReconcileUtils().reconcileServicePortBindings(definition, definitionForResolve.getEBindings());
         }
-
         return Status.OK_STATUS;
     }
 
-    private void reconcileSchemasContents(final List<XSDElementDeclaration> elementsForReferenceResolve,
-            final List<XSDElementDeclaration> elementsForTypeResolve, final List<XSDAttributeDeclaration> attributesForResolve) {
+    private void reconcileSchemasContents(final ObjectsForResolveContainer container) {
         // we need to resolve the references for all the elements referring to
         // the changed schemas
-        for (final XSDSchema schema : changedSchemas) {
-            reconcileUtils().reconcileSchemaContents(schema, elementsForReferenceResolve, elementsForTypeResolve,
-                    attributesForResolve);
+        for (final XSDSchema schema : allSchemas) {
+            if (schema.eContainer() == null || schema.eContainer() instanceof XSDSchemaExtensibilityElement
+                    && schema.eContainer().eContainer() == null) {
+                continue;
+            }
+            xsdReconcileUtils().reconcileSchemaContents(schema, container);
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void reconcileMessageParts(final List<Part> messageParts) {
-        if (definition.getETypes() != null) {
-            // we need to fix the WSDL message parts for all the schemas
-            final List<XSDSchema> allSchemas = definition.getETypes().getSchemas();
-            for (final XSDSchema schema : allSchemas) {
-                reconcileUtils().reconcileMessagePartsReferences(schema, messageParts, definition);
-            }
+        // we need to fix the WSDL message parts for all the schemas
+        for (final XSDSchema schema : allSchemas) {
+            wsdlReconcileUtils().reconcileMessagePartsReferences(schema, messageParts, description.getComponent());
         }
     }
 
     @SuppressWarnings("unchecked")
     private List<Definition> getDefinitionsForResolve() {
         final List<Definition> definitionsForResolve = new LinkedList<Definition>();
-        definitionsForResolve.add(definition);
+        definitionsForResolve.add(description.getComponent());
 
-        final EList<Import> eImports = definition.getEImports();
+        final EList<Import> eImports = description.getComponent().getEImports();
         for (final Import definitionImport : eImports) {
             if (definitionImport.getEDefinition() != null) {
                 definitionsForResolve.add(definitionImport.getEDefinition());
@@ -115,4 +121,19 @@ public class WSDLModelReconcileCommand extends AbstractModelReconcileCommand {
         return definitionsForResolve;
     }
 
+    // =========================================================
+    // helpers
+    // =========================================================
+
+    protected IXsdReconcileUtils xsdReconcileUtils() {
+        return XsdReconcileUtils.instance();
+    }
+
+    protected IWsdlReconcileUtils wsdlReconcileUtils() {
+        return WsdlReconcileUtils.instance();
+    }
+
+    protected ObjectsForResolveUtils objectsForResolveUtils() {
+        return ObjectsForResolveUtils.instance();
+    }
 }

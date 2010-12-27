@@ -11,13 +11,13 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.constraints;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -60,7 +60,7 @@ public class ValidXSDEntity extends AbstractConstraint {
             statusList.add(ConstraintStatus.createSuccessStatus(ctx, target, null));
         }
 
-        for (XSDDiagnostic diagnostic : diagnostics) {
+        for (XSDDiagnostic diagnostic : new LinkedList<XSDDiagnostic>(diagnostics)) {
             int severity = IStatus.INFO;
             switch (diagnostic.getSeverity()) {
             case FATAL_LITERAL:

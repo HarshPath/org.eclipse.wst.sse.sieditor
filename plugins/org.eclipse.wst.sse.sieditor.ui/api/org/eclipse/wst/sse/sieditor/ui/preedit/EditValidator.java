@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.preedit;
 
@@ -50,7 +49,8 @@ public class EditValidator implements IEditValidator {
     protected IStatus canEdit(IFile workSpaceFile) {
         if (workSpaceFile != null) {
             getWorkspace().validateEdit(new IFile[] { workSpaceFile }, IWorkspace.VALIDATE_PROMPT);
-            if (workSpaceFile.isReadOnly() || !editor.validateEditorInputState()) {
+            
+            if (workSpaceFile.isReadOnly() || (!getWorkspace().isTreeLocked() && !editor.validateEditorInputState())) {
                 return HiddenErrorStatus.getInstance();
             }
         }

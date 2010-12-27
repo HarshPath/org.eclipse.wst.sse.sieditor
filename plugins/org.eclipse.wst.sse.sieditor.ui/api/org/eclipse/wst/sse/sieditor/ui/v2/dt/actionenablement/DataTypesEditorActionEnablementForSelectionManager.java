@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt.actionenablement;
 
@@ -96,11 +95,25 @@ public class DataTypesEditorActionEnablementForSelectionManager {
         menuListener.getAddStructureTypeAction().setEnabled(isAddStructureTypeEnabled(selection));
         menuListener.getAddElementAction().setEnabled(isAddElementEnabled(selection));
         menuListener.getAddAttributeAction().setEnabled(isAddAttributeEnabled(selection));
-        menuListener.getConvertToGlobalTypeAction().setEnabled(isConvertToGlobalTypeEnabled(selection));
-        menuListener.getConvertToAnonymousTypeAction().setEnabled(isConvertToAnonymousTypeEnabled(selection));
-        menuListener.getConvertToAnonymousTypeWithTypeContentsAction().setEnabled(
-                isConvertToAnonymoysTypeWithTypeContentsEnabled(selection));
-        menuListener.getExtractNamespaceAction().setEnabled(isExtractNamespaceEnabled(selection));
+
+        final boolean convertToGlobalTypeEnabled = isConvertToGlobalTypeEnabled(selection);
+        final boolean convertToAnonymousTypeEnabled = isConvertToAnonymousTypeEnabled(selection);
+        final boolean convertToAnonymoysTypeWithTypeContentsEnabled = isConvertToAnonymoysTypeWithTypeContentsEnabled(selection);
+        final boolean extractNamespaceEnabled = isExtractNamespaceEnabled(selection);
+        final boolean convertToInlineNamespaceEnabled = isMakeAnInlineNamespaceEnabled(selection);
+
+        menuListener.getConvertToGlobalTypeAction().setEnabled(convertToGlobalTypeEnabled);
+        menuListener.getConvertToAnonymousTypeAction().setEnabled(convertToAnonymousTypeEnabled);
+        menuListener.getConvertToAnonymousTypeWithTypeContentsAction().setEnabled(convertToAnonymoysTypeWithTypeContentsEnabled);
+        menuListener.getExtractNamespaceAction().setEnabled(extractNamespaceEnabled);
+        menuListener.getMakeAnInlineNamespaceAction().setEnabled(convertToInlineNamespaceEnabled);
+
+        // menuListener.getRefactorSubmenuManager().setVisible(
+        // convertToAnonymousTypeEnabled ||
+        // convertToAnonymoysTypeWithTypeContentsEnabled ||
+        // convertToGlobalTypeEnabled
+        // || extractNamespaceEnabled);
+
         menuListener.getOpenInNewEditorAction().setEnabled(isOpenInNewEditorEnabled(selection));
         if (menuListener.getCopyTypeAction() != null) {
             menuListener.getCopyTypeAction().setEnabled(isCopyEnabled(selection));
@@ -186,6 +199,11 @@ public class DataTypesEditorActionEnablementForSelectionManager {
 
     protected boolean isExtractNamespaceEnabled(final IStructuredSelection selection) {
         return (selection.size() != 1) ? false : controller.isExtractNamespaceEnabled((IDataTypesTreeNode) selection
+                .getFirstElement());
+    }
+    
+    protected boolean isMakeAnInlineNamespaceEnabled(final IStructuredSelection selection) {
+        return (selection.size() != 1) ? false : controller.isMakeAnInlineNamespaceEnabled((IDataTypesTreeNode) selection
                 .getFirstElement());
     }
 

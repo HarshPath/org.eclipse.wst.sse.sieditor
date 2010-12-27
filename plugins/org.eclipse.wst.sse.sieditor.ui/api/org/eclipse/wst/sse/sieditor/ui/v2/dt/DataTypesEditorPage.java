@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
@@ -26,6 +25,7 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+
 import org.eclipse.wst.sse.sieditor.model.api.IModelChangeEvent;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;

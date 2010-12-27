@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.xsd.impl;
 
@@ -53,7 +52,7 @@ public class UnresolvedType extends AbstractType implements IStructureType,
         return new ArrayList<IElement>();
     }
 
-    public Collection<IElement> getElements(String name) {
+    public Collection<IElement> getElements(final String name) {
         return new ArrayList<IElement>();
     }
 
@@ -62,6 +61,11 @@ public class UnresolvedType extends AbstractType implements IStructureType,
     }
 
     public boolean isElement() {
+        return false;
+    }
+    
+    @Override
+    public boolean isComplexTypeSimpleContent() {
         return false;
     }
 
@@ -82,40 +86,40 @@ public class UnresolvedType extends AbstractType implements IStructureType,
         return null;
     }
 
-    public IElement addElement(String name) throws IllegalInputException, ExecutionException {
+    public IElement addElement(final String name) throws IllegalInputException, ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public IElement copyElement(IElement element) throws IllegalInputException, ExecutionException {
+    public IElement copyElement(final IElement element) throws IllegalInputException, ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void removeElement(IElement element) throws ExecutionException {
+    public void removeElement(final IElement element) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void removeElement(String attribute) throws ExecutionException {
+    public void removeElement(final String attribute) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setType(IType type) throws ExecutionException {
+    public void setType(final IType type) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setBaseType(IType baseType) throws ExecutionException {
+    public void setBaseType(final IType baseType) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setName(String name) throws IllegalInputException, DuplicateException, ExecutionException {
+    public void setName(final String name) throws IllegalInputException, DuplicateException, ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setNamespace(String namespace) throws IllegalInputException, ExecutionException {
+    public void setNamespace(final String namespace) throws IllegalInputException, ExecutionException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setAnonymous(boolean anonymousType) {
+    public void setAnonymous(final boolean anonymousType) {
         throw new UnsupportedOperationException();
     }
 
@@ -176,51 +180,51 @@ public class UnresolvedType extends AbstractType implements IStructureType,
         return null;
     }
 
-    public void addEnumeration(String value) throws ExecutionException {
+    public void addEnumeration(final String value) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void addPattern(String pattern) throws ExecutionException {
+    public void addPattern(final String pattern) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void removeEnumeration(IFacet facet) throws ExecutionException {
+    public void removeEnumeration(final IFacet facet) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void removePattern(IFacet facet) throws ExecutionException {
+    public void removePattern(final IFacet facet) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setCollapseWhiteSpaces(boolean collapse) throws ExecutionException {
+    public void setCollapseWhiteSpaces(final boolean collapse) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setLength(int length) throws ExecutionException {
+    public void setLength(final int length) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setMaxExclusive(String value) throws ExecutionException {
+    public void setMaxExclusive(final String value) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setMaxInclusive(String value) throws ExecutionException {
+    public void setMaxInclusive(final String value) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setMaxLength(int length) throws ExecutionException {
+    public void setMaxLength(final int length) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setMinExclusive(String value) throws ExecutionException {
+    public void setMinExclusive(final String value) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setMinInclusive(String value) throws ExecutionException {
+    public void setMinInclusive(final String value) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 
-    public void setMinLength(int length) throws ExecutionException {
+    public void setMinLength(final int length) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
 }

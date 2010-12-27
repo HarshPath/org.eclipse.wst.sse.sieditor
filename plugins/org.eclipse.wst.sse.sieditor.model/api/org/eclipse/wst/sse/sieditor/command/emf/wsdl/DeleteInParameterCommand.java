@@ -34,7 +34,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.ServiceOperation;
  * Command for deleting the input parameter
  * 
  * 
- * 
  */
 public class DeleteInParameterCommand extends AbstractDeleteParameterCommand {
     public DeleteInParameterCommand(IWsdlModelRoot root, final IOperation component, final IParameter parameter) {

@@ -67,7 +67,6 @@ public class AddNewSchemaCommand extends AbstractCompositeEnsuringDefinitionNoti
     /**
      * 
      * 
-     * 
      */
     public static class AddNewSchemaCommandInternal extends AbstractWSDLNotificationOperation {
         private static final String XMLNS_PREFIX_BASE = "ns";; //$NON-NLS-1$

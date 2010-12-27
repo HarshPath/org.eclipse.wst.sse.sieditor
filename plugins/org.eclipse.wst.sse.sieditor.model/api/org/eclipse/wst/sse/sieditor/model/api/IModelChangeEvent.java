@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.api;
 
 /**
  * Even object with the context of the changed {@link IModelObject}
- * 
  *
  */
 public interface IModelChangeEvent {

@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.api;
 
 /**
  * Listener to register for all model change events
- * 
  * @see IModelRoot#addChangeListener(IChangeListener)
  */
 public interface IChangeListener {

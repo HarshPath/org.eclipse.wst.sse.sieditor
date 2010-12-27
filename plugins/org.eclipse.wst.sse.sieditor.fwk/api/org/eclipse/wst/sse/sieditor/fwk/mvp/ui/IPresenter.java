@@ -17,7 +17,7 @@ package org.eclipse.wst.sse.sieditor.fwk.mvp.ui;
 /**
  * This presenter makes its MVP-view accessible.
  * 
- *  * @param <T>
+ * @param <T>
  *            The type of the MVP-view.
   * @deprecated the old ui layer architecture is not being used any more rendering this class obsolete
  */

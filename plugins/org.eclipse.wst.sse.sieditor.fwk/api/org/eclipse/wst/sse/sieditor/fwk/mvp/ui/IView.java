@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
  * An MVP-view notifies about its creation. This feature is needed by its
  * presenters for view-population.
  * 
- *  * @deprecated the old ui layer architecture is not being used any more rendering this class obsolete
+ * @deprecated the old ui layer architecture is not being used any more rendering this class obsolete
  */
 @Deprecated
 public interface IView {

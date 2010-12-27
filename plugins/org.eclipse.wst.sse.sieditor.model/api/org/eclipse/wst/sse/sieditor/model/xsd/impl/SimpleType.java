@@ -55,8 +55,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISimpleType;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 
 /**
- * 
- * 
  */
 public class SimpleType extends AbstractType implements ISimpleType,
         org.eclipse.wst.sse.sieditor.model.write.xsd.api.ISimpleType {
@@ -66,7 +64,9 @@ public class SimpleType extends AbstractType implements ISimpleType,
     public SimpleType(final IXSDModelRoot modelRoot, final ISchema schema, final XSDSimpleTypeDefinition type) {
         this(modelRoot, schema, schema, type);
     }
-    public SimpleType(final IXSDModelRoot modelRoot, final ISchema schema, final IModelObject parent, final XSDSimpleTypeDefinition type) {
+
+    public SimpleType(final IXSDModelRoot modelRoot, final ISchema schema, final IModelObject parent,
+            final XSDSimpleTypeDefinition type) {
         super(modelRoot, type, schema, parent);
         this._simpleType = type;
     }
@@ -80,7 +80,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
         final XSDTypeDefinition baseType = _simpleType.getBaseType();
         if (null == baseType)
             return null;
-        Schema parentSchema = (Schema) getParent();
+        final Schema parentSchema = (Schema) getParent();
         if (null == baseType.getName()) {
             return UnresolvedType.instance();
         }
@@ -91,7 +91,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
     public void setBaseType(final IType baseType) throws ExecutionException {
         if (!(baseType instanceof ISimpleType))
             return;
-        final SetBaseTypeCommand command = new SetBaseTypeCommand(getModelRoot(), this, (AbstractType) baseType);
+        final SetBaseTypeCommand command = new SetBaseTypeCommand(getModelRoot(), this, baseType);
         getModelRoot().getEnv().execute(command);
     }
 
@@ -124,18 +124,18 @@ public class SimpleType extends AbstractType implements ISimpleType,
     }
 
     public IFacet[] getPatterns() {
-        List<XSDPatternFacet> patterns = _simpleType.getPatternFacets();
-        List<IFacet> enums = new ArrayList<IFacet>(1);
-        for (XSDPatternFacet pattern : patterns) {
+        final List<XSDPatternFacet> patterns = _simpleType.getPatternFacets();
+        final List<IFacet> enums = new ArrayList<IFacet>(1);
+        for (final XSDPatternFacet pattern : patterns) {
             enums.add(new Facet(getModelRoot(), pattern, this, getXSDPackage().getXSDPatternFacet()));
         }
         return enums.toArray(new IFacet[enums.size()]);
     }
 
     public IFacet[] getEnumerations() {
-        List<XSDEnumerationFacet> enumerations = _simpleType.getEnumerationFacets();
-        List<IFacet> enums = new ArrayList<IFacet>(1);
-        for (XSDEnumerationFacet enumFacet : enumerations) {
+        final List<XSDEnumerationFacet> enumerations = _simpleType.getEnumerationFacets();
+        final List<IFacet> enums = new ArrayList<IFacet>(1);
+        for (final XSDEnumerationFacet enumFacet : enumerations) {
             enums.add(new Facet(getModelRoot(), enumFacet, this, getXSDPackage().getXSDEnumerationFacet()));
         }
         return enums.toArray(new IFacet[enums.size()]);
@@ -153,14 +153,14 @@ public class SimpleType extends AbstractType implements ISimpleType,
         getModelRoot().getEnv().execute(command);
     }
 
-    public void addPattern(String pattern) throws ExecutionException {
+    public void addPattern(final String pattern) throws ExecutionException {
         Nil.checkNil(pattern, "value"); //$NON-NLS-1$
         final AddFacetCommand command = new AddFacetCommand(getModelRoot(), this, getXSDPackage().getXSDPatternFacet(), null,
                 pattern);
         getModelRoot().getEnv().execute(command);
     }
 
-    public void setLength(int length) throws ExecutionException {
+    public void setLength(final int length) throws ExecutionException {
         Nil.checkNil(length, "length"); //$NON-NLS-1$
         final XSDLengthFacet facet = _simpleType.getLengthFacet();
         final AddFacetCommand command = new AddFacetCommand(getModelRoot(), this, getXSDPackage().getXSDLengthFacet(), facet,
@@ -168,7 +168,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
         getModelRoot().getEnv().execute(command);
     }
 
-    public void setMaxExclusive(String value) throws ExecutionException {
+    public void setMaxExclusive(final String value) throws ExecutionException {
         Nil.checkNil(value, "length"); //$NON-NLS-1$
         final XSDMaxExclusiveFacet facet = _simpleType.getMaxExclusiveFacet();
         final AddFacetCommand command = new AddFacetCommand(getModelRoot(), this, getXSDPackage().getXSDMaxExclusiveFacet(),
@@ -176,7 +176,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
         getModelRoot().getEnv().execute(command);
     }
 
-    public void setMaxInclusive(String value) throws ExecutionException {
+    public void setMaxInclusive(final String value) throws ExecutionException {
         Nil.checkNil(value, "length"); //$NON-NLS-1$
         final XSDMaxInclusiveFacet facet = _simpleType.getMaxInclusiveFacet();
         final AddFacetCommand command = new AddFacetCommand(getModelRoot(), this, getXSDPackage().getXSDMaxInclusiveFacet(),
@@ -184,7 +184,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
         getModelRoot().getEnv().execute(command);
     }
 
-    public void setMaxLength(int length) throws ExecutionException {
+    public void setMaxLength(final int length) throws ExecutionException {
         Nil.checkNil(length, "length"); //$NON-NLS-1$
         final XSDMaxLengthFacet facet = _simpleType.getMaxLengthFacet();
         final AddFacetCommand command = new AddFacetCommand(getModelRoot(), this, getXSDPackage().getXSDMaxLengthFacet(), facet,
@@ -192,7 +192,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
         getModelRoot().getEnv().execute(command);
     }
 
-    public void setMinExclusive(String value) throws ExecutionException {
+    public void setMinExclusive(final String value) throws ExecutionException {
         Nil.checkNil(value, "length"); //$NON-NLS-1$
         final XSDMinExclusiveFacet facet = _simpleType.getMinExclusiveFacet();
         final AddFacetCommand command = new AddFacetCommand(getModelRoot(), this, getXSDPackage().getXSDMinExclusiveFacet(),
@@ -200,7 +200,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
         getModelRoot().getEnv().execute(command);
     }
 
-    public void setMinInclusive(String value) throws ExecutionException {
+    public void setMinInclusive(final String value) throws ExecutionException {
         Nil.checkNil(value, "length"); //$NON-NLS-1$
         final XSDMinInclusiveFacet facet = _simpleType.getMinInclusiveFacet();
         final AddFacetCommand command = new AddFacetCommand(getModelRoot(), this, getXSDPackage().getXSDMinInclusiveFacet(),
@@ -216,7 +216,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
         getModelRoot().getEnv().execute(command);
     }
 
-    public void setCollapseWhiteSpaces(boolean collapse) throws ExecutionException {
+    public void setCollapseWhiteSpaces(final boolean collapse) throws ExecutionException {
         final XSDWhiteSpaceFacet facet = _simpleType.getWhiteSpaceFacet();
         if (collapse) {
             final AddFacetCommand command = new AddFacetCommand(getModelRoot(), this, getXSDPackage().getXSDWhiteSpaceFacet(),
@@ -254,11 +254,11 @@ public class SimpleType extends AbstractType implements ISimpleType,
      * failure and log??? return null; }
      */
 
-    public void setNamespace(String namespace) {
+    public void setNamespace(final String namespace) {
         // Do Nothing
     }
 
-    public void removeEnumeration(IFacet facet) throws ExecutionException {
+    public void removeEnumeration(final IFacet facet) throws ExecutionException {
         Nil.checkNil(facet, "facet"); //$NON-NLS-1$
         if (facet instanceof Facet && equals(((Facet) facet).getParent())) {
             final XSDFacet enumeration = facet.getComponent();
@@ -269,7 +269,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
         }
     }
 
-    public void removePattern(IFacet facet) throws ExecutionException {
+    public void removePattern(final IFacet facet) throws ExecutionException {
         Nil.checkNil(facet, "facet"); //$NON-NLS-1$
         if (facet instanceof Facet && equals(((Facet) facet).getParent())) {
             final XSDFacet pattern = facet.getComponent();
@@ -281,12 +281,12 @@ public class SimpleType extends AbstractType implements ISimpleType,
     }
 
     public Whitespace getWhitespace() {
-        XSDWhiteSpaceFacet whiteSpaceFacet = _simpleType.getWhiteSpaceFacet();
+        final XSDWhiteSpaceFacet whiteSpaceFacet = _simpleType.getWhiteSpaceFacet();
         if (whiteSpaceFacet == null) {
             return null;
         }
 
-        XSDWhiteSpace value = whiteSpaceFacet.getValue();
+        final XSDWhiteSpace value = whiteSpaceFacet.getValue();
         if (value == XSDWhiteSpace.COLLAPSE_LITERAL) {
             return Whitespace.COLLAPSE;
         } else if (value == XSDWhiteSpace.PRESERVE_LITERAL) {
@@ -299,7 +299,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
     }
 
     public String getTotalDigits() {
-        XSDTotalDigitsFacet totalDigitsFacet = _simpleType.getTotalDigitsFacet();
+        final XSDTotalDigitsFacet totalDigitsFacet = _simpleType.getTotalDigitsFacet();
         if (totalDigitsFacet == null) {
             return null;
         }
@@ -308,7 +308,7 @@ public class SimpleType extends AbstractType implements ISimpleType,
     }
 
     public String getFractionDigits() {
-        XSDFractionDigitsFacet fractionDigitsFacet = _simpleType.getFractionDigitsFacet();
+        final XSDFractionDigitsFacet fractionDigitsFacet = _simpleType.getFractionDigitsFacet();
         if (fractionDigitsFacet == null) {
             return null;
         }

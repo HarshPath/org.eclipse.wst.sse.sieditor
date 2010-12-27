@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.wsdltree.nodes;
 
@@ -23,26 +22,25 @@ import org.eclipse.swt.graphics.Image;
 
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.ui.Activator;
-import org.eclipse.wst.sse.sieditor.ui.i18n.Messages;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.impl.AbstractTreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller.SIFormPageController;
 
-public class ImportedServicesNode extends AbstractTreeNode {
+public class ImportedServicesNode extends AbstractWsdlTreeNode {
 
     private SIFormPageController siFormPageController = null;
 
-    public ImportedServicesNode(IDescription description, SIFormPageController siFormPageController) {
+    public ImportedServicesNode(final IDescription description, final SIFormPageController siFormPageController) {
         super(description, null, siFormPageController.getTreeNodeMapper(), CATEGORY_STATIC_ROOT);
         this.siFormPageController = siFormPageController;
     }
 
+    @Override
     public Object[] getChildren() {
 
-        IDescription description = (IDescription) getModelObject();
-        Collection<IDescription> referencedServices = description.getReferencedServices();
+        final IDescription description = (IDescription) getModelObject();
+        final Collection<IDescription> referencedServices = description.getReferencedServices();
 
-        List<ImportedServiceNode> nodes = new ArrayList<ImportedServiceNode>();
-        for (IDescription referredDescription : referencedServices) {
+        final List<ImportedServiceNode> nodes = new ArrayList<ImportedServiceNode>();
+        for (final IDescription referredDescription : referencedServices) {
             ImportedServiceNode descriptionNode = null;
             if (getNodeMapper().getTreeNode(referredDescription) instanceof ImportedServiceNode) {
                 descriptionNode = (ImportedServiceNode) getNodeMapper().getTreeNode(referredDescription);
@@ -55,10 +53,7 @@ public class ImportedServicesNode extends AbstractTreeNode {
         return nodes.toArray();
     }
 
-    public String getDisplayName() {
-        return Messages.ImportedServicesNode_0;
-    }
-
+    @Override
     public Image getImage() {
         return getImageRegistry().get(Activator.NODE_IMPORTED_TYPES);
     }

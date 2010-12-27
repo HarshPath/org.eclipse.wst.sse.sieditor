@@ -44,7 +44,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
  * Command for creating a wrapper element declaration for a given type
  * 
  * 
- * 
  */
 public class EnsureParameterWrapperCommand extends AbstractWSDLNotificationOperation {
 

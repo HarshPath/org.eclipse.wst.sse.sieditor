@@ -23,8 +23,6 @@ import org.eclipse.swt.graphics.Image;
  * Defines a UI control capable of decorating itself with icon and message. Used
  * by the UI controls in the Service Interface editor pages to show the
  * validation errors and warnings.
- * 
- * 
  */
 public interface IProblemDecoratableControl {
 

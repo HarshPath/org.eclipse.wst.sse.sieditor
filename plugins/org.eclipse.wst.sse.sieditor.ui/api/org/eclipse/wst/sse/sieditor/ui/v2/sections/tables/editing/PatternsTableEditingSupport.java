@@ -26,8 +26,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.sections.elements.ElementNodeDetailsCo
 /**
  * Editing support for the pattern constraint section of the xsd types/elements
  * 
- * 
- * 
  */
 public class PatternsTableEditingSupport extends EditingSupport {
 

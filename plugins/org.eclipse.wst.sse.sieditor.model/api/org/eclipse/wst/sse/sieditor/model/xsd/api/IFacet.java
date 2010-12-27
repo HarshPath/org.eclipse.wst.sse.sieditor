@@ -21,8 +21,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 
 /**
  * Represents the facet for {@link ISimpleType}
- * 
- *
  */
 public interface IFacet extends IModelObject {
 	

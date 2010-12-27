@@ -22,7 +22,6 @@ import org.eclipse.wst.sse.sieditor.core.common.IEnvironment;
  * fucntionaliy e.g. adding and removing the listeners
  * 
  * 
- * 
  */
 public interface IModelRoot extends org.eclipse.wst.sse.sieditor.core.editorfwk.IModelObject {
 

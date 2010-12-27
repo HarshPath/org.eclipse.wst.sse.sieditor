@@ -34,7 +34,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
  * Command for setting the Nillable attribute for Local ElementDeclarations
  * 
  * 
- * 
  */
 public class SetElementNillableCommand extends AbstractNotificationOperation {
     private final boolean _nillable;

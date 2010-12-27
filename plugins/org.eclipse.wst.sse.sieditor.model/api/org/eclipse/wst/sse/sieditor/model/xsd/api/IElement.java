@@ -19,17 +19,14 @@ import org.eclipse.xsd.XSDConcreteComponent;
 
 import org.eclipse.wst.sse.sieditor.model.api.IQNamedObject;
 import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
-import org.eclipse.wst.sse.sieditor.model.impl.XSDModelRoot;
 
 /**
- * 
- * 
  * 
  */
 public interface IElement extends IQNamedObject {
 
     IType getType();
-
+    
     int getMinOccurs();
 
     int getMaxOccurs();

@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2;
 
@@ -300,10 +299,11 @@ public abstract class AbstractFormPageController implements IFormPageController 
     }
 
     /**
-     * Used to retrieve a list of most oftenly used type names
+     * Used to retrieve a list of most often used type names
      * 
      * @return the list of type names
      */
+    @Override
     public String[] getCommonTypesDropDownList() {
         final String[] primTypes = BuiltinTypesHelper.getInstance().getCommonlyUsedTypeNames();
         final String[] ret = new String[primTypes.length + 1];
@@ -469,24 +469,23 @@ public abstract class AbstractFormPageController implements IFormPageController 
             showSimpleTypes = false;
             localShowComplexTypes = false;
             showElements = true;
-        } else {
-            if (selectedModelObject instanceof IElement) {
-                if (!((IElement) selectedModelObject).isAttribute()) {
-                    localShowComplexTypes = true;
-                    showElements = true;
-                }
-            } else if (selectedModelObject instanceof IType) {
-                typeToFilter = (IType) selectedModelObject;
+        } else if (selectedModelObject instanceof IElement) {
+            if (!((IElement) selectedModelObject).isAttribute()) {
+                localShowComplexTypes = true;
+                showElements = true;
+            }
+        } else if (selectedModelObject instanceof IType) {
+            typeToFilter = (IType) selectedModelObject;
 
-                if (typeToFilter instanceof StructureType) {
-                    localShowComplexTypes = true;
+            if (typeToFilter instanceof StructureType) {
+                localShowComplexTypes = true;
 
-                    if (!((StructureType) typeToFilter).isElement()) {
-                        showElements = true;
-                    }
+                if (!((StructureType) typeToFilter).isElement()) {
+                    showElements = false;
                 }
             }
         }
+        
         // consider the PropertyEditor's opinion
         showComplexTypes &= localShowComplexTypes;
 
@@ -654,16 +653,7 @@ public abstract class AbstractFormPageController implements IFormPageController 
     // new type command execution helpers
     // ===========================================================
 
-    /**
-     * handles the execution of the new ElementType type command
-     * 
-     * @param name
-     *            - the name of the new type
-     * @param schema
-     *            - the schema to add the new type to
-     * @param parameter
-     *            - the parameter to create reference to
-     */
+    @Override
     public void newElementType(final String name, final ISchema schema, final TypePropertyEditor propertyEditor) {
         final ISetTypeCommandBuilder setTypeCommandBuilder = createNewTypeSetTypeCommandBuilder(propertyEditor);
         BaseNewTypeCompositeCommand command = null;
@@ -679,16 +669,7 @@ public abstract class AbstractFormPageController implements IFormPageController 
         postExecuteNewTypeCommand(command.getType(), propertyEditor.getInput().getModelObject());
     }
 
-    /**
-     * handles the execution of the new SimpleType type command
-     * 
-     * @param name
-     *            - the name of the new type
-     * @param schema
-     *            - the schema to add the new type to
-     * @param parameter
-     *            - the parameter to create reference to
-     */
+    @Override
     public void newSimpleType(final String name, final ISchema schema, final TypePropertyEditor propertyEditor) {
         final ISetTypeCommandBuilder setTypeCommandBuilder = createNewTypeSetTypeCommandBuilder(propertyEditor);
 
@@ -704,16 +685,7 @@ public abstract class AbstractFormPageController implements IFormPageController 
         postExecuteNewTypeCommand(command.getType(), propertyEditor.getInput().getModelObject());
     }
 
-    /**
-     * handles the execution of the new StructureType type command
-     * 
-     * @param name
-     *            - the name of the new type
-     * @param schema
-     *            - the schema to add the new type to
-     * @param parameter
-     *            - the parameter to create reference to
-     */
+    @Override
     public void newStructureType(final String name, final ISchema schema, final TypePropertyEditor propertyEditor) {
         final ISetTypeCommandBuilder setTypeCommandBuilder = createNewTypeSetTypeCommandBuilder(propertyEditor);
         BaseNewTypeCompositeCommand command = null;

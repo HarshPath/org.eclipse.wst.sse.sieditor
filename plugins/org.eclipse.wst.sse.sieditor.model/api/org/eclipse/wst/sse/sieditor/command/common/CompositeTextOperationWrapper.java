@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.common;
 
@@ -35,14 +34,10 @@ import org.eclipse.wst.sse.sieditor.core.common.IEnvironment;
 import org.eclipse.wst.sse.sieditor.core.common.IModelReconcileRegistry;
 import org.eclipse.wst.sse.sieditor.model.XMLModelNotifierWrapper;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
+import org.eclipse.wst.sse.sieditor.model.impl.ModelChangeEvent;
 import org.eclipse.wst.sse.sieditor.model.reconcile.IModelReconciler;
 import org.eclipse.wst.sse.sieditor.model.reconcile.ModelReconciler;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfModelPatcher;
-
-/**
- * Abstract command to be implemented for ensuring that the notificaiton's are
- * delivered if the command is successful.
- */
 
 public class CompositeTextOperationWrapper extends AbstractEMFOperation {
 
@@ -96,11 +91,12 @@ public class CompositeTextOperationWrapper extends AbstractEMFOperation {
             }
 
             preUndoRedoOfCompositeCommand();
-            
+
             final IStatus status = operation.doExecute(monitor, info);
 
-            basicPatchEmfModel();
-            postUndoRedoOfCompositeCommand();
+            basicPatchEmfModel(operation.getModelRoot());
+
+            doReconcile();
 
             return status;
         } finally {
@@ -122,9 +118,7 @@ public class CompositeTextOperationWrapper extends AbstractEMFOperation {
             }
         }
 
-        fullPatchEmfModel();
         postUndoRedoOfCompositeCommand();
-
         return Status.OK_STATUS;
     }
 
@@ -140,46 +134,32 @@ public class CompositeTextOperationWrapper extends AbstractEMFOperation {
             }
         }
 
-        fullPatchEmfModel();
         postUndoRedoOfCompositeCommand();
-
         return Status.OK_STATUS;
-    }
-
-    /**
-     * Performs basic patch of the EMF model - skips the patch of the child
-     * elements
-     */
-    protected void basicPatchEmfModel() {
-        EmfModelPatcher.instance().patchEMFModelAfterDomChange(operation.getModelRoot(), new HashSet<Node>());
-    }
-
-    /**
-     * Performs full patch of the EMF model - including child elements
-     */
-    protected void fullPatchEmfModel() {
-        if (modelNotifier() instanceof XMLModelNotifierWrapper) {
-            EmfModelPatcher.instance().patchEMFModelAfterDomChange(operation.getModelRoot(),
-                    ((XMLModelNotifierWrapper) modelNotifier()).getChangedNodes());
-        }
     }
 
     @Override
     protected void didCommit(final Transaction transaction) {
         super.didCommit(transaction);
         operation.didCommit(transaction);
+        
+        if (operation.shouldNotifyOnDidCommit()) {
+            notifyListeners();
+        }
     }
 
     @Override
     protected void didRedo(final Transaction tx) {
         super.didRedo(tx);
         operation.didRedo(tx);
+        notifyListeners();
     }
 
     @Override
     protected void didUndo(final Transaction tx) {
         operation.didUndo(tx);
         super.didUndo(tx);
+        notifyListeners();
     }
 
     @Override
@@ -212,6 +192,14 @@ public class CompositeTextOperationWrapper extends AbstractEMFOperation {
     public boolean canExecute() {
         return operation.canExecute();
     }
+    
+    /**
+     * Notify UI to refresh the tree items
+     */
+    protected void notifyListeners() {
+        final IModelRoot modelRoot = operation.getModelRoot();
+        modelRoot.notifyListeners(new ModelChangeEvent(modelRoot.getModelObject()));
+    }
 
     // =========================================================
     // undo/redo execution life cycle methods
@@ -227,12 +215,42 @@ public class CompositeTextOperationWrapper extends AbstractEMFOperation {
     }
 
     protected void postUndoRedoOfCompositeCommand() {
+        fullPatchEmfModel(operation.getModelRoot());
+        doReconcile();
+    }
+
+    protected void doReconcile() {
         if (modelNotifier() != null) {
             modelNotifier().endChanging();
         }
+
         if (modelReconciler().needsToReconcileModel(getModelReconcileRegistry())) {
             modelReconciler().reconcileModel(getDocumentModelRoot(), getModelReconcileRegistry());
-            modelReconciler().modelReconciled(getModelReconcileRegistry());
+            modelReconciler().modelReconciled(getModelReconcileRegistry(), modelNotifier());
+        }
+    }
+
+    /**
+     * Performs basic patch of the EMF model - skips the patch of the child
+     * elements. <br>
+     * <br>
+     * NOTE: We need to pass the direct model root - if the modelObject is in
+     * namespace of a WSDL, we pass the IXsdModelRoot.
+     */
+    protected void basicPatchEmfModel(final IModelRoot changedObjectDirectModelRoot) {
+        EmfModelPatcher.instance().patchEMFModelAfterDomChange(changedObjectDirectModelRoot, new HashSet<Node>());
+    }
+
+    /**
+     * Performs full patch of the EMF model - including child elements.<br>
+     * <br>
+     * NOTE: We need to pass the direct model root - if the modelObject is in
+     * namespace of a WSDL, we pass the IXsdModelRoot.
+     */
+    protected void fullPatchEmfModel(final IModelRoot changedObjectDirectModelRoot) {
+        if (modelNotifier() instanceof XMLModelNotifierWrapper) {
+            EmfModelPatcher.instance().patchEMFModelAfterDomChange(changedObjectDirectModelRoot,
+                    ((XMLModelNotifierWrapper) modelNotifier()).getChangedNodes());
         }
     }
 
@@ -251,8 +269,9 @@ public class CompositeTextOperationWrapper extends AbstractEMFOperation {
     protected IModelReconciler modelReconciler() {
         return ModelReconciler.instance();
     }
-    
+
     protected XMLModelNotifier modelNotifier() {
         return modelNotifier;
     }
+
 }

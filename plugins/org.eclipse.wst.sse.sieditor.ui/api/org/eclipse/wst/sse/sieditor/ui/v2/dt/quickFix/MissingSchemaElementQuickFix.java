@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt.quickFix;
 
@@ -49,9 +48,9 @@ public class MissingSchemaElementQuickFix implements IMarkerResolution {
         } catch (ExecutionException e) {
             if (status == null) {
                 status = new Status(IStatus.INFO, Activator.PLUGIN_ID,
-                        Messages.MissingSchemaElementQuickFix_Error_status_message, e);
+                        Messages.MissingSchemaElementQuickFix_2, e);
             }
-            StatusUtils.showStatusDialog(Messages.MissingSchemaElementQuickFix_Dialog_Title, status);
+            StatusUtils.showStatusDialog(Messages.MissingSchemaElementQuickFix_1, status);
         }
     }
 }

@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
@@ -74,7 +73,7 @@ public class SimpleTypeConstraintsController implements IConstraintsController {
      * isLengthVisible()
      */
     public boolean isLengthVisible() {
-        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition) {
+        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition && type.getComponent().getSchema() != null) {
             return getSimpleTypeFacets().areLengthFacetsSupported((XSDSimpleTypeDefinition) type.getComponent());
         }
         return false;
@@ -87,7 +86,7 @@ public class SimpleTypeConstraintsController implements IConstraintsController {
      * isMinMaxInclusiveExclusiveVisible()
      */
     public boolean isMinMaxInclusiveExclusiveVisible() {
-        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition) {
+        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition && type.getComponent().getSchema() != null) {
             return getSimpleTypeFacets().areInclusiveExclusiveFacetsSupported((XSDSimpleTypeDefinition) type.getComponent());
         }
         return false;
@@ -260,7 +259,7 @@ public class SimpleTypeConstraintsController implements IConstraintsController {
      * isTotalDigitsVisible()
      */
     public boolean isTotalDigitsVisible() {
-        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition) {
+        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition && type.getComponent().getSchema() != null) {
             return getSimpleTypeFacets().isTotalDigitsFacetSupported((XSDSimpleTypeDefinition) type.getComponent());
         }
         return false;
@@ -319,7 +318,7 @@ public class SimpleTypeConstraintsController implements IConstraintsController {
      * isFractionDigitsVisible()
      */
     public boolean isFractionDigitsVisible() {
-        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition) {
+        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition && type.getComponent().getSchema() != null) {
             return getSimpleTypeFacets().isFractionDigitsFacetSupported((XSDSimpleTypeDefinition) type.getComponent());
         }
         return false;
@@ -332,7 +331,7 @@ public class SimpleTypeConstraintsController implements IConstraintsController {
      * isWhitespaceVisible()
      */
     public boolean isWhitespaceVisible() {
-        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition) {
+        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition && type.getComponent().getSchema() != null) {
             return getSimpleTypeFacets().isWhitespaceFacetSupported((XSDSimpleTypeDefinition) type.getComponent());
         }
         return false;
@@ -451,7 +450,7 @@ public class SimpleTypeConstraintsController implements IConstraintsController {
      * ()
      */
     public boolean isEnumsVisible() {
-        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition) {
+        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition && type.getComponent().getSchema() != null) {
             return getSimpleTypeFacets().isEnumerationFacetSupported((XSDSimpleTypeDefinition) type.getComponent());
         }
         return false;

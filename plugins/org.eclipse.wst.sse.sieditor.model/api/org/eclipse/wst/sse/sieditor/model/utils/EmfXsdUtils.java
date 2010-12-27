@@ -43,7 +43,7 @@ import org.eclipse.emf.query.statements.WHERE;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.WSDLElement;
-import org.eclipse.wst.xsd.ui.internal.preferences.XSDPreferencePage;
+import org.eclipse.wst.xml.core.internal.document.NodeImpl;
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeGroupContent;
@@ -53,7 +53,6 @@ import org.eclipse.xsd.XSDComplexTypeContent;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDEnumerationFacet;
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDForm;
 import org.eclipse.xsd.XSDIdentityConstraintDefinition;
@@ -78,6 +77,7 @@ import org.w3c.dom.ProcessingInstruction;
 import org.eclipse.wst.sse.sieditor.core.common.Nil;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
+import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISimpleType;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
@@ -86,7 +86,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.UnresolvedType;
 
 /**
  * EMF XSD Utils
- * 
  * 
  * 
  */
@@ -554,7 +553,7 @@ public final class EmfXsdUtils {
             final XSDSchema schema) {
         final XSDAnnotation annotation = source.getAnnotation();
         if (null != annotation) {
-            copyAnnotations(annotation, target.getAnnotation(), schema);
+            copyAnnotations(annotation, target.getAnnotation(), schema.getDocument());
         }
 
         // process type definition if exists
@@ -601,12 +600,12 @@ public final class EmfXsdUtils {
 
         final XSDAnnotation annotation = srcType.getAnnotation();
         if (null != annotation) {
-            copyAnnotations(annotation, targetType.getAnnotation(), schema);
+            copyAnnotations(annotation, targetType.getAnnotation(), schema.getDocument());
         }
 
         final XSDAnnotation derivationAnnotation = srcType.getDerivationAnnotation();
         if (null != derivationAnnotation) {
-            copyAnnotations(derivationAnnotation, targetType.getDerivationAnnotation(), schema);
+            copyAnnotations(derivationAnnotation, targetType.getDerivationAnnotation(), schema.getDocument());
         }
 
         final XSDSimpleTypeDefinition baseType = srcType.getBaseTypeDefinition();
@@ -620,17 +619,17 @@ public final class EmfXsdUtils {
         final XSDAnnotation annotation = srcType.getAnnotation();
 
         if (null != annotation) {
-            copyAnnotations(annotation, targetType.getAnnotation(), schema);
+            copyAnnotations(annotation, targetType.getAnnotation(), schema.getDocument());
         }
 
         final XSDAnnotation derivationAnnotation = srcType.getDerivationAnnotation();
         if (null != derivationAnnotation) {
-            copyAnnotations(derivationAnnotation, targetType.getDerivationAnnotation(), schema);
+            copyAnnotations(derivationAnnotation, targetType.getDerivationAnnotation(), schema.getDocument());
         }
 
         final XSDAnnotation contentAnnotation = srcType.getContentAnnotation();
         if (null != contentAnnotation) {
-            copyAnnotations(contentAnnotation, targetType.getContentAnnotation(), schema);
+            copyAnnotations(contentAnnotation, targetType.getContentAnnotation(), schema.getDocument());
         }
 
         final XSDTypeDefinition srcbaseType = srcType.getBaseType();
@@ -659,7 +658,7 @@ public final class EmfXsdUtils {
             final XSDSchema targetSchema) {
         final XSDAnnotation annotation = source.getAnnotation();
         if (null != annotation) {
-            copyAnnotations(annotation, target.getAnnotation(), targetSchema);
+            copyAnnotations(annotation, target.getAnnotation(), targetSchema.getDocument());
         }
 
         final XSDSimpleTypeDefinition typeDefinition = source.getAnonymousTypeDefinition();
@@ -690,7 +689,7 @@ public final class EmfXsdUtils {
             final XSDAttributeGroupDefinition target, final XSDSchema schema) {
         final XSDAnnotation annotation = source.getAnnotation();
         if (null != annotation) {
-            copyAnnotations(annotation, target.getAnnotation(), schema);
+            copyAnnotations(annotation, target.getAnnotation(), schema.getDocument());
         }
 
         if (!source.isAttributeGroupDefinitionReference())
@@ -701,7 +700,7 @@ public final class EmfXsdUtils {
             final XSDSchema targetSchema) {
         final XSDAnnotation annotation = source.getAnnotation();
         if (null != annotation) {
-            copyAnnotations(annotation, target.getAnnotation(), targetSchema);
+            copyAnnotations(annotation, target.getAnnotation(), targetSchema.getDocument());
         }
 
         if (!source.isModelGroupDefinitionReference())
@@ -759,21 +758,31 @@ public final class EmfXsdUtils {
         for (final XSDIdentityConstraintDefinition identity : src) {
             final XSDAnnotation srcAnnotation = identity.getAnnotation();
             if (null != srcAnnotation) {
-                copyAnnotations(srcAnnotation, targetIdentity.next().getAnnotation(), schema);
+                copyAnnotations(srcAnnotation, targetIdentity.next().getAnnotation(), schema.getDocument());
             }
         }
 
     }
 
-    private static void copyAnnotations(final XSDAnnotation annotation, final XSDAnnotation newAnnotation, final XSDSchema schema) {
-        importDOMElements(annotation.getApplicationInformation(), newAnnotation.getElement(), schema);
-        importDOMElements(annotation.getUserInformation(), newAnnotation.getElement(), schema);
+    public static void copyAnnotations(final XSDAnnotation annotation, final XSDAnnotation newAnnotation, final Document document) {
+        if (newAnnotation == null || annotation == null) {
+            return;
+        }
+        importDOMElements(annotation.getApplicationInformation(), newAnnotation.getElement(), document);
+        importDOMElements(annotation.getUserInformation(), newAnnotation.getElement(), document);
     }
 
-    private static void importDOMElements(final EList<Element> infos, final Element targetElement, final XSDSchema schema) {
+    private static void importDOMElements(final EList<Element> infos, final Element targetElement, final Document document) {
+        if (document == null) {
+            return;
+        }
         for (final Element element : infos) {
-            final Node importedNode = schema.getDocument().importNode(element, true);
-            targetElement.appendChild(importedNode);
+            // internally these methods do casts to NodeImpl, so make a check
+            // before using them
+            if (element instanceof NodeImpl) {
+                final Node importedNode = document.importNode(element, true);
+                targetElement.appendChild(importedNode);
+            }
         }
     }
 
@@ -840,6 +849,23 @@ public final class EmfXsdUtils {
 
     }
 
+    public static Collection<ISchema> getAllVisibleSchemas(ISchema schema) {
+        final Collection<ISchema> result = new HashSet<ISchema>(schema.getAllReferredSchemas());
+        IModelObject parent = schema.getParent();
+        if (!(parent instanceof IDescription)) {
+            return result;
+        }
+
+        for (ISchema currentSchema : ((IDescription) parent).getAllVisibleSchemas()) {
+            if (currentSchema.getNamespace() == null || !currentSchema.getNamespace().equals(schema.getNamespace())) {
+                continue;
+            }
+            result.add(currentSchema);
+        }
+
+        return result;
+    }
+
     public static boolean isSchemaElementMissing(final ISchema schema) {
         if (schema == null) {
             return true;
@@ -881,7 +907,7 @@ public final class EmfXsdUtils {
      *            must be NOT null
      * @return the start index for a given XSDConcreteComponent, or -1 otherwise
      */
-    public static int getIndexInSourcePage(XSDConcreteComponent xsdComponent) {
+    public static int getIndexInSourcePage(final XSDConcreteComponent xsdComponent) {
         final Element element = xsdComponent.getElement();
         return getIndexInSourcePage(element);
     }
@@ -929,6 +955,30 @@ public final class EmfXsdUtils {
         }
 
         return false;
+    }
+
+    public static boolean isAnonymous(final XSDElementDeclaration elementDeclaration) {
+        final XSDTypeDefinition anonymousTypeDefinition = elementDeclaration.getAnonymousTypeDefinition();
+        return isElementDeclarationTypeAnonymous(anonymousTypeDefinition);
+    }
+
+    private static boolean isElementDeclarationTypeAnonymous(final XSDTypeDefinition anonymousTypeDefinition) {
+        if (anonymousTypeDefinition == null || anonymousTypeDefinition.getBaseType() == null) {
+            return false;
+        }
+        final String baseTypeName = anonymousTypeDefinition.getBaseType().getName();
+        return "anyType".equals(baseTypeName) //$NON-NLS-1$
+                || anonymousTypeDefinition.getComplexType() instanceof XSDComplexTypeDefinition;
+    }
+
+    public static boolean isRestriction(final XSDSimpleTypeDefinition simpleType) {
+        return simpleType != null && simpleType.getFacets() != null && !simpleType.getFacets().isEmpty();
+    }
+
+    public static boolean isAnonymous(final XSDTypeDefinition typeDefinition) {
+        final XSDTypeDefinition xsdTypeDefinition = typeDefinition;
+        final XSDConcreteComponent container = xsdTypeDefinition.getContainer();
+        return null == xsdTypeDefinition.getName() && !(container instanceof XSDSchema);
     }
 
 }

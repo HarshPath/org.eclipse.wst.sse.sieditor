@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Stanislav Nichev - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.selectionlisteners;
 
@@ -25,8 +24,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.typeselect.ITypeSelectionDialogDelegat
  * button. This listener is responsible for the creation of the
  * {@link ITypeSelectionDialogDelegate} dialog and for the creation of the
  * selected type itself
- * 
- * 
  * 
  */
 public class TypePropertyEditorBrowseButtonSelectionListener extends AbstractTypePropertyEditorEventListener {

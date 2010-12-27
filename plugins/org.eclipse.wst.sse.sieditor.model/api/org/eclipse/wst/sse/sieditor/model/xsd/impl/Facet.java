@@ -28,8 +28,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IFacet;
 
 /**
  * 
- * 
- *
  */
 public class Facet extends AbstractXSDComponent implements IFacet, org.eclipse.wst.sse.sieditor.model.write.xsd.api.IFacet {
 	

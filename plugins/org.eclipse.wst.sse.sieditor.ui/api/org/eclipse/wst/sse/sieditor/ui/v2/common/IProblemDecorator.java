@@ -33,8 +33,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
  * method the ProblemDecorator will query the validation results for the
  * corresponding features and decorate the corresponding UI controls
  * 
- * 
- * 
  */
 public interface IProblemDecorator {
 

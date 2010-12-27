@@ -39,7 +39,6 @@ import org.eclipse.wst.sse.sieditor.utils.PlatformUtils;
 
 /**
  * Provides {@link IModelRoot} for a particular source
- * 
  *
  */
 public class ModelManager {

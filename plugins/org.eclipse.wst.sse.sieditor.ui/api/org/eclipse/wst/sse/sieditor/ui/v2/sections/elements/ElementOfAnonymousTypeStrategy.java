@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Tsvetan Stoyanov - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.sections.elements;
 
@@ -25,7 +24,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.dt.SimpleTypeConstraintsController;
  * &lt;element name="something"&gt;
  * 	&lt;type_declaration&gt;
  * &lt;/element&gt;
- * 
  *
  */
 public class ElementOfAnonymousTypeStrategy extends ElementOfGlobalTypeStrategy{

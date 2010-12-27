@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 /*******************************************************************************
  * Copyright (c) 2010 SAP AG.
  * All rights reserved. This program and the accompanying materials
@@ -11,11 +14,7 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
-/**
- * 
- */
 package org.eclipse.wst.sse.sieditor.ui.v2.typeselect;
 
 import java.util.List;

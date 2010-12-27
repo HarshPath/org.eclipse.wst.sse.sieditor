@@ -19,7 +19,6 @@ import java.util.Collection;
 
 /**
  * Represents Extensible components
- * 
  *
  */
 public interface IExtensibleObject {

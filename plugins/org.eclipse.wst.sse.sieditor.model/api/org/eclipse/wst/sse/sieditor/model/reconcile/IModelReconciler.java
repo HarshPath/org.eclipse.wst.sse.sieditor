@@ -15,14 +15,14 @@
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.reconcile;
 
+import org.eclipse.wst.xml.core.internal.document.XMLModelNotifier;
+
 import org.eclipse.wst.sse.sieditor.core.common.IModelReconcileRegistry;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 
 /**
  * This is the interface for the custom SIE model reconcilers. Implementors are
  * responsible for the reconciling of the model
- * 
- * 
  * 
  */
 public interface IModelReconciler {
@@ -53,7 +53,8 @@ public interface IModelReconciler {
 
     /**
      * Control method. It notifies the model that reconciling has finished.
+     * @param xmlModelNotifier 
      */
-    public void modelReconciled(final IModelReconcileRegistry modelReconcileRegistry);
+    public void modelReconciled(final IModelReconcileRegistry modelReconcileRegistry, XMLModelNotifier xmlModelNotifier);
 
 }

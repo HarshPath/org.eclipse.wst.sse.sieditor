@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui;
 
@@ -107,25 +106,6 @@ public class SIEditorService {
             }
         }
     }
-
-    // public void openSIEditorReadOnly(IFile file) throws CoreException {
-    // if(null!=file){
-    // IEditorInput editorInput = new FileEditorInput(file);
-    // IWorkbenchWindow window=
-    // PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-    // IWorkbenchPage page = window.getActivePage();
-    // try{
-    //				editorModeMap.put(editorInput, "readOnly"); //$NON-NLS-1$
-    //				page.openEditor(editorInput, "org.eclipse.wst.sse.sieditor.ui.editor3"); //TODO change the hardcoding here //$NON-NLS-1$
-    // }
-    // catch(PartInitException e){
-    // editorModeMap.clear(); //clear this entry in case of error
-    // ErrorDialog.openError(window.getShell() ,
-    // Messages.SI_ERROR_XTIT,
-    // e.getLocalizedMessage(), e.getStatus());
-    // }
-    // }
-    // }
 
     // GFB-POC open siEditor in read only mode
     public void openSIEditorReadOnly(final IEditorInput editorInput, String editorId, boolean readOnly) throws PartInitException {

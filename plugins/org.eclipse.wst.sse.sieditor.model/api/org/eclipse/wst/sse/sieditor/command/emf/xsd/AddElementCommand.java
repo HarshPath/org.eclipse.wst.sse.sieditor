@@ -51,7 +51,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
  * the structure type is in a condition for adding a new element to it
  * 
  * 
- * 
  */
 public class AddElementCommand extends AbstractNotificationOperation {
     private static final int DEFAULT_MIN_OCCURS = 1;

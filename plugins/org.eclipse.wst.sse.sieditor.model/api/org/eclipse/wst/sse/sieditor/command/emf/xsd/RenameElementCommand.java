@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.emf.xsd;
 
@@ -36,49 +35,48 @@ import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
 
-public class RenameElementCommand extends RenameNamedComponent{
+public class RenameElementCommand extends RenameNamedComponent {
 
-	public RenameElementCommand(IModelRoot root, IElement element, String name) {
-		super(root, element, name);
-	}
-	
-	@Override
-	public IStatus run(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-		EObject baseComponent = root.getModelObject().getComponent();
-		XSDConcreteComponent component =  (XSDConcreteComponent) modelObject.getComponent();
-		IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 
-				MessageFormat.format(Messages.RenameElementCommand_rename_element_command_label, component.getClass()));
-		
-		
+    public RenameElementCommand(IModelRoot root, IElement element, String name) {
+        super(root, element, name);
+    }
+
+    @Override
+    public IStatus run(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+        EObject baseComponent = root.getModelObject().getComponent();
+        XSDConcreteComponent component = (XSDConcreteComponent) modelObject.getComponent();
+        IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, MessageFormat.format(
+                Messages.RenameElementCommand_rename_element_command_label, component.getClass()));
+
         if (component instanceof XSDAttributeDeclaration) {
             if (!((XSDAttributeDeclaration) component).isAttributeDeclarationReference()) {
-            	((XSDNamedComponent) component).setName(_name);
-            	EmfXsdUtils.updateModelReferencers(baseComponent, (XSDNamedComponent)component);
-            	status = Status.OK_STATUS;
+                ((XSDNamedComponent) component).setName(_name);
+                EmfXsdUtils.updateModelReferencers(baseComponent, (XSDNamedComponent) component);
+                status = Status.OK_STATUS;
             }
         } else if (component instanceof XSDParticle) {
             final XSDParticleContent content = ((XSDParticle) component).getContent();
             if (content instanceof XSDElementDeclaration) {
                 if (!((XSDElementDeclaration) content).isElementDeclarationReference()) {
-                	((XSDNamedComponent) content).setName(_name);
-                	EmfXsdUtils.updateModelReferencers(baseComponent, (XSDNamedComponent)content);
-                	status = Status.OK_STATUS;
+                    ((XSDNamedComponent) content).setName(_name);
+                    EmfXsdUtils.updateModelReferencers(baseComponent, (XSDNamedComponent) content);
+                    status = Status.OK_STATUS;
                 }
             }
         }
-        
+
         return status;
-	}
-	
+    }
+
     public boolean canExecute() {
-    	if (modelObject == null || _namedObject == null || _name == null) {
-    		return false;
-    	}
-    	XSDConcreteComponent component =  (XSDConcreteComponent) modelObject.getComponent();
-    	if (!(component instanceof XSDAttributeDeclaration) && !(component instanceof XSDParticle)) {
-    		return false;
-    	}
-    	
+        if (modelObject == null || _namedObject == null || _name == null) {
+            return false;
+        }
+        XSDConcreteComponent component = (XSDConcreteComponent) modelObject.getComponent();
+        if (!(component instanceof XSDAttributeDeclaration) && !(component instanceof XSDParticle)) {
+            return false;
+        }
+
         return true;
     }
 

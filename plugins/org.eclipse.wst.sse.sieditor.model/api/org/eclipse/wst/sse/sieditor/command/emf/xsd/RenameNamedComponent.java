@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xsd.XSDNamedComponent;
 
 import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
+import org.eclipse.wst.sse.sieditor.command.emf.common.utils.RefactorRenameUtils;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.INamedObject;
 import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
@@ -29,38 +30,44 @@ import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
  * Command for renaming an XSD Component
  * 
  * 
- * 
  */
 public class RenameNamedComponent extends AbstractNotificationOperation {
-	protected final String _name;
+    protected final String _name;
     protected final INamedObject _namedObject;
 
-    public RenameNamedComponent(final IModelRoot root, final INamedObject namedObject, String name) {
+    public RenameNamedComponent(final IModelRoot root, final INamedObject namedObject, final String name) {
         super(root, namedObject, Messages.RenameNamedComponent_rename_operation_label);
         this._name = name;
         this._namedObject = namedObject;
     }
 
-    public org.eclipse.core.runtime.IStatus run(org.eclipse.core.runtime.IProgressMonitor monitor,
-            org.eclipse.core.runtime.IAdaptable info) throws org.eclipse.core.commands.ExecutionException {
-    	XSDNamedComponent namedComponent = (XSDNamedComponent) _namedObject.getComponent();
-    	namedComponent.setName(_name);
-    	
-    	EObject baseComponent = root.getModelObject().getComponent();
-    	EmfXsdUtils.updateModelReferencers(baseComponent, namedComponent);
-    	
+    @Override
+    public org.eclipse.core.runtime.IStatus run(final org.eclipse.core.runtime.IProgressMonitor monitor,
+            final org.eclipse.core.runtime.IAdaptable info) throws org.eclipse.core.commands.ExecutionException {
+        final XSDNamedComponent namedComponent = (XSDNamedComponent) _namedObject.getComponent();
+        setNamedComponentNewName(namedComponent, _name);
+
+        final EObject baseComponent = root.getModelObject().getComponent();
+        EmfXsdUtils.updateModelReferencers(baseComponent, namedComponent);
+
         return Status.OK_STATUS;
     }
 
+    protected void setNamedComponentNewName(final XSDNamedComponent namedComponent, final String name) {
+        RefactorRenameUtils.instance().refactorRenameComponent(root.getRoot().getModelObject().getComponent(), namedComponent,
+                _name);
+    }
+
+    @Override
     public boolean canExecute() {
-    	if (modelObject == null || _namedObject == null || _name == null) {
-    		return false;
-    	}
-    	
-    	if (!( _namedObject.getComponent() instanceof XSDNamedComponent)) {
-    		return false;
-    	}
-    	
+        if (modelObject == null || _namedObject == null || _name == null) {
+            return false;
+        }
+
+        if (!(_namedObject.getComponent() instanceof XSDNamedComponent)) {
+            return false;
+        }
+
         return true;
     }
 

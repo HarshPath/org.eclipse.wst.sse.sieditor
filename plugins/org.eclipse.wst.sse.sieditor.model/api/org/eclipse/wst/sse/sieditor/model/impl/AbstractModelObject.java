@@ -24,8 +24,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 
 /**
  * 
- * 
- *
  */
 public abstract class AbstractModelObject extends PlatformObject implements IModelObject {
 	

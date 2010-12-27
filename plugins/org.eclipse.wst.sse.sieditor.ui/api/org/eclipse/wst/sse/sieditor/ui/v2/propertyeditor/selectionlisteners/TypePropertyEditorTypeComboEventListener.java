@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Stanislav Nichev - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.selectionlisteners;
 
@@ -24,14 +23,11 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 import org.eclipse.wst.sse.sieditor.ui.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.TypePropertyEditor;
-import org.eclipse.wst.sse.sieditor.ui.v2.providers.WSDLLabelProvider;
 
 /**
  * This is the type combo box selection listener of the
  * {@link TypePropertyEditor}. This selection listener should be called when the
  * type combo selection has been changed
- * 
- * 
  * 
  */
 public class TypePropertyEditorTypeComboEventListener extends AbstractTypePropertyEditorEventListener implements FocusListener {
@@ -102,7 +98,10 @@ public class TypePropertyEditorTypeComboEventListener extends AbstractTypeProper
      * @return the selected type name
      */
     protected String getSelectedTypeName(final IType selectedType, final ITreeNode input) {
-        return WSDLLabelProvider.getTypeDisplayText(selectedType, input);
+        if (input == null) {
+            return null;
+        }
+        return input.getDisplayName();
     }
 
 }

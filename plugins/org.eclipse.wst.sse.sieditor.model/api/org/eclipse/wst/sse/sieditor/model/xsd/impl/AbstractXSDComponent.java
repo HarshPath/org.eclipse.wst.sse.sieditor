@@ -30,8 +30,6 @@ import org.eclipse.wst.sse.sieditor.model.impl.AbstractExtensibleObject;
 
 /**
  * 
- * 
- * 
  */
 public abstract class AbstractXSDComponent extends AbstractExtensibleObject {
 	

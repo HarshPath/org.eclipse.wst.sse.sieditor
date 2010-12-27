@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.constraints.soap;
 
@@ -27,43 +26,44 @@ import org.eclipse.wst.wsdl.Part;
 import org.eclipse.wst.wsdl.binding.soap.SOAPBody;
 
 import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
+import org.eclipse.wst.sse.sieditor.model.utils.ElementAttributeUtils;
 import org.eclipse.wst.sse.sieditor.model.validation.constraints.AbstractConstraint;
 
-public class BodyParts extends AbstractConstraint{
+public class BodyParts extends AbstractConstraint {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected IStatus doValidate(IValidationContext ctx) {
-		SOAPBody body = (SOAPBody) ctx.getTarget();
-		
-		String partsAttribute = body.getElement().getAttribute("parts"); //$NON-NLS-1$
-		if (partsAttribute != null) {
-			partsAttribute = partsAttribute.trim();
-			
-			List<Part> parts = body.getParts();
-			Set<String> existingPartsNames = new HashSet<String>();
-			for (Part part : parts) {
-				existingPartsNames.add(part.getName());
-			}
-			
-			String[] partNames = partsAttribute.split("\\s+"); //$NON-NLS-1$
-			List<IStatus> statusList = new ArrayList<IStatus>(partNames.length);
-			for (String partName : partNames) {
-				partName = partName.trim();
-				if (!existingPartsNames.contains(partName)) {
-					statusList.add(ConstraintStatus.createStatus(ctx, body, null, Messages.SOAPBodyParts_0, partName));
-				}
-			}
-			
-			return createStatus(ctx, statusList);
-		}
-		
-		return ConstraintStatus.createSuccessStatus(ctx, body, null);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    protected IStatus doValidate(final IValidationContext ctx) {
+        final SOAPBody body = (SOAPBody) ctx.getTarget();
 
-	@Override
-	protected boolean shouldExecute(IValidationContext ctx) {
-		return true;
-	}
+        if (ElementAttributeUtils.hasAttributeValue(body.getElement(), "parts")) { //$NON-NLS-1$
+            String partsAttribute = body.getElement().getAttribute("parts"); //$NON-NLS-1$
+            partsAttribute = partsAttribute.trim();
+
+            final List<Part> parts = body.getParts();
+            final Set<String> existingPartsNames = new HashSet<String>();
+            for (final Part part : parts) {
+                existingPartsNames.add(part.getName());
+            }
+
+            final String[] partNames = partsAttribute.split("\\s+"); //$NON-NLS-1$
+            final List<IStatus> statusList = new ArrayList<IStatus>(partNames.length);
+            for (String partName : partNames) {
+                partName = partName.trim();
+                if (!existingPartsNames.contains(partName)) {
+                    statusList.add(ConstraintStatus.createStatus(ctx, body, null, Messages.SOAPBodyParts_0, partName));
+                }
+            }
+
+            return createStatus(ctx, statusList);
+        }
+
+        return ConstraintStatus.createSuccessStatus(ctx, body, null);
+    }
+
+    @Override
+    protected boolean shouldExecute(final IValidationContext ctx) {
+        return true;
+    }
 
 }

@@ -11,40 +11,31 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
-import org.eclipse.wst.wsdl.WSDLElement;
-import org.eclipse.wst.xml.core.internal.document.NodeImpl;
-import org.eclipse.xsd.XSDConcreteComponent;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
 import org.eclipse.wst.sse.sieditor.model.factory.ServiceInterfaceModelRootFactory;
-import org.eclipse.wst.sse.sieditor.model.utils.EmfModelPatcher;
-import org.eclipse.wst.sse.sieditor.model.utils.EmfWsdlUtils;
-import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.validation.ESMModelAdapter;
 import org.eclipse.wst.sse.sieditor.model.validation.EsmXsdModelAdapter;
 import org.eclipse.wst.sse.sieditor.model.validation.ValidationService;
+import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.ValidationListener;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.DataTypesEditorPage;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.formpage.ServiceIntefaceEditorPage;
+import org.w3c.dom.Document;
 
 public class ServiceInterfaceEditor extends AbstractEditorWithSourcePage {
 
@@ -65,11 +56,6 @@ public class ServiceInterfaceEditor extends AbstractEditorWithSourcePage {
     @Override
     public void dispose() {
         super.dispose();
-    }
-
-    @Override
-    protected void reloadModelFromDOM() {
-        EmfModelPatcher.instance().patchEMFModelAfterDomChange(getModelRoot(), modelNotifier.getChangedNodes());
     }
 
     @Override
@@ -121,9 +107,16 @@ public class ServiceInterfaceEditor extends AbstractEditorWithSourcePage {
     protected void validate() {
         final org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription description = getDescription();
 
-        final List<ISchema> schemas = description.getContainedSchemas();
+        final Collection<IDescription> visibleDescriptions = description.getReferencedServices();
+        visibleDescriptions.add(description);
+        final Set<ISchema> schemas = new HashSet<ISchema>();
+        for (final IDescription currentDescription : visibleDescriptions) {
+            for (final ISchema currentSchema : currentDescription.getAllVisibleSchemas()) {
+                schemas.add(currentSchema);
+            }
+        }
         final List<IModelObject> validatedEntitites = new ArrayList<IModelObject>(schemas.size() + 1);
-        validatedEntitites.add(description);
+        validatedEntitites.addAll(visibleDescriptions);
         validatedEntitites.addAll(schemas);
 
         validate(validatedEntitites);

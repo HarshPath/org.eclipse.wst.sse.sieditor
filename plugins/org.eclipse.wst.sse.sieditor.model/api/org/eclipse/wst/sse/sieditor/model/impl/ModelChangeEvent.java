@@ -21,7 +21,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 
 /**
  * 
- * 
  *
  */
 public class ModelChangeEvent implements IModelChangeEvent{

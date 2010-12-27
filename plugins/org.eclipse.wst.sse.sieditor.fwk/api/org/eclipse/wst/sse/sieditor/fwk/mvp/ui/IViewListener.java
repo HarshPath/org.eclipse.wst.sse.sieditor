@@ -17,7 +17,7 @@ package org.eclipse.wst.sse.sieditor.fwk.mvp.ui;
 /**
  * Listener for MVP-view life cycle.
  * 
- *  * @deprecated the old ui layer architecture is not being used any more rendering this class obsolete
+ * @deprecated the old ui layer architecture is not being used any more rendering this class obsolete
  */
 @Deprecated
 public interface IViewListener {

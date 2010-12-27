@@ -24,8 +24,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 /**
  * Singleton factory for obtaining {@link ITypeResolver} instances.
  * 
- * 
- * 
  */
 public class TypeResolverFactory {
 

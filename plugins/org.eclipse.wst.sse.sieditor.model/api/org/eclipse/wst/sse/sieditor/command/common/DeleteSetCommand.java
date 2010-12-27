@@ -11,14 +11,12 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.common;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
@@ -26,7 +24,7 @@ import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 
 public class DeleteSetCommand extends CompositeCommand {
 
-    private static Set<IModelObject> objects = null;
+    private static List<IModelObject> objects = null;
 
     public DeleteSetCommand(IModelRoot root, Collection<IModelObject> parents, Collection<IModelObject> objectsToRemove) {
         super(root, setUpObjectsForRefresh(parents, objectsToRemove), Messages.DeleteSetCommand_Delete_lbl);
@@ -44,13 +42,13 @@ public class DeleteSetCommand extends CompositeCommand {
     private static Collection<IModelObject> setUpObjectsForRefresh(Collection<IModelObject> parents,
             Collection<IModelObject> objectsToRemove) {
         objects = findRootItems(objectsToRemove);
-        Collection<IModelObject> objectForRefresh = new ArrayList<IModelObject>(objects);
+        Collection<IModelObject> objectForRefresh = new LinkedList<IModelObject>(objects);
         objectForRefresh.addAll(parents);
         return objectForRefresh;
     }
 
-    protected static Set<IModelObject> findRootItems(Collection<IModelObject> items) {
-        Set<IModelObject> rootItems = new HashSet<IModelObject>();
+    protected static List<IModelObject> findRootItems(Collection<IModelObject> items) {
+        List<IModelObject> rootItems = new LinkedList<IModelObject>();
         rootItems.addAll(items);
         for (IModelObject item : items) {
             if (containsParent(rootItems, item)) {
@@ -61,7 +59,7 @@ public class DeleteSetCommand extends CompositeCommand {
         return rootItems;
     }
 
-    private static boolean containsParent(Set<IModelObject> rootItems, IModelObject item) {
+    private static boolean containsParent(List<IModelObject> rootItems, IModelObject item) {
 
         IModelObject parent = item.getParent();
 

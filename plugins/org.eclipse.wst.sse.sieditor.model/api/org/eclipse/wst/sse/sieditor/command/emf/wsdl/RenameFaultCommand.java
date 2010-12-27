@@ -39,7 +39,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IFault;
 /**
  * 
  * 
- * 
  */
 public class RenameFaultCommand extends AbstractNotificationOperation {
 

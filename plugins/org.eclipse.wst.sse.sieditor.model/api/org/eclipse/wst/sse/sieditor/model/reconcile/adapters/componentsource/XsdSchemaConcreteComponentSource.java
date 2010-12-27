@@ -24,8 +24,6 @@ import org.w3c.dom.Element;
  * {@link IConcreteComponentSource} interface. The equality is based on the
  * provided schema.
  * 
- * 
- * 
  */
 public class XsdSchemaConcreteComponentSource implements IConcreteComponentSource {
 

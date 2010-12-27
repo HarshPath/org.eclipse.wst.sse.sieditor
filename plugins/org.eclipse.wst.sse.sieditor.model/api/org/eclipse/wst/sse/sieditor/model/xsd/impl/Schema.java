@@ -21,7 +21,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -59,6 +61,8 @@ import org.eclipse.wst.sse.sieditor.core.common.Logger;
 import org.eclipse.wst.sse.sieditor.core.common.Nil;
 import org.eclipse.wst.sse.sieditor.model.Activator;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
+import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
+import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
 import org.eclipse.wst.sse.sieditor.model.generic.DuplicateException;
 import org.eclipse.wst.sse.sieditor.model.generic.IllegalInputException;
@@ -78,7 +82,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 /**
  * Wrapper for {@link XSDSchema} for providing simplified API
  * 
- * 
  * @Limitations Cannot process a invalid WSDL having multiple components with
  *              same name and value space (Whichever component comes first is
  *              considered)
@@ -91,13 +94,12 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
     private final XSDSchema _eSchema;
     private final IModelObject _parent;
     // private final IFile _file;
-    private URI uri;
+    private final URI uri;
 
     private static Schema _schemaForSchema;
 
-    public Schema(final XSDSchema schema, final IXSDModelRoot modelRoot, IModelObject parent, URI uri) {
+    public Schema(final XSDSchema schema, final IXSDModelRoot modelRoot, final IModelObject parent, final URI uri) {
         super(modelRoot);
-
         Nil.checkNil(schema, "schema"); //$NON-NLS-1$
         Nil.checkNil(modelRoot, "modelRoot"); //$NON-NLS-1$
 
@@ -117,16 +119,16 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         this.uri = resolvedURI;
     }
 
-    private IModelObject findWsdlDefinition(XSDSchema schema) {
-        Definition wsdlDefinition = getDefinition(schema);
+    private IModelObject findWsdlDefinition(final XSDSchema schema) {
+        final Definition wsdlDefinition = getDefinition(schema);
         if (wsdlDefinition != null) {
             return WSDLFactory.getInstance().createWSDLModelRoot(wsdlDefinition).getDescription();
         }
         return null;
     }
 
-    private Definition getDefinition(EObject eContainer) {
-        EObject container = eContainer.eContainer();
+    private Definition getDefinition(final EObject eContainer) {
+        final EObject container = eContainer.eContainer();
         if (container == null || container instanceof Definition) {
             return (Definition) container;
         }
@@ -144,7 +146,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         final List<XSDSchemaContent> contents = new ArrayList<XSDSchemaContent>();
         contents.addAll(isSchemaForSchema ? _eSchema.getTypeDefinitions() : _eSchema.getContents());
 
-        for (XSDSchemaContent content : contents) {
+        for (final XSDSchemaContent content : contents) {
             AbstractType type = null;
 
             if (content instanceof XSDSimpleTypeDefinition) {
@@ -158,7 +160,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
                     types.add(type);
                 }
             } else if (!isSchemaForSchema && content instanceof XSDElementDeclaration) {
-                StructureType element = new StructureType(getModelRoot(), this, (XSDNamedComponent) content);
+                final StructureType element = new StructureType(getModelRoot(), this, (XSDNamedComponent) content);
                 types.add(element);
             }
         }
@@ -173,8 +175,8 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
 
         final List<IType> typesReturned = new ArrayList<IType>(1);
 
-        Collection<IType> allContainedTypes = getAllContainedTypes();
-        for (IType type : allContainedTypes) {
+        final Collection<IType> allContainedTypes = getAllContainedTypes();
+        for (final IType type : allContainedTypes) {
             if (name.equals(type.getName())) {
                 typesReturned.add(type);
             }
@@ -188,9 +190,11 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
     }
 
     public Collection<ISchema> getAllReferredSchemas() {
-        final ArrayList<ISchema> result = new ArrayList<ISchema>();
+        final Collection<ISchema> result = new HashSet<ISchema>();
         if (!EmfXsdUtils.isSchemaForSchemaNS(getNamespace())) {
-            result.addAll(getReferredSchemas());
+            for (final ISchema schema : getReferredSchemas()) {
+                result.add(schema);
+            }
         }
         addResolvedDocuments(result, true);
 
@@ -200,7 +204,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
     private List<ISchema> getReferredSchemas() {
         final List<ISchema> referredSchemas = new ArrayList<ISchema>(1);
         final Collection<XSDSchemaDirective> directives = filterComponents(_eSchema.getContents(), XSDSchemaDirective.class);
-        for (XSDSchemaDirective directive : directives) {
+        for (final XSDSchemaDirective directive : directives) {
             // Redefine not supported
             if (directive instanceof XSDRedefine)
                 continue;
@@ -208,13 +212,13 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
             if (directive instanceof XSDImport && null != directive.getSchemaLocation()) {
                 XSDSchema importedSchema = directive.getResolvedSchema();
                 if (null == importedSchema) {
-                    ResolveImportedSchemaCommand command = new ResolveImportedSchemaCommand((XSDImportImpl) directive,
+                    final ResolveImportedSchemaCommand command = new ResolveImportedSchemaCommand((XSDImportImpl) directive,
                             getModelRoot(), this);
                     try {
-                        if (command.execute(new NullProgressMonitor(),null).isOK()) {
+                        if (command.execute(new NullProgressMonitor(), null).isOK()) {
                             importedSchema = command.getResolvedSchema();
                         }
-                    } catch (ExecutionException e) {
+                    } catch (final ExecutionException e) {
                         Logger.log(Activator.PLUGIN_ID, IStatus.ERROR, "Can not resolve imported schema for location " //$NON-NLS-1$
                                 + directive.getSchemaLocation(), e);
                     }
@@ -224,7 +228,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
                      */
                 }
                 if (null != importedSchema) {
-                    URI relativeURI = ResourceUtils.constructURI(getComponent(), importedSchema);
+                    final URI relativeURI = ResourceUtils.constructURI(getComponent(), importedSchema);
                     // final IFile file = ResourceUtils.getWorkSpaceFile(new
                     // Path(importedSchema.getSchemaLocation()));
                     if (null != relativeURI) {
@@ -236,12 +240,26 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
                         referredSchemas.add(schema);
                     }
                 }
-            }
+            } else if (directive instanceof XSDImport && directive.getSchemaLocation() == null) {
+                // schema should be in current document
+                final IModelRoot containerModelRoot = getModelRoot().getRoot();
+                if (!(containerModelRoot instanceof IWsdlModelRoot)) {
+                    continue;
+                }
+                final IWsdlModelRoot wsdlModelRoot = (IWsdlModelRoot) containerModelRoot;
+                final List<ISchema> containedSchemas = wsdlModelRoot.getDescription().getContainedSchemas();
+                for (final ISchema containedSchema : containedSchemas) {
+                    if (containedSchema.getNamespace() != null
+                            && containedSchema.getNamespace().equals(((XSDImport) directive).getNamespace())) {
+                        referredSchemas.add(containedSchema);
+                        break;
+                    }
+                }
 
-            if (directive instanceof XSDInclude && null != directive.getSchemaLocation()) {
+            } else if (directive instanceof XSDInclude && null != directive.getSchemaLocation()) {
                 final XSDSchema includedSchema = directive.getResolvedSchema();
                 if (null != includedSchema) {
-                    URI relativeURI = ResourceUtils.constructURI(getComponent(), includedSchema);
+                    final URI relativeURI = ResourceUtils.constructURI(getComponent(), includedSchema);
                     if (null != relativeURI) {
                         Schema schema;
                         if (null == getModelRoot())
@@ -265,12 +283,12 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
 
         final Collection<XSDSchemaDirective> directives = filterComponents(_eSchema.getContents(), XSDSchemaDirective.class);
 
-        for (XSDSchemaDirective directive : directives) {
+        for (final XSDSchemaDirective directive : directives) {
             // Redefine not supported
             if (directive instanceof XSDInclude && null != directive.getSchemaLocation()) {
                 final XSDSchema includedSchema = directive.getResolvedSchema();
                 if (null != includedSchema) {
-                    URI relativeURI = ResourceUtils.constructURI(getComponent(), includedSchema);
+                    final URI relativeURI = ResourceUtils.constructURI(getComponent(), includedSchema);
                     // IFile file = ResourceUtils.getWorkSpaceFile(new
                     // Path(importedSchema.eResource().getURI().toString()));
                     if (null != relativeURI) {
@@ -288,14 +306,14 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         return includedSchemas;
     }
 
-    private synchronized void addResolvedDocuments(final List<ISchema> schemas, boolean addImports) {
+    private synchronized void addResolvedDocuments(final Collection<ISchema> schemas, final boolean addImports) {
         if (EmfXsdUtils.isSchemaForSchemaNS(getNamespace()) || null == _resolver)
             return;
         // Add Imports
         if (addImports) {
             final Collection<XSDSchemaDirective> imports = filterComponents(_eSchema.getContents(), XSDSchemaDirective.class);
 
-            for (XSDSchemaDirective importObj : imports) {
+            for (final XSDSchemaDirective importObj : imports) {
                 if (importObj instanceof XSDImport) {
                     if (null != _resolver) {
                         schemas.addAll(_resolver.resolveSchema(((XSDImport) importObj).getNamespace(), importObj
@@ -311,7 +329,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
     }
 
     public Collection<ISchema> getAllIncludedSchemas() {
-        final ArrayList<ISchema> result = new ArrayList<ISchema>();
+        final Set<ISchema> result = new HashSet<ISchema>();
         result.addAll(getIncludedSchemas());
         addResolvedDocuments(result, false);
 
@@ -321,7 +339,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
     public String getLocation() {
         try {
             return uri == null ? null : URIHelper.decodeURI(uri);
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             final String msg = e.getMessage();
 
             Logger.logError(msg, e);
@@ -363,7 +381,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         return command.getSimpleType();
     }
 
-    public IStructureType addStructureType(final String name, final boolean element, AbstractType referencedType)
+    public IStructureType addStructureType(final String name, final boolean element, final AbstractType referencedType)
             throws DuplicateException, IllegalInputException, ExecutionException {
         Nil.checkNil(name, "name"); //$NON-NLS-1$
         if (!EmfXsdUtils.isValidNCName(name)) {
@@ -425,9 +443,9 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
     }
 
     public IType resolveType(final AbstractType type) throws ExecutionException {
-        IType[] resolvedTypes = resolveType(new QName(type.getNamespace(), type.getName()), true, null);
+        final IType[] resolvedTypes = resolveType(new QName(type.getNamespace(), type.getName()), true, null);
 
-        boolean isElement = StructureType.isGlobalElement(type);
+        final boolean isElement = StructureType.isGlobalElement(type);
 
         IType result = null;
 
@@ -440,7 +458,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         final IModelObject parent = type.getParent();
         if (result instanceof UnresolvedType && parent instanceof Schema) {
             final IXSDModelRoot modelRoot = getModelRoot();
-            if (uri.toString().endsWith(".xsd") //$NON-NLS-1$
+            if (uri != null && uri.toString().endsWith(".xsd") //$NON-NLS-1$
             /*
              * GFB ResourceUtils.checkContentType (file, DocumentType.XSD_SHEMA.
              * getResourceID())
@@ -452,14 +470,14 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
                 if (resolvedSchema == null) {
                     result = UnresolvedType.instance();
                 } else {
-                    IType[] allTypes = resolvedSchema.getAllTypes(type.getName());
+                    final IType[] allTypes = resolvedSchema.getAllTypes(type.getName());
                     result = getTypeFromAllTypesArray(isElement, allTypes);
                 }
             } else {
                 final ImportSchemaCommand cmd = new ImportSchemaCommand(modelRoot, this, type);
-                IStatus resultStatus = modelRoot.getEnv().execute(cmd);
+                final IStatus resultStatus = modelRoot.getEnv().execute(cmd);
                 if (resultStatus.isOK()) {
-                    final Schema resolvedSchema = (Schema)cmd.getSchema();
+                    final Schema resolvedSchema = (Schema) cmd.getSchema();
                     result = null == resolvedSchema ? UnresolvedType.instance() : getTypeFromAllTypesArray(isElement,
                             resolvedSchema.resolveType(new QName(type.getNamespace(), type.getName()), true, null));
                 } else {
@@ -470,24 +488,24 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         return result;
     }
 
-    public IType getType(boolean isElement, String name) {
-        IType[] allTypes = getAllTypes(name);
+    public IType getType(final boolean isElement, final String name) {
+        final IType[] allTypes = getAllTypes(name);
         return getTypeFromAllTypesArray(isElement, allTypes);
     }
 
-    private IType getTypeFromAllTypesArray(boolean isElement, IType[] allTypes) {
-        if (allTypes == null ||  CollectionTypeUtils.containsObject(allTypes, UnresolvedType.instance())) {
+    private IType getTypeFromAllTypesArray(final boolean isElement, final IType[] allTypes) {
+        if (allTypes == null || CollectionTypeUtils.containsObject(allTypes, UnresolvedType.instance())) {
             return null;
         }
 
         if (isElement) {
-            for (IType resolvedType : allTypes) {
+            for (final IType resolvedType : allTypes) {
                 if (StructureType.isGlobalElement(resolvedType)) {
                     return resolvedType;
                 }
             }
         } else {
-            for (IType resolvedType : allTypes) {
+            for (final IType resolvedType : allTypes) {
                 if (!StructureType.isGlobalElement(resolvedType)) {
                     return resolvedType;
                 }
@@ -504,7 +522,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
      * @return
      */
     private IType[] resolveType(final QName name, final boolean processImports, List<ISchema> checkedSchemas) {
-        boolean debug = Logger.isDebugEnabled();
+        final boolean debug = Logger.isDebugEnabled();
         if (debug)
             Logger.getDebugTrace().traceEntry(""); //$NON-NLS-1$
 
@@ -527,7 +545,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         } else if (null == namespace || "".equals(namespace) || namespace.equals(this.getNamespace())) { //$NON-NLS-1$
             result = this.getAllTypes(typeName);
             if (null == result) {
-                for (ISchema schema : getAllIncludedSchemas()) {
+                for (final ISchema schema : getAllIncludedSchemas()) {
                     if (checkedSchemas.contains(schema)) {
                         continue;
                     }
@@ -549,10 +567,10 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         }
 
         if (null == result && processImports) {
-            final List<ISchema> referredSchemas = (List<ISchema>) getAllReferredSchemas();
+            final Collection<ISchema> referredSchemas = getAllReferredSchemas();
             addResolvedDocuments(referredSchemas, true);
-            for (ISchema referredSchema : referredSchemas) {
-                boolean equalNamespaces = namespace == null ? referredSchema.getNamespace() == null : (referredSchema
+            for (final ISchema referredSchema : referredSchemas) {
+                final boolean equalNamespaces = namespace == null ? referredSchema.getNamespace() == null : (referredSchema
                         .getNamespace() != null ? referredSchema.getNamespace().equals(namespace) : false);
                 if (equalNamespaces) {
                     result = ((Schema) referredSchema).resolveType(name, false, checkedSchemas);
@@ -573,19 +591,19 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         return result;
     }
 
-    public AbstractXSDComponent resolveComponent(final XSDNamedComponent component, boolean processImports) {
+    public AbstractXSDComponent resolveComponent(final XSDNamedComponent component, final boolean processImports) {
         if (null == component) {
             return UnresolvedType.instance();
         }
 
-        String name = component.getName();
+        final String name = component.getName();
         if (null == name) {
             return UnresolvedType.instance();
         }
 
-        IType[] resolveTypes = resolveType(new QName(component.getTargetNamespace(), name), processImports, null);
-        AbstractType typeFromAllTypesArray = (AbstractType) getTypeFromAllTypesArray(component instanceof XSDElementDeclaration,
-                resolveTypes);
+        final IType[] resolveTypes = resolveType(new QName(component.getTargetNamespace(), name), processImports, null);
+        final AbstractType typeFromAllTypesArray = (AbstractType) getTypeFromAllTypesArray(
+                component instanceof XSDElementDeclaration, resolveTypes);
         if (typeFromAllTypesArray == null) {
             return UnresolvedType.instance();
         }
@@ -596,7 +614,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         this._resolver = resolver;
     }
 
-    public void setNamespace(String namespace) throws IllegalInputException, ExecutionException {
+    public void setNamespace(final String namespace) throws IllegalInputException, ExecutionException {
         Nil.checkNil(namespace, "namespace"); //$NON-NLS-1$
         if (!EmfXsdUtils.isValidURI(namespace))
             throw new IllegalInputException("Entered Namespace is not valid"); //$NON-NLS-1$
@@ -616,7 +634,7 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
      * description); return null; }
      */
 
-    public void removeType(IType type) throws ExecutionException {
+    public void removeType(final IType type) throws ExecutionException {
         Nil.checkNil(type, "type"); //$NON-NLS-1$
         final RemoveTypeCommand command = new RemoveTypeCommand(getModelRoot(), this, type);
         getModelRoot().getEnv().execute(command);
@@ -627,11 +645,12 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         return _eSchema;
     }
 
-    public IType createGlobalTypeFromAnonymous(IElement element, String newName) throws DuplicateException, ExecutionException {
+    public IType createGlobalTypeFromAnonymous(final IElement element, final String newName) throws DuplicateException,
+            ExecutionException {
         Nil.checkNil(newName, "newName"); //$NON-NLS-1$
         Nil.checkNil(element, "type"); //$NON-NLS-1$
 
-        IType type = element.getType();
+        final IType type = element.getType();
 
         if (type instanceof AbstractType) {
             final XSDNamedComponent component = type.getComponent();
@@ -654,10 +673,10 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
         return uri.toString();
     }
 
-    public IType getTypeByComponent(XSDNamedComponent xsdComponent) {
-        IType[] allTypes = getAllTypes(xsdComponent.getName());
+    public IType getTypeByComponent(final XSDNamedComponent xsdComponent) {
+        final IType[] allTypes = getAllTypes(xsdComponent.getName());
         if (allTypes != null) {
-            for (IType iType : allTypes) {
+            for (final IType iType : allTypes) {
                 if (iType.getComponent().equals(xsdComponent)) {
                     return iType;
                 }
@@ -670,12 +689,12 @@ public class Schema extends AbstractXSDComponent implements ISchema, org.eclipse
     public ISchema getReferredSchema(final XSDSchema xsdSchema) {
 
         final Condition<ISchema> matchingSchema = new Condition<ISchema>() {
-            public boolean isSatisfied(ISchema schema) {
+            public boolean isSatisfied(final ISchema schema) {
                 return xsdSchema != null && xsdSchema.equals(schema.getComponent());
             }
         };
 
-        Collection<ISchema> referredSchemas = CollectionTypeUtils.findAll(getAllReferredSchemas(), matchingSchema);
+        final Collection<ISchema> referredSchemas = CollectionTypeUtils.findAll(getAllReferredSchemas(), matchingSchema);
 
         return referredSchemas.isEmpty() ? null : referredSchemas.iterator().next();
 

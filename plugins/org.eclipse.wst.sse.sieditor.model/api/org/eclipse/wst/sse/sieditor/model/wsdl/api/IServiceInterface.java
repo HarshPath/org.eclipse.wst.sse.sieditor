@@ -25,8 +25,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IQNamedObject;
 
 /**
  * 
- * 
- *
  */
 public interface IServiceInterface extends IQNamedObject, IExtensibleObject{
 

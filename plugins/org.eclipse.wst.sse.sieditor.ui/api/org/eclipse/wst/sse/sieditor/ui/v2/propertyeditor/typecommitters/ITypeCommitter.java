@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Stanislav Nichev - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.typecommitters;
 
@@ -20,8 +19,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 /**
  * interface for the type committers. implementors are responsible for the
  * creation/setting of new types
- * 
- * 
  * 
  */
 public interface ITypeCommitter {

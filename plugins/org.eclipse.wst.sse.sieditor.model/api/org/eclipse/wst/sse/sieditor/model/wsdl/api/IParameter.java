@@ -21,8 +21,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 
 /**
  * Operation parameter
- * 
- *
  */
 public interface IParameter extends INamedObject, IExtensibleObject {
 	

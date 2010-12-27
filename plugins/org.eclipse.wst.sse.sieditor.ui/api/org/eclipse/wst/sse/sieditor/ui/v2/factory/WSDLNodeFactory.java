@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Sweta Rao - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.factory;
 
@@ -34,8 +33,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.wsdltree.nodes.ServiceInterfaceNode;
 /**
  * Class used to create Nodes for the WSDL tree. The nodes are also added in the
  * Tree node mapper
- * 
- * 
  * 
  */
 public class WSDLNodeFactory {

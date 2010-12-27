@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.emf.wsdl;
 
@@ -25,7 +24,6 @@ import org.eclipse.xsd.XSDNamedComponent;
 
 import org.eclipse.wst.sse.sieditor.command.common.AbstractWSDLNotificationOperation;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.CopyTypeCommand;
-import org.eclipse.wst.sse.sieditor.command.emf.xsd.MakeTypeResolvableCommand;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
 import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
@@ -34,7 +32,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.model.wsdl.impl.Description;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
-import org.eclipse.wst.sse.sieditor.model.xsd.impl.AbstractType;
 import org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema;
 import org.eclipse.wst.sse.sieditor.model.xsd.impl.UnresolvedType;
 
@@ -54,41 +51,30 @@ public class MakeResolvableCommand extends AbstractWSDLNotificationOperation {
     public IStatus run(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
         resolvedType = ((Description) description).resolveType(type.getComponent());
         final IModelObject parent = type.getParent();
-        final IModelObject root = type.getRoot();
 
         if ((null == resolvedType || resolvedType instanceof UnresolvedType) && parent instanceof Schema) {
-            if (root instanceof Schema) {
-                final ISchema[] schemas = description.getSchema(type.getNamespace());
-                ISchema schema = null;
-                if (null == schemas || 0 == schemas.length) {
-                    AddNewSchemaCommand cmd = new AddNewSchemaCommand(getModelRoot(), type.getNamespace());
-                    IStatus status = getModelRoot().getEnv().execute(cmd);
-                    if (!StatusUtils.canContinue(status)) {
-                        return status;
-                    }
-
-                    schema = cmd.getNewSchema();
-                    ((Schema) schema).setResolver(((Description) description).getSchemaResolver());
-                } else
-                    schema = (Schema) schemas[0];
-
-                final XSDNamedComponent eType = type.getComponent();
-                IType oldType = schema.getType(eType instanceof XSDElementDeclaration, type.getName());
-
-                if (null != oldType) {
-                    resolvedType = oldType;
-                } else {
-                    final CopyTypeCommand command = new CopyTypeCommand(getModelRoot(), description, eType, schema, type
-                            .getName());
-                    IStatus status = getModelRoot().getEnv().execute(command);
-                    if (!StatusUtils.canContinue(status)) {
-                        return status;
-                    }
-                    resolvedType = command.getCopiedType();
+            final ISchema[] schemas = description.getSchema(type.getNamespace());
+            ISchema schema = null;
+            if (null == schemas || 0 == schemas.length) {
+                AddNewSchemaCommand cmd = new AddNewSchemaCommand(getModelRoot(), type.getNamespace());
+                IStatus status = getModelRoot().getEnv().execute(cmd);
+                if (!StatusUtils.canContinue(status)) {
+                    return status;
                 }
+
+                schema = cmd.getNewSchema();
+                ((Schema) schema).setResolver(((Description) description).getSchemaResolver());
+            } else
+                schema = (Schema) schemas[0];
+
+            final XSDNamedComponent eType = type.getComponent();
+            IType oldType = schema.getType(eType instanceof XSDElementDeclaration, type.getName());
+
+            if (null != oldType) {
+                resolvedType = oldType;
             } else {
-                final MakeTypeResolvableCommand command = new MakeTypeResolvableCommand(getModelRoot(), description,
-                        (AbstractType) type);
+                final CopyTypeCommand command = new CopyTypeCommand(getModelRoot(), description, eType, schema, type
+                        .getName());
                 IStatus status = getModelRoot().getEnv().execute(command);
                 if (!StatusUtils.canContinue(status)) {
                     return status;
@@ -97,6 +83,10 @@ public class MakeResolvableCommand extends AbstractWSDLNotificationOperation {
             }
         }
         return Status.OK_STATUS;
+    }
+
+    public IType getResolvedType() {
+        return resolvedType;
     }
 
 }

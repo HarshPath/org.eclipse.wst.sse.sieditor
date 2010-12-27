@@ -1,16 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %plugin.name
+Bundle-Name: Service Interface Editor Model Plug-in
 Bundle-SymbolicName: org.eclipse.wst.sse.sieditor.model;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.wst.sse.sieditor.model.Activator
-Bundle-Vendor: %provider.name
+Bundle-Vendor: SAP AG
 Require-Bundle: org.eclipse.xsd,
  org.eclipse.wst.wsdl,
  org.eclipse.wst.xml.core,
  org.eclipse.emf.workspace,
  org.eclipse.emf.workspace.ui,
- javax.wsdl,
+ javax.wsdl;bundle-version="[1.5.0,1.6.0)",
  org.eclipse.wst.sse.sieditor.core,
  org.eclipse.emf.query,
  org.eclipse.wst.sse.core,
@@ -26,8 +26,8 @@ Export-Package: org.eclipse.wst.sse.sieditor.command.common;
    org.eclipse.emf.transaction,
    org.eclipse.emf.workspace",
  org.eclipse.wst.sse.sieditor.command.emf.common,
- org.eclipse.wst.sse.sieditor.command.emf.common.namespace,
  org.eclipse.wst.sse.sieditor.command.emf.common.setcommandbuilder,
+ org.eclipse.wst.sse.sieditor.command.emf.common.utils,
  org.eclipse.wst.sse.sieditor.command.emf.wsdl;
   uses:="org.eclipse.wst.sse.sieditor.model.wsdl.impl,
    org.eclipse.core.runtime,
@@ -41,6 +41,7 @@ Export-Package: org.eclipse.wst.sse.sieditor.command.common;
    org.eclipse.wst.sse.sieditor.model.xsd.impl,
    org.eclipse.wst.wsdl",
  org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract,
+ org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.commands,
  org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.dependencies,
  org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.utils,
  org.eclipse.wst.sse.sieditor.command.emf.wsdl.tns,
@@ -75,7 +76,11 @@ Export-Package: org.eclipse.wst.sse.sieditor.command.common;
  org.eclipse.wst.sse.sieditor.model.reconcile,
  org.eclipse.wst.sse.sieditor.model.reconcile.adapters,
  org.eclipse.wst.sse.sieditor.model.reconcile.adapters.componentsource,
+ org.eclipse.wst.sse.sieditor.model.reconcile.adapters.utils,
  org.eclipse.wst.sse.sieditor.model.reconcile.commands,
+ org.eclipse.wst.sse.sieditor.model.reconcile.utils,
+ org.eclipse.wst.sse.sieditor.model.reconcile.utils.componentresolver,
+ org.eclipse.wst.sse.sieditor.model.reconcile.utils.searchresultprocessor,
  org.eclipse.wst.sse.sieditor.model.search,
  org.eclipse.wst.sse.sieditor.model.utils;
   uses:="org.eclipse.wst.sse.sieditor.core.common,

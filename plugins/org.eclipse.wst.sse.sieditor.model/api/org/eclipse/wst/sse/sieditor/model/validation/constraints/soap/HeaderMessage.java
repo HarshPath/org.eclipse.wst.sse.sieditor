@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.constraints.soap;
 
@@ -23,31 +22,32 @@ import org.eclipse.wst.wsdl.binding.soap.SOAPHeaderBase;
 import org.eclipse.wst.wsdl.binding.soap.SOAPHeaderFault;
 
 import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
+import org.eclipse.wst.sse.sieditor.model.utils.ElementAttributeUtils;
 import org.eclipse.wst.sse.sieditor.model.validation.constraints.AbstractConstraint;
 
-public class HeaderMessage extends AbstractConstraint{
+public class HeaderMessage extends AbstractConstraint {
 
-	@Override
-	protected IStatus doValidate(IValidationContext ctx) {
-		SOAPHeaderBase header = (SOAPHeaderBase) ctx.getTarget();
-		
-		Message message = header.getEMessage();
-		if (message == null) {
-			String messageAttribute = header.getElement().getAttribute("message"); //$NON-NLS-1$
-			if (messageAttribute != null) {
-				if (header instanceof SOAPHeaderFault) {
-					return ConstraintStatus.createStatus(ctx, header, null, Messages.SOAPHeaderMessage_1, messageAttribute);
-				}
-				return ConstraintStatus.createStatus(ctx, header, null, Messages.SOAPHeaderMessage_2, messageAttribute);
-			}
-		}
+    @Override
+    protected IStatus doValidate(final IValidationContext ctx) {
+        final SOAPHeaderBase header = (SOAPHeaderBase) ctx.getTarget();
 
-		return ConstraintStatus.createSuccessStatus(ctx, header, null);
-	}
+        final Message message = header.getEMessage();
+        if (message == null) {
+            if (ElementAttributeUtils.hasAttributeValue(header.getElement(), "message")) {//$NON-NLS-1$
+                final String messageAttribute = header.getElement().getAttribute("message"); //$NON-NLS-1$
+                if (header instanceof SOAPHeaderFault) {
+                    return ConstraintStatus.createStatus(ctx, header, null, Messages.SOAPHeaderMessage_1, messageAttribute);
+                }
+                return ConstraintStatus.createStatus(ctx, header, null, Messages.SOAPHeaderMessage_2, messageAttribute);
+            }
+        }
 
-	@Override
-	protected boolean shouldExecute(IValidationContext ctx) {
-		return true;
-	}
+        return ConstraintStatus.createSuccessStatus(ctx, header, null);
+    }
+
+    @Override
+    protected boolean shouldExecute(final IValidationContext ctx) {
+        return true;
+    }
 
 }

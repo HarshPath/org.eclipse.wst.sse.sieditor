@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Sweta Rao - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller;
 
@@ -98,8 +97,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.wsdltree.nodes.ServiceInterfaceNode;
  * the View (or UI) ITypeDropListener - Listens to any drop action on this tree.
  * IChangeListener - Listens to any change in the model IEventListener - Listens
  * to any event from the view or the model through the EventBroker
- * 
- * 
  * 
  */
 public class SIFormPageController extends AbstractFormPageController {

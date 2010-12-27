@@ -21,7 +21,6 @@ import org.eclipse.wst.sse.sieditor.model.write.api.IWritable;
 
 /**
  * 
- * 
  *
  */
 public interface IModelProvider {

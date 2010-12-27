@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.impl;
 
@@ -35,30 +34,26 @@ import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.IDataTypesTreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.INamespaceNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.factory.TreeNodeMapper;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.impl.AbstractTreeNode;
 
-public class NamespaceNode extends AbstractTreeNode implements INamespaceNode {
+public class NamespaceNode extends AbstractXsdTreeNode implements INamespaceNode {
 
     public static final String NO_NS_STRING = Messages.NamespaceNode_no_target_namespace_value;
-    
+
     public NamespaceNode(final IModelObject schema, final ITreeNode parent, final TreeNodeMapper nodeMapper) {
         super(schema, parent, nodeMapper);
     }
-    
+
     public NamespaceNode(final IModelObject schema, final TreeNodeMapper nodeMapper) {
         this(schema, null, nodeMapper);
     }
 
-    
-    public String getDisplayName() {
-        return getNamespaceDisplayText((ISchema) getModelObject());
-    }
-
+    @Override
     public Image getImage() {
-        return isReadOnly() ? getImageRegistry().get(Activator.NODE_NAMESPACE_GRAY) :
-                        getImageRegistry().get(Activator.NODE_NAMESPACE);
+        return isReadOnly() ? getImageRegistry().get(Activator.NODE_NAMESPACE_GRAY) : getImageRegistry().get(
+                Activator.NODE_NAMESPACE);
     }
 
+    @Override
     public Object[] getChildren() {
         final Collection<IType> types = ((ISchema) getModelObject()).getAllContainedTypes();
         if (!types.isEmpty()) {
@@ -71,7 +66,8 @@ public class NamespaceNode extends AbstractTreeNode implements INamespaceNode {
         return UIConstants.EMPTY_ARRAY;
     }
 
-    protected IDataTypesTreeNode createStructureTypeNode(final IType type, final TreeNodeMapper nodeMapper, final ITreeNode parentNode) {
+    protected IDataTypesTreeNode createStructureTypeNode(final IType type, final TreeNodeMapper nodeMapper,
+            final ITreeNode parentNode) {
         return new StructureTypeNode(type, parentNode, nodeMapper);
     }
 
@@ -81,7 +77,7 @@ public class NamespaceNode extends AbstractTreeNode implements INamespaceNode {
 
     private ITreeNode getTypeNode(final IType type) {
         final TreeNodeMapper nodeMapper = getNodeMapper();
-        
+
         final List<ITreeNode> treeNodes = getNodeMapper().getTreeNode(type, getCategories(), this);
         ITreeNode treeNode = treeNodes.isEmpty() ? null : treeNodes.get(0);
         if (treeNode == null) {
@@ -94,13 +90,13 @@ public class NamespaceNode extends AbstractTreeNode implements INamespaceNode {
         }
         return treeNode;
     }
-    
-	public static String getNamespaceDisplayText(final String namespace) {
-	    if (namespace == null || UIConstants.EMPTY_STRING.equals(namespace.trim())) {
-        	return NO_NS_STRING;
-            }
-		return namespace;
-	}
+
+    public static String getNamespaceDisplayText(final String namespace) {
+        if (namespace == null || UIConstants.EMPTY_STRING.equals(namespace.trim())) {
+            return NO_NS_STRING;
+        }
+        return namespace;
+    }
 
     public static String getNamespaceDisplayText(final ISchema importedSchema) {
         final ISchema importingSchema = (ISchema) importedSchema.getModelRoot().getModelObject();
@@ -110,7 +106,7 @@ public class NamespaceNode extends AbstractTreeNode implements INamespaceNode {
 
         // in case that importedSchema is from <import>
         // do get NS from <import>, but not from TNS of importedSchema
-        if(!importingXsdSchema.equals(importedXsdSchema)) {
+        if (!importingXsdSchema.equals(importedXsdSchema)) {
             final Collection<XSDImport> imports = EmfXsdUtils.filterComponents(importingXsdSchema.getContents(), XSDImport.class);
             for (final XSDImport xsdImport : imports) {
                 if (importedXsdSchema.equals(xsdImport.getResolvedSchema())) {
@@ -123,5 +119,5 @@ public class NamespaceNode extends AbstractTreeNode implements INamespaceNode {
         return getNamespaceDisplayText(importDisplayNamespace);
 
     }
-    
+
 }

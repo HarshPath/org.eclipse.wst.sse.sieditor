@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.api;
 
 /**
  * Returns a model extension
- * 
  *
  */
 public interface IModelExtension {

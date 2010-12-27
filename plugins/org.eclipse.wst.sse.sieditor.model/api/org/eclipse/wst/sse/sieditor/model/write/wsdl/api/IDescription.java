@@ -29,7 +29,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 /**
  * Represents the root of the ServiceInterface Objects
  * @deprecated The write API is deprecated. Use commands instead.
- * 
  *
  */
 public interface IDescription extends INamespacedObject, IExtensibleObject{

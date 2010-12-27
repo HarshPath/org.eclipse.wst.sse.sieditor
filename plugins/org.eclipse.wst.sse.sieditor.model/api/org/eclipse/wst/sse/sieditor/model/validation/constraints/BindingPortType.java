@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.constraints;
 
@@ -26,58 +25,59 @@ import org.eclipse.emf.validation.model.ConstraintStatus;
 import org.eclipse.wst.wsdl.Binding;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.PortType;
+import org.eclipse.xsd.util.XSDConstants;
 
 import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 
-public class BindingPortType extends AbstractConstraint{
+public class BindingPortType extends AbstractConstraint {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected IStatus doValidate(IValidationContext ctx) {
-		EObject target = ctx.getTarget();
-		
-		if (target instanceof Definition) {
-			//validate all bindings
-			Definition definition = (Definition) target;
-			EList<Binding> bindings = definition.getEBindings();
-			List<IStatus> statusList = new ArrayList<IStatus>(bindings.size());
-			for (Binding binding : bindings) {
-				statusList.add(validateBinding(binding, ctx));
-			}
-			return createStatus(ctx, statusList);
-			
-		} else {
-			//validate just this binding
-			return validateBinding((Binding) target, ctx);
-		}
+    @SuppressWarnings("unchecked")
+    @Override
+    protected IStatus doValidate(final IValidationContext ctx) {
+        final EObject target = ctx.getTarget();
 
-	}
-	
-	private IStatus validateBinding(Binding binding, IValidationContext ctx) {
-		PortType portType = binding.getEPortType();
-		if (portType == null || portType.isUndefined()) {
-			String portTypeName = binding.getElement().getAttribute("type"); //$NON-NLS-1$
-			return ConstraintStatus.createStatus(
-					ctx, binding, null, Messages.BindingPortType_0, portTypeName, binding.getQName().getLocalPart());
-		}
-		
-		return ConstraintStatus.createSuccessStatus(ctx, binding, null);
-	}
+        if (target instanceof Definition) {
+            // validate all bindings
+            final Definition definition = (Definition) target;
+            final EList<Binding> bindings = definition.getEBindings();
+            final List<IStatus> statusList = new ArrayList<IStatus>(bindings.size());
+            for (final Binding binding : bindings) {
+                statusList.add(validateBinding(binding, ctx));
+            }
+            return createStatus(ctx, statusList);
 
-	@Override
-	protected boolean shouldExecute(IValidationContext ctx) {
-		EObject target = ctx.getTarget();
-		boolean result = true;
-		
-		if (isBatchValidation(ctx)) {
-			result = target instanceof Definition;
-		}
-		
-		if (!result) {
-			ctx.skipCurrentConstraintFor(target);
-		}
-		
-		return result;
-	}
+        } else {
+            // validate just this binding
+            return validateBinding((Binding) target, ctx);
+        }
+
+    }
+
+    private IStatus validateBinding(final Binding binding, final IValidationContext ctx) {
+        final PortType portType = binding.getEPortType();
+        if (portType == null || portType.isUndefined()) {
+            final String portTypeName = binding.getElement().getAttribute(XSDConstants.TYPE_ATTRIBUTE);
+            return ConstraintStatus.createStatus(ctx, binding, null, Messages.BindingPortType_0, portTypeName, binding.getQName()
+                    .getLocalPart());
+        }
+
+        return ConstraintStatus.createSuccessStatus(ctx, binding, null);
+    }
+
+    @Override
+    protected boolean shouldExecute(final IValidationContext ctx) {
+        final EObject target = ctx.getTarget();
+        boolean result = true;
+
+        if (isBatchValidation(ctx)) {
+            result = target instanceof Definition;
+        }
+
+        if (!result) {
+            ctx.skipCurrentConstraintFor(target);
+        }
+
+        return result;
+    }
 
 }

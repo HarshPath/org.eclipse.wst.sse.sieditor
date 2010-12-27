@@ -41,7 +41,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.ServiceOperation;
  * Command for deleting the operation
  * 
  * 
- * 
  */
 public class DeleteOperationCommand extends AbstractWSDLNotificationOperation {
 	private final IOperation operation;

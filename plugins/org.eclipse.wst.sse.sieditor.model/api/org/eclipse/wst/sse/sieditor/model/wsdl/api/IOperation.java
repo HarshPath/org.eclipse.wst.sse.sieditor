@@ -23,8 +23,6 @@ import org.eclipse.wst.sse.sieditor.model.api.INamedObject;
 
 /**
  * Service Interface Operation
- * 
- *
  */
 public interface IOperation extends INamedObject, IExtensibleObject{
 

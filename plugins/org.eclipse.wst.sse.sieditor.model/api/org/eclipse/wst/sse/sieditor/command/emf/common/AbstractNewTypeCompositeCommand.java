@@ -28,8 +28,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
  * this is the new type command. the command is responsible for the creation of
  * the type and then making a reference to the source element.
  * 
- * 
- * 
  */
 public abstract class AbstractNewTypeCompositeCommand extends BaseNewTypeCompositeCommand {
 
@@ -62,7 +60,7 @@ public abstract class AbstractNewTypeCompositeCommand extends BaseNewTypeComposi
         }
 
         if (setTypeCommand == null) {
-            setTypeCommand = setTypeCommandBuilder().createSetTypeCommand(getType());
+            setTypeCommand = getTypeCommandBuilder().createSetTypeCommand(getType());
             return setTypeCommand;
         }
         // no more operations to execute. stop execution
@@ -98,11 +96,4 @@ public abstract class AbstractNewTypeCompositeCommand extends BaseNewTypeComposi
      */
     protected abstract IType extractCreatedType(final AbstractNotificationOperation createTypeCommand);
 
-    // ===========================================================
-    // helpers
-    // ==========================================================
-
-    protected ISetTypeCommandBuilder setTypeCommandBuilder() {
-        return setTypeCommandBuilder;
-    }
 }

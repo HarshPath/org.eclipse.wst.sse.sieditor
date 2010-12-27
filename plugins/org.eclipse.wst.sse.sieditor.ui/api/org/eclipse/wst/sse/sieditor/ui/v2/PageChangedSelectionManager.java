@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2;
 
@@ -32,6 +31,7 @@ import org.w3c.dom.Element;
 
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
+import org.eclipse.wst.sse.sieditor.model.utils.ElementAttributeUtils;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfWsdlUtils;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.wsdl.impl.Description;
@@ -45,9 +45,9 @@ import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.formpage.ServiceIntefaceEditorPag
 import org.eclipse.wst.sse.sieditor.ui.view.impl.SISourceEditorPart;
 
 public class PageChangedSelectionManager {
-    private SISourceEditorPart sourcePage;
+    private final SISourceEditorPart sourcePage;
 
-    public PageChangedSelectionManager(SISourceEditorPart sourcePage) {
+    public PageChangedSelectionManager(final SISourceEditorPart sourcePage) {
         this.sourcePage = sourcePage;
     }
 
@@ -55,7 +55,7 @@ public class PageChangedSelectionManager {
         return sourcePage;
     }
 
-    public void performSelection(final int newPageIndex, final int currentPageIndex, List pages, IModelRoot modelRoot) {
+    public void performSelection(final int newPageIndex, final int currentPageIndex, final List pages, final IModelRoot modelRoot) {
         if (currentPageIndex == -1) {
             // e.g. there is no selected page already
             return;
@@ -66,7 +66,7 @@ public class PageChangedSelectionManager {
         final Object newSelectedPage = pages.get(newPageIndex);
 
         if (newSelectedPage == sourcePage && currentPageIndex != newPageIndex) {
-            AbstractEditorPage editorPage = (AbstractEditorPage) pages.get(currentPageIndex);
+            final AbstractEditorPage editorPage = (AbstractEditorPage) pages.get(currentPageIndex);
             final IStructuredSelection elementSelection = (IStructuredSelection) editorPage.getTreeViewer().getSelection();
             setSelectionInSourcePage(elementSelection);
 
@@ -101,7 +101,7 @@ public class PageChangedSelectionManager {
             return;
         }
 
-        Collection<ISchema> allContainedSchemas = new ArrayList<ISchema>();
+        final Collection<ISchema> allContainedSchemas = new ArrayList<ISchema>();
         if (modelRoot instanceof IWsdlModelRoot) {// in case of IWsdlModelRoot
             final Description description = (Description) (modelRoot.getModelObject());
             allContainedSchemas.addAll(description.getContainedSchemas());
@@ -112,18 +112,19 @@ public class PageChangedSelectionManager {
 
         final DataTypesFormPageController controller = (DataTypesFormPageController) editorPage.getController();
 
-        boolean isSelectedElementIsSchema = isSchemaElement(selectedElement);
+        final boolean isSelectedElementIsSchema = isSchemaElement(selectedElement);
 
-        for (ISchema currentSchema : allContainedSchemas) {
+        for (final ISchema currentSchema : allContainedSchemas) {
             if (XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001.equals(currentSchema.getNamespace())) {
                 continue;
             }
             if (isSelectedElementIsSchema) {
-                String tnsAttribute = selectedElement.getAttribute(XSDConstants.TARGETNAMESPACE_ATTRIBUTE);
-                if (tnsAttribute==null || !tnsAttribute.equals(currentSchema.getNamespace())) {
+                final String tnsAttribute = selectedElement.getAttribute(XSDConstants.TARGETNAMESPACE_ATTRIBUTE);
+                if (!ElementAttributeUtils.hasAttributeValue(selectedElement, XSDConstants.TARGETNAMESPACE_ATTRIBUTE)
+                        || !tnsAttribute.equals(currentSchema.getNamespace())) {
                     continue;
                 }
-                ITreeNode nodeForSelection = controller.getTreeNodeMapper().getITreeNodeForXsdElement(currentSchema,
+                final ITreeNode nodeForSelection = controller.getTreeNodeMapper().getITreeNodeForXsdElement(currentSchema,
                         currentSchema.getComponent());
                 if (nodeForSelection != null) {
                     setSelection(editorPage, nodeForSelection);
@@ -131,13 +132,14 @@ public class PageChangedSelectionManager {
                 }
             }
 
-            XSDConcreteComponent emfComponent = currentSchema.getComponent().getCorrespondingComponent(selectedElement);
+            final XSDConcreteComponent emfComponent = currentSchema.getComponent().getCorrespondingComponent(selectedElement);
             if ((emfComponent instanceof XSDSchema && !isSelectedElementIsSchema) || emfComponent == null
                     || emfComponent.eContainer() == null) {
                 continue;
             }
 
-            ITreeNode nodeForSelection = controller.getTreeNodeMapper().getITreeNodeForXsdElement(currentSchema, emfComponent);
+            final ITreeNode nodeForSelection = controller.getTreeNodeMapper().getITreeNodeForXsdElement(currentSchema,
+                    emfComponent);
             if (nodeForSelection != null) {
                 setSelection(editorPage, nodeForSelection);
                 return;
@@ -146,14 +148,14 @@ public class PageChangedSelectionManager {
         return;
     }
 
-    private void setSelection(final AbstractEditorPage editorPage, ITreeNode nodeForSelection) {
+    private void setSelection(final AbstractEditorPage editorPage, final ITreeNode nodeForSelection) {
         final StructuredSelection selection = new StructuredSelection(nodeForSelection);
         editorPage.getTreeViewer().setSelection(selection);
     }
 
     private boolean isSchemaElement(final Element selectedElement) {
-        String selectedElementTagName = selectedElement.getTagName();
-        if (XSDConstants.SCHEMA_ELEMENT_TAG.equals(selectedElementTagName.substring(selectedElementTagName.indexOf(":") + 1))) {
+        final String selectedElementTagName = selectedElement.getTagName();
+        if (XSDConstants.SCHEMA_ELEMENT_TAG.equals(selectedElementTagName.substring(selectedElementTagName.indexOf(':') + 1))) {
             return true;
         }
         return false;
@@ -176,7 +178,7 @@ public class PageChangedSelectionManager {
             return;
         }
 
-        ITreeNode nodeForSelection = controller.getTreeNodeMapper().getITreeNodeForWsdlElement(description,
+        final ITreeNode nodeForSelection = controller.getTreeNodeMapper().getITreeNodeForWsdlElement(description,
                 (EObject) emfObjectForSelection, controller.getServiceInterfaceNodes(null, description));
         if (nodeForSelection != null) {
             setSelection(editorPage, nodeForSelection);
@@ -193,11 +195,11 @@ public class PageChangedSelectionManager {
         return selectedElement instanceof Element ? (Element) selectedElement : null;
     }
 
-    protected void setSelectionInSourcePage(IStructuredSelection elementSelection) {
+    protected void setSelectionInSourcePage(final IStructuredSelection elementSelection) {
         if (elementSelection == null || elementSelection.isEmpty()) {
             return;
         }
-        EObject eObject = ((ITreeNode) (elementSelection).getFirstElement()).getModelObject().getComponent();
+        final EObject eObject = ((ITreeNode) (elementSelection).getFirstElement()).getModelObject().getComponent();
 
         int indexInTheSource = -1;
         if (eObject instanceof WSDLElement) {

@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.impl;
 
@@ -45,7 +44,7 @@ import org.eclipse.wst.sse.sieditor.model.Activator;
 import org.eclipse.wst.sse.sieditor.model.validation.IValidationStatus;
 
 public final class MarkerUtils {
-    public static final String VALIDATION_MARKER_TYPE = "org.eclipse.wst.sse.sieditor.model.validation.problem"; //$NON-NLS-1$
+    public static final String VALIDATION_MARKER_TYPE = "org.eclipse.wst.sse.sieditor.validation.problem"; //$NON-NLS-1$
 
     private static final String PLATFORM_SCHEME = "platform"; //$NON-NLS-1$
     private static final String FILE_SCHEME = "file"; //$NON-NLS-1$
@@ -129,10 +128,10 @@ public final class MarkerUtils {
             final EObject statusTarget = sourceStatus.getTarget();
 
             modelObjectsToURI.put(EcoreUtil.getURI(statusTarget).toString(), new WeakReference<Object>(current.getTarget()));
-            // if (statusTarget.eResource() == null) {
-            // // Avoid NPE with EMF marker utility
-            // continue;
-            // }
+            if (statusTarget.eResource() == null) {
+                // Avoid NPE with EMF marker utility
+                continue;
+            }
 
             children.add(new ConstraintStatus(sourceStatus.getConstraint(),
                     statusTarget instanceof XSDDiagnostic ? ((XSDDiagnostic) statusTarget).getPrimaryComponent() : statusTarget,

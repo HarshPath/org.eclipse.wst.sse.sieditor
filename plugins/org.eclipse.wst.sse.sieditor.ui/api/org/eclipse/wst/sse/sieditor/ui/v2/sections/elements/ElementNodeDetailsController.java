@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.sections.elements;
 
@@ -34,7 +33,7 @@ public class ElementNodeDetailsController {
 
     private ITreeNode input;
 
-    public ElementNodeDetailsController(IDataTypesFormPageController formPageController) {
+    public ElementNodeDetailsController(final IDataTypesFormPageController formPageController) {
         this.formPageController = formPageController;
     }
 
@@ -47,11 +46,11 @@ public class ElementNodeDetailsController {
     }
 
     public String getName() {
-        String name = strategy.getName();
-		return name == null ? UIConstants.EMPTY_STRING : name;
+        final String name = strategy.getName();
+        return name == null ? UIConstants.EMPTY_STRING : name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         if (!name.equals(getName())) {
             strategy.setName(name);
         }
@@ -81,7 +80,7 @@ public class ElementNodeDetailsController {
         return strategy.isNillableApplicable();
     }
 
-    public void setNillable(boolean nillable) {
+    public void setNillable(final boolean nillable) {
         strategy.setNillable(nillable);
     }
 
@@ -97,15 +96,19 @@ public class ElementNodeDetailsController {
         return strategy.getCardinality();
     }
 
-    public void setCardinality(CardinalityType cardinality) {
+    public void setCardinality(final CardinalityType cardinality) {
         strategy.setCardinality(cardinality);
     }
 
     public IType getType() {
-        return strategy.getType();
+        final IType type = strategy.getType();
+        if (type != null && !type.isAnonymous() && type.getName() == null) {
+            return strategy.getBaseType();
+        }
+        return type;
     }
 
-    public void setType(IType type) {
+    public void setType(final IType type) {
         if (getType() != type) {
             strategy.setType(type);
             // initStrategy();
@@ -116,7 +119,7 @@ public class ElementNodeDetailsController {
         return strategy.getBaseType();
     }
 
-    public void setBaseType(IType baseType) {
+    public void setBaseType(final IType baseType) {
         if (getBaseType() != baseType) {
             strategy.setBaseType(baseType);
             // initStrategy();
@@ -138,12 +141,12 @@ public class ElementNodeDetailsController {
     public boolean isTypeApplicable() {
         return strategy.isTypeApplicable();
     }
-    
-    private ElementType getElementType(IElement element) {
+
+    private ElementType getElementType(final IElement element) {
         if (!element.isAttribute()) {
-            IType type = element.getType();
+            final IType type = element.getType();
             if (type instanceof IStructureType) {
-                IStructureType structureType = (IStructureType) type;
+                final IStructureType structureType = (IStructureType) type;
                 if (structureType.isElement()) {
                     return ElementType.GLOBAL_ELEMENT_REFERENCE;
                     // 2: Element refers to a Global Element
@@ -178,21 +181,21 @@ public class ElementNodeDetailsController {
 
     public static class CardinalityType {
         public static final int UNBOUNDED = -1;
-		public static final CardinalityType ZERO_TO_ONE = new CardinalityType(0, 1);
+        public static final CardinalityType ZERO_TO_ONE = new CardinalityType(0, 1);
         public static final CardinalityType ONE_TO_ONE = new CardinalityType(1, 1);
         public static final CardinalityType ZERO_TO_MANY = new CardinalityType(0, UNBOUNDED);
         public static final CardinalityType ONE_TO_MANY = new CardinalityType(1, UNBOUNDED);
-        
-        public static final CardinalityType[] VALUES = {ZERO_TO_ONE, ONE_TO_ONE, ZERO_TO_MANY, ONE_TO_MANY};
+
+        public static final CardinalityType[] VALUES = { ZERO_TO_ONE, ONE_TO_ONE, ZERO_TO_MANY, ONE_TO_MANY };
 
         int min;
         int max;
         String stringValue;
 
-        CardinalityType(int min, int max) {
+        CardinalityType(final int min, final int max) {
             this.min = min;
             this.max = max;
-            StringBuilder buf = new StringBuilder(4);
+            final StringBuilder buf = new StringBuilder(4);
             buf.append(min).append(" .. "); //$NON-NLS-1$
             if (max == UNBOUNDED) {
                 buf.append('*');
@@ -207,7 +210,7 @@ public class ElementNodeDetailsController {
             return stringValue;
         }
 
-        public static CardinalityType get(int min, int max) {
+        public static CardinalityType get(final int min, final int max) {
             if (min == 0 && max == 1)
                 return CardinalityType.ZERO_TO_ONE;
             if (min == 1 && max == 1)
@@ -216,22 +219,22 @@ public class ElementNodeDetailsController {
                 return CardinalityType.ZERO_TO_MANY;
             if (min == 1 && (max == UNBOUNDED))
                 return CardinalityType.ONE_TO_MANY;
-            
+
             return new CardinalityType(min, max);
         }
 
-		public static CardinalityType[] values() {
-			return VALUES;
-		}
+        public static CardinalityType[] values() {
+            return VALUES;
+        }
     }
 
-    public void setInput(ITreeNode input) {
+    public void setInput(final ITreeNode input) {
         this.input = input;
         initStrategy();
     }
-    
+
     public ITreeNode getInput() {
-    	return input;
+        return input;
     }
 
     private void initStrategy() {
@@ -239,10 +242,10 @@ public class ElementNodeDetailsController {
         strategy.setInput(input);
     }
 
-    protected IElementStrategy calculateStrategy(ITreeNode treeNode) {
-        IModelObject input = treeNode == null ? null : treeNode.getModelObject();
+    protected IElementStrategy calculateStrategy(final ITreeNode treeNode) {
+        final IModelObject input = treeNode == null ? null : treeNode.getModelObject();
         if (input instanceof IElement) {
-            ElementType type = getElementType((IElement) input);
+            final ElementType type = getElementType((IElement) input);
             switch (type) {
             case GLOBAL_TYPE:
                 return new ElementOfGlobalTypeStrategy(formPageController);
@@ -255,7 +258,10 @@ public class ElementNodeDetailsController {
                 return new AttributeStrategy(formPageController);
             }
         } else if (input instanceof IStructureType) {
-            return new GlobalElementStrategy(formPageController);
+            if (((IStructureType) input).isElement()) {
+                return new GlobalElementStrategy(formPageController);
+            }
+            return new StructureTypeStrategy(formPageController);
         } else if (input instanceof ISimpleType) {
             return new SimpleTypeStrategy(formPageController);
         }

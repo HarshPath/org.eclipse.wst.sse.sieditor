@@ -24,8 +24,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
  * This is the interface for all the {@link IModelRoot} factories. Implementors
  * are responsible for the creation of the model root
  * 
- * 
- * 
  */
 public interface IModelRootFactory {
 

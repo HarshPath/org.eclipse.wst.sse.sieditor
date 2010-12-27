@@ -40,8 +40,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IStructureType;
  * element's one.<br>
  * <br>
  * 
- * 
- * 
  */
 public class MakeGlobalTypeAnonymousCommand extends AbstractNotificationOperation {
 

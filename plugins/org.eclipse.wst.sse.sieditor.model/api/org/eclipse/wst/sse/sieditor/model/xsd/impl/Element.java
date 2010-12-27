@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.xsd.impl;
 
@@ -81,28 +80,26 @@ public class Element extends AbstractXSDComponent implements IElement,
     }
 
     public int getMaxOccurs() {
-    	if(_component instanceof XSDAttributeDeclaration){
-   			final XSDAttributeUseCategory use = 
-   				((XSDAttributeUse) _component.getContainer()).getUse();
-   			//1 if required
-   			if(XSDAttributeUseCategory.PROHIBITED_LITERAL.equals(use))
-   				return 0;
-   			//0 if attribute is prohibited or optional
-   			return 1;
-    	}
-    	return ((XSDParticle) _component).getMaxOccurs();
+        if (_component instanceof XSDAttributeDeclaration) {
+            final XSDAttributeUseCategory use = ((XSDAttributeUse) _component.getContainer()).getUse();
+            // 1 if required
+            if (XSDAttributeUseCategory.PROHIBITED_LITERAL.equals(use))
+                return 0;
+            // 0 if attribute is prohibited or optional
+            return 1;
+        }
+        return ((XSDParticle) _component).getMaxOccurs();
     }
 
     public int getMinOccurs() {
-    	if(_component instanceof XSDAttributeDeclaration){
-   			final XSDAttributeUseCategory use = 
-   				((XSDAttributeUse) _component.getContainer()).getUse();
-   			//1 if required
-   			if(XSDAttributeUseCategory.REQUIRED_LITERAL.equals(use))
-   				return 1;
-   			//0 if attribute is prohibited or optional
-   			return 0;
-    	}
+        if (_component instanceof XSDAttributeDeclaration) {
+            final XSDAttributeUseCategory use = ((XSDAttributeUse) _component.getContainer()).getUse();
+            // 1 if required
+            if (XSDAttributeUseCategory.REQUIRED_LITERAL.equals(use))
+                return 1;
+            // 0 if attribute is prohibited or optional
+            return 0;
+        }
         return ((XSDParticle) _component).getMinOccurs();
     }
 
@@ -116,12 +113,12 @@ public class Element extends AbstractXSDComponent implements IElement,
     public IType getType() {
         if (_component instanceof XSDAttributeDeclaration) {
             final XSDAttributeDeclaration attribute = (XSDAttributeDeclaration) _component;
-            if (attribute.isAttributeDeclarationReference()){
+            if (attribute.isAttributeDeclarationReference()) {
                 return null;
             }
             XSDSimpleTypeDefinition type = attribute.getAnonymousTypeDefinition();
             if (null != type) {
-                //the type is anonymous
+                // the type is anonymous
                 return new SimpleType(getModelRoot(), _schema, this, type);
             }
             type = attribute.getTypeDefinition();
@@ -137,23 +134,23 @@ public class Element extends AbstractXSDComponent implements IElement,
             }
             XSDTypeDefinition type = element.getAnonymousTypeDefinition();
             if (null != type) {
-                //the type is anonymous
+                // the type is anonymous
                 if (type instanceof XSDComplexTypeDefinition) {
-                    
+
                     return new StructureType(getModelRoot(), _schema, this, type);
-                } 
-                return new SimpleType(getModelRoot(), _schema, this,(XSDSimpleTypeDefinition) type);
+                }
+                return new SimpleType(getModelRoot(), _schema, this, (XSDSimpleTypeDefinition) type);
             }
             type = element.getTypeDefinition();
             return (IType) _schema.resolveComponent(type, true);
         } else {
             throw new RuntimeException("Component must be XSDElementDeclartion or XSDAttributeDeclaration"); //$NON-NLS-1$
-        }
+        } 
     }
 
     public String getName() {
         if (_component instanceof XSDAttributeDeclaration) {
-            XSDAttributeDeclaration attribute = (XSDAttributeDeclaration) _component;
+            final XSDAttributeDeclaration attribute = (XSDAttributeDeclaration) _component;
             if (attribute.isAttributeDeclarationReference())
                 return null == attribute.getResolvedAttributeDeclaration() ? null : attribute.getResolvedAttributeDeclaration()
                         .getName();
@@ -173,7 +170,7 @@ public class Element extends AbstractXSDComponent implements IElement,
     }
 
     public String getDocumentation() {
-        List<XSDAnnotation> annotations = new ArrayList<XSDAnnotation>(1);
+        final List<XSDAnnotation> annotations = new ArrayList<XSDAnnotation>(1);
         final XSDAnnotation annotation;
         if (_component instanceof XSDParticle) {
             final XSDElementDeclaration content = (XSDElementDeclaration) ((XSDParticle) _component).getContent();
@@ -232,8 +229,7 @@ public class Element extends AbstractXSDComponent implements IElement,
             resolvedType = _schema.resolveType((AbstractType) type);
         // DOIT Import if needed
         if (null != resolvedType) {
-            final SetElementTypeCommand command = new SetElementTypeCommand(getModelRoot(), this,
-                    (AbstractType) resolvedType);
+            final SetElementTypeCommand command = new SetElementTypeCommand(getModelRoot(), this, resolvedType);
             getModelRoot().getEnv().execute(command);
 
         }
@@ -243,35 +239,9 @@ public class Element extends AbstractXSDComponent implements IElement,
         Nil.checkNil(name, "name"); //$NON-NLS-1$
         if (!EmfXsdUtils.isValidNCName(name))
             throw new IllegalInputException("Entered Element name is not valid"); //$NON-NLS-1$
-        RenameElementCommand cmd = new RenameElementCommand(getModelRoot(), this, name);
-       	getModelRoot().getEnv().execute(cmd);
+        final RenameElementCommand cmd = new RenameElementCommand(getModelRoot(), this, name);
+        getModelRoot().getEnv().execute(cmd);
     }
-
-    /*
-    public org.w3c.dom.Element setDocumentation(final String description) throws ExecutionException {
-        XSDAnnotation annotation = null;
-        if (_component instanceof XSDParticle) {
-            XSDElementDeclaration element = (XSDElementDeclaration) ((XSDParticle) _component).getContent();
-            annotation = element.getAnnotation();
-            if (null == annotation) {
-                AddAnotationCommand command = new AddAnotationCommand(element, getModelRoot(), this);
-                if (getModelRoot().getEnv().execute(command).isOK()) {
-                    annotation = command.getAnnotation();
-                }
-            }
-        } else if (_component instanceof XSDAttributeDeclaration) {
-            XSDAttributeDeclaration attribute = (XSDAttributeDeclaration) _component;
-            annotation = attribute.getAnnotation();
-            if (null == annotation) {
-                AddAnotationCommand command = new AddAnotationCommand(attribute, getModelRoot(), this);
-                if (getModelRoot().getEnv().execute(command).isOK()) {
-                    annotation = command.getAnnotation();
-                }
-            }
-        }
-        super.setDocumentation(annotation, description);
-        return null;
-    }*/
 
     public void delete() {
         if (_component instanceof XSDParticle) {
@@ -280,7 +250,7 @@ public class Element extends AbstractXSDComponent implements IElement,
             if (_parent instanceof StructureType) {
                 final XSDNamedComponent component = (XSDNamedComponent) _parent.getComponent();
                 if (component instanceof XSDComplexTypeDefinition) {
-                    for (XSDAttributeGroupContent attrContent : new ArrayList<XSDAttributeGroupContent>(
+                    for (final XSDAttributeGroupContent attrContent : new ArrayList<XSDAttributeGroupContent>(
                             ((XSDComplexTypeDefinition) component).getAttributeContents())) {
                         if ((attrContent instanceof XSDAttributeUse)
                                 && _component.equals(((XSDAttributeUse) attrContent).getContent())) {
@@ -292,16 +262,17 @@ public class Element extends AbstractXSDComponent implements IElement,
         }
     }
 
+    @Override
     public XSDConcreteComponent getComponent() {
         return _component;
     }
-    
+
     public Schema getSchema() {
-		return _schema;
-	}
-    
+        return _schema;
+    }
+
     public XSDModelGroup getContainer() {
-		return _container;
-	}
+        return _container;
+    }
 
 }

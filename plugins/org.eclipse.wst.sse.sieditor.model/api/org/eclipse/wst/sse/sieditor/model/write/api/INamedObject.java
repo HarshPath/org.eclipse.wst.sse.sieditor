@@ -22,7 +22,6 @@ import org.eclipse.wst.sse.sieditor.model.generic.IllegalInputException;
 
 /**
  * Generic Interface for all the Named Objects
- * 
  * @deprecated The write API is deprecated. Use commands instead.
  */
 public interface INamedObject extends IWritable {

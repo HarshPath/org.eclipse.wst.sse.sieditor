@@ -34,7 +34,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISimpleType;
  * Command for adding a facet to a SimpleTypeDefintion
  * 
  * 
- * 
  */
 public class AddFacetCommand extends AbstractNotificationOperation {
     private final EClass _facetClass;

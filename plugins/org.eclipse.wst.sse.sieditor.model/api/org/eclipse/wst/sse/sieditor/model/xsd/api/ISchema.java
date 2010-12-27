@@ -25,8 +25,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.AbstractType;
 
 /**
  * 
- * 
- * 
  */
 public interface ISchema extends INamespacedObject {
     String getLocation();

@@ -59,7 +59,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.UnresolvedType;
  * that the component for which we are setting the baseType is in proper state
  * for setting the respt baseType.
  * 
- * 
  * @pre null != baseType <code>&&</code> <BR>
  *      !sourceType instanceof {@link XSDElementDeclaration} <code>&&</code><BR>
  *      (baseType instanceof {@link XSDSimpleTypeDefinition}<code>||</code><BR>

@@ -19,8 +19,6 @@ import java.util.Collection;
 
 /**
  * 
- * 
- *
  */
 public interface IStructureType extends IType{
 
@@ -29,6 +27,8 @@ public interface IStructureType extends IType{
 	Collection<IElement> getElements(String name);
 	
 	boolean isElement();
+	
+	boolean isComplexTypeSimpleContent();
 	
 	IType getType();
 	

@@ -42,7 +42,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.ServiceOperation;
 /**
  * 
  * 
- * 
  */
 public class ChangeOperationTypeCommand extends AbstractWSDLNotificationOperation {
     private final OperationType _operationType;

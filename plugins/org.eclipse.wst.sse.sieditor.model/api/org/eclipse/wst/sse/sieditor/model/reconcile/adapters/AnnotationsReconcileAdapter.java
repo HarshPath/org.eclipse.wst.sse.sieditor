@@ -39,8 +39,6 @@ import org.eclipse.wst.sse.sieditor.model.reconcile.adapters.componentsource.ICo
  * Subclass of the {@link AbstractModelReconcileAdapter}. This adapter is
  * responsible for the fixing of problems caused by element annotations changes.
  * 
- * 
- * 
  */
 public class AnnotationsReconcileAdapter extends AbstractModelReconcileAdapter {
 
@@ -140,7 +138,8 @@ public class AnnotationsReconcileAdapter extends AbstractModelReconcileAdapter {
         // for all attributes with matching name of the added
         for (final XSDAttributeDeclaration eAttribute : eAttributes) {
             if (eAttribute.getAnnotation() != null
-                    || !eAttribute.getName().equals(addedElement.getAttribute(XSDConstants.NAME_ATTRIBUTE))) {
+                    || (eAttribute.getName() != null && !eAttribute.getName().equals(
+                            addedElement.getAttribute(XSDConstants.NAME_ATTRIBUTE)))) {
                 continue;
             }
             // Apply fix only for the first annotation element found in the
@@ -230,7 +229,7 @@ public class AnnotationsReconcileAdapter extends AbstractModelReconcileAdapter {
     private XSDAttributeDeclaration checkAttributeUse(final Element attrElement, final XSDAttributeUse attributeUse) {
         final XSDAttributeDeclaration currentAttribute = attributeUse.getAttributeDeclaration();
         final Element element = currentAttribute.getElement();
-        if (element.getLocalName().equals(attrElement.getLocalName())) {
+        if (element != null && element.getLocalName() != null && element.getLocalName().equals(attrElement.getLocalName())) {
             return currentAttribute;
         }
         return null;

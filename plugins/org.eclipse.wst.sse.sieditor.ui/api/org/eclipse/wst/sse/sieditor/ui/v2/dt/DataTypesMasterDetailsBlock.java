@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
@@ -33,7 +32,6 @@ import org.eclipse.ui.forms.IDetailsPageProvider;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import org.eclipse.wst.sse.sieditor.model.api.IModelChangeEvent;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 import org.eclipse.wst.sse.sieditor.model.xsd.impl.UnresolvedType;
@@ -253,24 +251,6 @@ public class DataTypesMasterDetailsBlock extends AbstractMasterDetailsBlock impl
     protected void createToolBarActions(final IManagedForm managedForm) {
         // TODO Auto-generated method stub
 
-    }
-
-    public void componentChanged(final IModelChangeEvent event) {
-        refreshTreeViewer();
-        if (detailsPart != null) {
-            detailsPart.refresh();
-        }
-
-        /*
-         * Buttons state depends on the selected node, regardless of the changed
-         * model object. That's why we use the tree selection and not the model
-         * object to update the state. If the model object is used, in some
-         * cases it may not represent the selected node and the buttons state
-         * will become invalid - e.g. add a type and then undo - the changed
-         * model object will be the schema, but at the same time there isn't any
-         * selection.
-         */
-        updateButtonsState((IStructuredSelection) treeViewer.getSelection());
     }
 
     public void showType(final IType type) {

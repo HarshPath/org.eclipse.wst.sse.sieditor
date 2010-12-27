@@ -18,8 +18,6 @@ package org.eclipse.wst.sse.sieditor.model.wsdl.api;
 /**
  * Operation Type Enumeration
  * <BR><BR><B>Possible Values</B> - <BR> <code>REQUEST_RESPONSE</code> <BR> <code>ASYNCHRONOUS</code>
- * 
- *
  */
 public enum OperationType {
 	REQUEST_RESPONSE, ASYNCHRONOUS;	

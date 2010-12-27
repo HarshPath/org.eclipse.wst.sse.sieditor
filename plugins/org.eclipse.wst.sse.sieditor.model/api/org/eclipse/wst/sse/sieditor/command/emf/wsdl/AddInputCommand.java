@@ -34,7 +34,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.Description;
 /**
  * 
  * 
- * 
  */
 public class AddInputCommand extends AbstractWSDLNotificationOperation {
     private final Operation _operation;

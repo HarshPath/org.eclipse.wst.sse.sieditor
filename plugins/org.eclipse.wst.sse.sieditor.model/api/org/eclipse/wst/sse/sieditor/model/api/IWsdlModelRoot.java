@@ -23,7 +23,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
  * for use in the model
  * 
  * 
- * 
  */
 public interface IWsdlModelRoot extends IModelRoot {
 

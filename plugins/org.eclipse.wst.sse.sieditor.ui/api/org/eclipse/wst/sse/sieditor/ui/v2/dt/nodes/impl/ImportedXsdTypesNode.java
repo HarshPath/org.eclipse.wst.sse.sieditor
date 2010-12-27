@@ -26,8 +26,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.factory.TreeNodeMapper;
 
 /**
  * A special case for the XSD data types editor. The root object is {@link ISchema} rather than {@link IDescription}
- * 
- *
  */
 public class ImportedXsdTypesNode extends ImportedTypesNode {
 

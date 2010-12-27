@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.write.api;
 
 /**
  * 
- * 
  * @deprecated The write API is deprecated. Use commands instead.
  */
 public interface IQNamedObject extends INamedObject, INamespacedObject {

@@ -62,7 +62,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.AbstractType;
  * Command for setting a parameter type
  * 
  * 
- * 
  */
 public class SetParameterTypeCommand extends AbstractCompositeNotificationOperation {
 
@@ -176,19 +175,19 @@ public class SetParameterTypeCommand extends AbstractCompositeNotificationOperat
             }
 
             if (typeToBeReferenced instanceof XSDTypeDefinition) {
-                if (part.getElementDeclaration() != null) {
+                if (part.getElementDeclaration() != null || part.getElement().hasAttribute(WSDLConstants.ELEMENT_ATTRIBUTE)) {
                     part.getElement().getAttributes().removeNamedItem(WSDLConstants.ELEMENT_ATTRIBUTE);
                 }
-                
+
                 final XSDTypeDefinition typeDefinition = (XSDTypeDefinition) typeToBeReferenced;
                 part.setTypeName(typeQname);
                 part.setTypeDefinition(typeDefinition);
-                
+
                 return Status.OK_STATUS;
-                
+
             } else if (typeToBeReferenced instanceof XSDElementDeclaration) {
-                
-                if (part.getTypeDefinition() != null) {
+
+                if (part.getTypeDefinition() != null || part.getElement().hasAttribute(WSDLConstants.TYPE_ATTRIBUTE)) {
                     part.getElement().getAttributes().removeNamedItem(WSDLConstants.TYPE_ATTRIBUTE);
                 }
                 final XSDElementDeclaration elementDeclaration = (XSDElementDeclaration) typeToBeReferenced;

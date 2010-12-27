@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.emf.xsd;
 
@@ -39,6 +38,7 @@ public class ResolveImportedSchemaCommand extends AbstractXSDNotificationOperati
 
     @Override
     public IStatus run(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+        xsdImport.reset();
         resolvedSchema = xsdImport.importSchema();
         return Status.OK_STATUS;
     }
@@ -54,11 +54,12 @@ public class ResolveImportedSchemaCommand extends AbstractXSDNotificationOperati
         // org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema.getReferredSchemas()
         return run(monitor, info);
     }
-
+    
     @Override
-    protected void notifyListeners() {
-        // this command does not modify anything and does not need to notify the
-        // UI
+    public boolean shouldNotifyOnDidCommit() {
+        // Because the command is used in model methods for resolving schemas on model load,
+        // it should not notify the listeners. Otherwise the editor will become dirty on open.
+        return false;
     }
 
 }

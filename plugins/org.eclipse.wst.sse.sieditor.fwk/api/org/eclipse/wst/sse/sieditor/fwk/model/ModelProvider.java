@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.IFileEditorInput;
-
 import org.eclipse.wst.sse.sieditor.core.editorfwk.ModelHandler;
 import org.eclipse.wst.sse.sieditor.mm.IModelProvider;
 import org.eclipse.wst.sse.sieditor.model.api.IModelExtension;
@@ -29,11 +28,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
 import org.eclipse.wst.sse.sieditor.model.impl.AbstractModelObject;
 import org.eclipse.wst.sse.sieditor.model.write.api.IWritable;
 
-/**
- * 
- * 
- * 
- */
 public class ModelProvider implements IModelProvider, IAdapterFactory {
 
 	public Object getAdapter(Object adaptableObject, Class adapterType) {

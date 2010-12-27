@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Keshav Veerapaneni - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.wsdl.impl;
 
@@ -30,8 +29,6 @@ import org.eclipse.wst.sse.sieditor.model.write.api.IWritable;
 /**
  * Generic base class for the WSDL {@link IModelObject} classes
  * 
- * 
- *
  */
 public abstract class AbstractWSDLComponent extends AbstractExtensibleObject implements IWritable {
     protected final WSDLElement component;

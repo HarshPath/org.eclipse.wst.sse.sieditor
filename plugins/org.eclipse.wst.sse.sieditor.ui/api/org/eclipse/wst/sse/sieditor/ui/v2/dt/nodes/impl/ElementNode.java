@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.impl;
 
@@ -30,42 +29,33 @@ import org.eclipse.wst.sse.sieditor.ui.Activator;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.IElementNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.factory.TreeNodeMapper;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.impl.AbstractTreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.utils.UIUtils;
 
-public class ElementNode extends AbstractTreeNode implements IElementNode {
+public class ElementNode extends AbstractXsdTreeNode implements IElementNode {
 
     public ElementNode(final IModelObject element, final ITreeNode parent, final TreeNodeMapper nodeMapper) {
         super(element, parent, nodeMapper);
     }
-    
-    @Override
-	public IElement getModelObject() {
-		return (IElement) super.getModelObject();
-	}
 
     @Override
-    public String getDisplayName() {
-		return UIUtils.instance().getDisplayName(getModelObject());
+    public IElement getModelObject() {
+        return (IElement) super.getModelObject();
     }
 
     @Override
     public Image getImage() {
         final ImageRegistry imageRegistry = getImageRegistry();
         Image image;
-        if(isReadOnly()) {
-        	if(EmfXsdUtils.isReference(getModelObject())) {
-        		image = getModelObject().isAttribute() ? imageRegistry.get(Activator.NODE_ATTRIBUTE_GRAY_REF) : 
-	                imageRegistry.get(Activator.NODE_ELEMENT_GRAY_REF);
-        	}
-        	else {
-	            image = getModelObject().isAttribute() ? imageRegistry.get(Activator.NODE_ATTRIBUTE_GRAY) : 
-	                imageRegistry.get(Activator.NODE_ELEMENT_GRAY);
-        	}
-        }
-        else {
-            image = getModelObject().isAttribute() ? imageRegistry.get(Activator.NODE_ATTRIBUTE) : 
-                imageRegistry.get(Activator.NODE_ELEMENT); 
+        if (isReadOnly()) {
+            if (EmfXsdUtils.isReference(getModelObject())) {
+                image = getModelObject().isAttribute() ? imageRegistry.get(Activator.NODE_ATTRIBUTE_GRAY_REF) : imageRegistry
+                        .get(Activator.NODE_ELEMENT_GRAY_REF);
+            } else {
+                image = getModelObject().isAttribute() ? imageRegistry.get(Activator.NODE_ATTRIBUTE_GRAY) : imageRegistry
+                        .get(Activator.NODE_ELEMENT_GRAY);
+            }
+        } else {
+            image = getModelObject().isAttribute() ? imageRegistry.get(Activator.NODE_ATTRIBUTE) : imageRegistry
+                    .get(Activator.NODE_ELEMENT);
         }
         return image;
     }
@@ -74,13 +64,13 @@ public class ElementNode extends AbstractTreeNode implements IElementNode {
     public Object[] getChildren() {
         final IType type = getModelObject().getType();
         if (type instanceof IStructureType && type.isAnonymous() && !isRecursive()) {
-        	ArrayList<ITreeNode> elementNodes = new ArrayList<ITreeNode>();
-            for (IElement element : ((IStructureType) type).getAllElements()) {
-            	// do skip attribute references
-            	if(element.isAttribute() && EmfXsdUtils.isReference(element)) {
-            		continue;
-            	}
-                List<ITreeNode> treeNodes = getNodeMapper().getTreeNode(element, getCategories(), this);
+            final ArrayList<ITreeNode> elementNodes = new ArrayList<ITreeNode>();
+            for (final IElement element : ((IStructureType) type).getAllElements()) {
+                // do skip attribute references
+                if (element.isAttribute() && EmfXsdUtils.isReference(element)) {
+                    continue;
+                }
+                final List<ITreeNode> treeNodes = getNodeMapper().getTreeNode(element, getCategories(), this);
                 ITreeNode elementNode = treeNodes.isEmpty() ? null : treeNodes.get(0);
                 if (elementNode == null) {
                     elementNode = createElement(element);
@@ -92,40 +82,42 @@ public class ElementNode extends AbstractTreeNode implements IElementNode {
         }
         return new Object[0];
     }
-    
+
     private boolean isRecursive() {
-    	int categories = getCategories();
-		boolean isCategoryReference = (categories & ITreeNode.CATEGORY_REFERENCE) != 0;
-		if(isCategoryReference) {
-			// search parent nodes for the referred type
-			return existAsParent(getModelObject().getType());
-		}
-		return false;
-	}
+        final int categories = getCategories();
+        final boolean isCategoryReference = (categories & ITreeNode.CATEGORY_REFERENCE) != 0;
+        if (isCategoryReference) {
+            // search parent nodes for the referred type
+            return existAsParent(getModelObject().getType());
+        }
+        return false;
+    }
 
-	private boolean existAsParent(IModelObject refModelObject) {
-		ITreeNode currentNode = this;
-		ITreeNode parentNode = this.getParent();
-		IModelObject parentModelObject;
-		int parentCategories;
-		boolean isParentCategoryReference;
-		
-		while(parentNode != null) {
-			parentCategories = parentNode.getCategories();
-			isParentCategoryReference = (parentCategories & ITreeNode.CATEGORY_REFERENCE) != 0 && parentNode.getModelObject() instanceof IElement;
-			parentModelObject = isParentCategoryReference ? ((IElement)parentNode.getModelObject()).getType() : parentNode.getModelObject();
-			
-			if(refModelObject.equals(parentModelObject)) {
-				return true;
-			}
-			currentNode = parentNode;
-			parentNode = currentNode.getParent();
-		}
-		return false;
-	}
+    private boolean existAsParent(final IModelObject refModelObject) {
+        ITreeNode currentNode = this;
+        ITreeNode parentNode = this.getParent();
+        IModelObject parentModelObject;
+        int parentCategories;
+        boolean isParentCategoryReference;
 
-	protected IElementNode createElement(final IElement element) {
+        while (parentNode != null) {
+            parentCategories = parentNode.getCategories();
+            isParentCategoryReference = (parentCategories & ITreeNode.CATEGORY_REFERENCE) != 0
+                    && parentNode.getModelObject() instanceof IElement;
+            parentModelObject = isParentCategoryReference ? ((IElement) parentNode.getModelObject()).getType() : parentNode
+                    .getModelObject();
+
+            if (refModelObject.equals(parentModelObject)) {
+                return true;
+            }
+            currentNode = parentNode;
+            parentNode = currentNode.getParent();
+        }
+        return false;
+    }
+
+    protected IElementNode createElement(final IElement element) {
         return new ElementNode(element, this, getNodeMapper());
     }
-    
+
 }

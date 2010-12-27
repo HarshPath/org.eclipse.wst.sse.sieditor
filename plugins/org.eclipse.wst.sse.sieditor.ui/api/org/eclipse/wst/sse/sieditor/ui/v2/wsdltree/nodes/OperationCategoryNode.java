@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.wsdltree.nodes;
 
@@ -30,25 +29,23 @@ import org.eclipse.wst.sse.sieditor.ui.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.ui.v2.UIUtils;
 import org.eclipse.wst.sse.sieditor.ui.v2.factory.WSDLNodeFactory;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.impl.AbstractTreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller.SIFormPageController;
 
-public class OperationCategoryNode extends AbstractTreeNode {
+public class OperationCategoryNode extends AbstractWsdlTreeNode {
 
-    private IOperation operation;
-    
+    private final IOperation operation;
+
     public IOperation getOperation() {
         return operation;
     }
 
-    private OperationCategory operationCategory;
+    private final OperationCategory operationCategory;
     private final SIFormPageController nodeMapperContainer;
 
-    public OperationCategoryNode(ITreeNode parent, OperationCategory operationCategory, IOperation operation,
-            SIFormPageController nodeMapperContainer) {
-        super(null, parent, 
-                nodeMapperContainer == null ? null : nodeMapperContainer.getTreeNodeMapper(),
-                        UIUtils.getCorrespondingITreenodeCategory(operationCategory));
+    public OperationCategoryNode(final ITreeNode parent, final OperationCategory operationCategory, final IOperation operation,
+            final SIFormPageController nodeMapperContainer) {
+        super(null, parent, nodeMapperContainer == null ? null : nodeMapperContainer.getTreeNodeMapper(), UIUtils
+                .getCorrespondingITreenodeCategory(operationCategory));
         this.operationCategory = operationCategory;
         this.nodeMapperContainer = nodeMapperContainer;
         this.operation = operation;
@@ -60,10 +57,11 @@ public class OperationCategoryNode extends AbstractTreeNode {
      * -For Output category node - Output parameter nodes<br/>
      * -For Fault category node - Fault nodes are returned
      */
+    @Override
     public Object[] getChildren() {
 
-        ArrayList<IParameter> parameters = new ArrayList<IParameter>();
-        ArrayList<ParameterNode> parameterNodes = new ArrayList<ParameterNode>();
+        final ArrayList<IParameter> parameters = new ArrayList<IParameter>();
+        final ArrayList<ParameterNode> parameterNodes = new ArrayList<ParameterNode>();
 
         if (operationCategory.equals(OperationCategory.INPUT)) {
 
@@ -75,51 +73,42 @@ public class OperationCategoryNode extends AbstractTreeNode {
 
         } else {
 
-            ArrayList<IFault> faults = new ArrayList<IFault>(getOperation().getAllFaults());
-            ArrayList<FaultNode> faultNodes = new ArrayList<FaultNode>();
+            final ArrayList<IFault> faults = new ArrayList<IFault>(getOperation().getAllFaults());
+            final ArrayList<FaultNode> faultNodes = new ArrayList<FaultNode>();
 
-            for (IFault fault : faults) {
+            for (final IFault fault : faults) {
                 faultNodes.add(getFaultNode(fault));
             }
             return faultNodes.toArray();
         }
 
         if (parameters.size() > 0) {
-            for (IParameter parameter : parameters) {
+            for (final IParameter parameter : parameters) {
                 parameterNodes.add(getParameterNode(parameter));
             }
         }
         return parameterNodes.toArray();
     }
 
-    public String getDisplayName() {
-        if (operationCategory.equals(OperationCategory.INPUT))
-            return Messages.SI_INPUT_XTND;
-        else if (operationCategory.equals(OperationCategory.OUTPUT))
-            return Messages.SI_OUTPUT_XTND;
-        else if (operationCategory.equals(OperationCategory.FAULT))
-            return Messages.SI_FAULTS_XTND;
-        else
-            return null;
-    }
-
+    @Override
     public Image getImage() {
         return getImage(getParent().isReadOnly());
     }
-    
-    public Image getImage(boolean isReadOnly) {
+
+    public Image getImage(final boolean isReadOnly) {
         if (operationCategory.equals(OperationCategory.INPUT))
-            return isReadOnly ? getImageRegistry().get(Activator.NODE_OPER_INPUT_GRAY) :
-                getImageRegistry().get(Activator.NODE_OPER_INPUT);
+            return isReadOnly ? getImageRegistry().get(Activator.NODE_OPER_INPUT_GRAY) : getImageRegistry().get(
+                    Activator.NODE_OPER_INPUT);
         else if (operationCategory.equals(OperationCategory.OUTPUT))
-            return isReadOnly ? getImageRegistry().get(Activator.NODE_OPER_OUTPUT_GRAY) :
-                getImageRegistry().get(Activator.NODE_OPER_OUTPUT);
+            return isReadOnly ? getImageRegistry().get(Activator.NODE_OPER_OUTPUT_GRAY) : getImageRegistry().get(
+                    Activator.NODE_OPER_OUTPUT);
         else if (operationCategory.equals(OperationCategory.FAULT))
-            return isReadOnly ? getImageRegistry().get(Activator.NODE_OPER_FAULTS_GRAY) :
-                getImageRegistry().get(Activator.NODE_OPER_FAULTS);
+            return isReadOnly ? getImageRegistry().get(Activator.NODE_OPER_FAULTS_GRAY) : getImageRegistry().get(
+                    Activator.NODE_OPER_FAULTS);
         return null;
     }
 
+    @Override
     public boolean hasChildren() {
         switch (operationCategory) {
         case INPUT:
@@ -133,6 +122,7 @@ public class OperationCategoryNode extends AbstractTreeNode {
         }
     }
 
+    @Override
     public IModelObject getModelObject() {
         return null;
     }
@@ -149,17 +139,17 @@ public class OperationCategoryNode extends AbstractTreeNode {
     }
 
     private ParameterNode getParameterNode(final IParameter parameter) {
-        List<ITreeNode> treeNodes = nodeMapperContainer.getTreeNodeMapper().getTreeNode(parameter, this);
+        final List<ITreeNode> treeNodes = nodeMapperContainer.getTreeNodeMapper().getTreeNode(parameter, this);
         ParameterNode parameterNode = null;
         if (treeNodes.isEmpty()) {
             parameterNode = WSDLNodeFactory.getInstance().createParameterNode(this, parameter, nodeMapperContainer);
-        }
-        else {
-            parameterNode = (ParameterNode)treeNodes.get(0);            
+        } else {
+            parameterNode = (ParameterNode) treeNodes.get(0);
         }
         return parameterNode;
     }
 
+    @Override
     protected ImageRegistry getImageRegistry() {
         return Activator.getDefault().getImageRegistry();
     }
@@ -170,10 +160,11 @@ public class OperationCategoryNode extends AbstractTreeNode {
      * will be <code>null</code>. Otherwise a tooltip should be provided like
      * "Input Parameter Bla bla"
      * 
-     * @param element Parameter or Fault node
+     * @param element
+     *            Parameter or Fault node
      * @return the tooltip to display in tree
      */
-    public String getTooltipTextFor(ITreeNode element) {
+    public String getTooltipTextFor(final ITreeNode element) {
         String tooltip = null;
         if (!nodeMapperContainer.isShowCategoryNodes()) {
             switch (operationCategory) {

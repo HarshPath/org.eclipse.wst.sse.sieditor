@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.utils;
 
@@ -21,6 +20,7 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IOperation;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IServiceInterface;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IStructureType;
+import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 
 public class NameGenerator {
 
@@ -43,14 +43,22 @@ public class NameGenerator {
         return getNewElementDefaultName(modelObject, ELEMENT_DEFAULT_NAME);
     }
 
-    private static String getNewElementDefaultName(final IModelObject modelObject, String elementDefaultName) {
-        return NameGenerator.generateName(elementDefaultName, new ICondition<String>() {
-            public boolean isSatisfied(String in) {
+    private static String getNewElementDefaultName(final IModelObject modelObject, final String elementDefaultName) {
+        return generateName(elementDefaultName, new ICondition<String>() {
+            public boolean isSatisfied(final String in) {
                 if (modelObject instanceof ISchema) {
                     return ((ISchema) modelObject).getAllTypes(in) == null;
                 }
                 if (modelObject instanceof IStructureType) {
-                    return ((IStructureType) modelObject).getElements(in).size() == 0;
+                    final IStructureType structureType = (IStructureType) modelObject;
+
+                    boolean isSatisfied = structureType.getElements(in).size() == 0;
+                    final IType baseType = structureType.getBaseType();
+                    if (baseType instanceof IStructureType) {
+                        isSatisfied &= ((IStructureType) baseType).getElements(in).size() == 0;
+                    }
+
+                    return isSatisfied;
                 }
 
                 throw new IllegalArgumentException(
@@ -59,10 +67,15 @@ public class NameGenerator {
         });
     }
 
-    public static String getNewtAttributeDefaultName(final IStructureType structureType) {
+    public static String getNewAttributeDefaultName(final IStructureType structureType) {
         return NameGenerator.generateName(ATTRIBUTE_DEFAULT_NAME, new ICondition<String>() {
-            public boolean isSatisfied(String in) {
-                return structureType.getElements(in).size() == 0;
+            public boolean isSatisfied(final String in) {
+                boolean isSatisfied = structureType.getElements(in).size() == 0;
+                final IType baseType = structureType.getBaseType();
+                if (baseType instanceof IStructureType) {
+                    isSatisfied &= ((IStructureType) baseType).getElements(in).size() == 0;
+                }
+                return isSatisfied;
             }
         });
     }
@@ -77,7 +90,7 @@ public class NameGenerator {
 
     public static String getNewSimpleTypeDefaultName(final ISchema schema) {
         return NameGenerator.generateName(SIMPLE_TYPE_DEFAULT_NAME, new ICondition<String>() {
-            public boolean isSatisfied(String in) {
+            public boolean isSatisfied(final String in) {
                 return schema.getAllTypes(in) == null;
             }
         });
@@ -85,7 +98,7 @@ public class NameGenerator {
 
     public static String getNewStructureTypeDefaultName(final ISchema schema) {
         return NameGenerator.generateName(STRUCTURE_TYPE_DEFAULT_NAME, new ICondition<String>() {
-            public boolean isSatisfied(String in) {
+            public boolean isSatisfied(final String in) {
                 return schema.getAllTypes(in) == null;
             }
         });
@@ -97,7 +110,7 @@ public class NameGenerator {
      */
     public static String getNewOperationName(final IServiceInterface serviceInterface) {
         return NameGenerator.generateName(NEW_OPERATION, new ICondition<String>() {
-            public boolean isSatisfied(String in) {
+            public boolean isSatisfied(final String in) {
                 return serviceInterface.getOperation(in).isEmpty();
             }
         });
@@ -108,7 +121,7 @@ public class NameGenerator {
      */
     public static String getNewServiceInterfaceName(final IDescription description) {
         return NameGenerator.generateName(SERVICE_INTERFACE, new ICondition<String>() {
-            public boolean isSatisfied(String in) {
+            public boolean isSatisfied(final String in) {
                 return description.getInterface(in).isEmpty();
             }
         });
@@ -119,7 +132,7 @@ public class NameGenerator {
      */
     public static String getInputParameterName(final IOperation operation) {
         return NameGenerator.generateName(PARAMETER, new ICondition<String>() {
-            public boolean isSatisfied(String in) {
+            public boolean isSatisfied(final String in) {
                 return operation.getInputParameter(in).isEmpty();
             }
         });
@@ -130,7 +143,7 @@ public class NameGenerator {
      */
     public static String getOutputParameterName(final IOperation operation) {
         return NameGenerator.generateName(PARAMETER, new ICondition<String>() {
-            public boolean isSatisfied(String in) {
+            public boolean isSatisfied(final String in) {
                 return operation.getOutputParameter(in).isEmpty();
             }
         });
@@ -141,7 +154,7 @@ public class NameGenerator {
      */
     public static String getNewFaultName(final IOperation operation) {
         return NameGenerator.generateName(FAULT, new ICondition<String>() {
-            public boolean isSatisfied(String in) {
+            public boolean isSatisfied(final String in) {
                 return operation.getFault(in).isEmpty();
             }
         });

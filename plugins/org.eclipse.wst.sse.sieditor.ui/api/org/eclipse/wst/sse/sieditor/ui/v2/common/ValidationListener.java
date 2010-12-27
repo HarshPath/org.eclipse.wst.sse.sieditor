@@ -11,11 +11,11 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.common;
 
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -225,7 +225,7 @@ public class ValidationListener implements IValidationListener {
         errorMessages.clear();
     }
 
-    private void resetPagesFormTitle() {
+    public void resetPagesFormTitle() {
         for (final AbstractEditorPage page : pages) {
             final ScrolledForm form = page.getManagedForm().getForm();
             form.setMessage(UIConstants.EMPTY_STRING, IMessageProvider.NONE);
@@ -234,11 +234,11 @@ public class ValidationListener implements IValidationListener {
     }
 
     public List<String> getErrorMessages() {
-        return errorMessages;
+        return Collections.unmodifiableList(errorMessages);
     }
 
     public List<String> getWarningMessages() {
-        return warningMessages;
+        return Collections.unmodifiableList(warningMessages);
     }
 
 }

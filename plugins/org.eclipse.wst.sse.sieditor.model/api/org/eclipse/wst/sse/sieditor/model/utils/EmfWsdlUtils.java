@@ -46,6 +46,7 @@ import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
 import org.eclipse.wst.xml.core.internal.document.DocumentImpl;
 import org.eclipse.wst.xml.core.internal.document.XMLModelNotifier;
 import org.eclipse.xsd.XSDAnnotation;
+import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSchemaContent;
@@ -66,7 +67,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 
 /**
  * EMF WSDL Utils
- * 
  * 
  * 
  */
@@ -456,4 +456,32 @@ public final class EmfWsdlUtils {
         return false;
     }
 
+    public static boolean couldBeVisibleType(XSDConcreteComponent xsdComponent) {
+        EObject emfContainer = xsdComponent.eContainer();
+        if (!(emfContainer instanceof XSDSchema)) {
+            return false;
+        }
+
+        EObject parentEmfContainer = emfContainer.eContainer();
+        if (parentEmfContainer instanceof XSDSchemaExtensibilityElement) {
+
+            XSDSchemaExtensibilityElement exElement = (XSDSchemaExtensibilityElement) parentEmfContainer;
+            if (exElement == null) {
+                return false;
+            }
+
+            Definition definition = exElement.getEnclosingDefinition();
+            boolean locationMatches = definition.getLocation() != null
+                    && definition.getLocation().equals(xsdComponent.getSchema().getSchemaLocation());
+            boolean isSchemaPresentInDocument = definition.getETypes().getSchemas().contains(xsdComponent.getSchema());
+
+            if (locationMatches && isSchemaPresentInDocument) {
+                return true;
+            }
+
+        }
+
+        return xsdComponent.getSchema() != null;
+
+    }
 }

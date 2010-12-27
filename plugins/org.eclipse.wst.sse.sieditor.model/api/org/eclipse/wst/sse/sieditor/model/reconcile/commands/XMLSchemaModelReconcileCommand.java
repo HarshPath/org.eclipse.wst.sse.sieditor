@@ -15,6 +15,9 @@
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.reconcile.commands;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -22,18 +25,21 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.xsd.XSDSchema;
 
+import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.IXsdReconcileUtils;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.ObjectsForResolveContainer;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.ObjectsForResolveUtils;
+import org.eclipse.wst.sse.sieditor.model.reconcile.utils.XsdReconcileUtils;
 
 /**
  * The XSD model reconcile command subclass of
  * {@link AbstractModelReconcileCommand}
  * 
- * 
- * 
  */
-public class XMLSchemaModelReconcileCommand extends AbstractModelReconcileCommand {
+public class XMLSchemaModelReconcileCommand extends AbstractNotificationOperation {
 
     private final XSDSchema schema;
 
@@ -44,17 +50,31 @@ public class XMLSchemaModelReconcileCommand extends AbstractModelReconcileComman
 
     @Override
     public IStatus run(final IProgressMonitor monitor, final IAdaptable info) throws ExecutionException {
-        final ObjectsForResolveContainer container = findObjectsForResolve(schema);
+        final List<XSDSchema> allSchemas = new LinkedList<XSDSchema>();
+        allSchemas.add(schema);
+
+        final ObjectsForResolveContainer container = objectsForResolveUtils().findObjectsForResolve(schema, allSchemas);
 
         // we need to fix the element and attribute references
-        reconcileUtils().reconcileSchemaContents(schema, container.getElementsForReferenceResolve(),
-                container.getElementsForTypeResolve(), container.getAttributesForResolve());
+        reconcileUtils().reconcileSchemaContents(schema, container);
 
         // XXX: we are not checking for XsdAttributeGroupDeclaration and
         // XsdModelGroupDeclaration elements. If we need to add such resolve
         // methods, this would be the right place to call them
 
         return Status.OK_STATUS;
+    }
+
+    // =========================================================
+    // helpers
+    // =========================================================
+
+    protected IXsdReconcileUtils reconcileUtils() {
+        return XsdReconcileUtils.instance();
+    }
+
+    protected ObjectsForResolveUtils objectsForResolveUtils() {
+        return ObjectsForResolveUtils.instance();
     }
 
 }

@@ -30,8 +30,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
  * super.getNextOperation(subOperations);, and have in mind the two possible
  * outcomes.
  * 
- * 
- * 
  * @see {@link EnsureDefinitionCommand}, <br>
  *      {@link AbstractCompositeNotificationOperation}, <br>
  *      <code>this.</code>{@link #getNextOperation(List)}<br>

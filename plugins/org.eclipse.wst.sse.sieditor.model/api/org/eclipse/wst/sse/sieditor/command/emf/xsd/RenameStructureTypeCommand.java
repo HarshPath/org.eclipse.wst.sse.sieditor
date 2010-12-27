@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.emf.xsd;
 
@@ -33,38 +32,39 @@ import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IStructureType;
 
-public class RenameStructureTypeCommand extends RenameNamedComponent{
+public class RenameStructureTypeCommand extends RenameNamedComponent {
 
-	public RenameStructureTypeCommand(IModelRoot root, IStructureType namedObject, String name) {
-		super(root, namedObject, name);
-	}
-	
-	@Override
-	public IStatus run(IProgressMonitor monitor, IAdaptable info)
-			throws ExecutionException {
-		EObject baseComponent = root.getModelObject().getComponent();
-		XSDNamedComponent component =  (XSDNamedComponent) _namedObject.getComponent();
-		
-		XSDElementDeclaration element = component instanceof XSDElementDeclaration ? (XSDElementDeclaration) component : null;
-		if (element != null) {
-			element.setName(_name);
-			EmfXsdUtils.updateModelReferencers(baseComponent, element);
-		} else {
-			XSDTypeDefinition type = (XSDTypeDefinition) component;
-			if (type != null) {
-				if (!((IStructureType) _namedObject).isAnonymous()) {
-					type.setName(_name);
-					EmfXsdUtils.updateModelReferencers(baseComponent, type);
-				} else {
-					return new Status(IStatus.ERROR, Activator.PLUGIN_ID, Messages.RenameStructureTypeCommand_msg_can_not_rename_anonymous_type);
-				}
-			} else {
-				return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 
-						MessageFormat.format(Messages.RenameStructureTypeCommand_msg_can_not_find_XSD_element_for_type_X, _namedObject.getName()));
-			}
-		}
-		
-		return Status.OK_STATUS;
-	}
+    public RenameStructureTypeCommand(final IModelRoot root, final IStructureType namedObject, final String name) {
+        super(root, namedObject, name);
+    }
+
+    @Override
+    public IStatus run(final IProgressMonitor monitor, final IAdaptable info) throws ExecutionException {
+        final EObject baseComponent = root.getModelObject().getComponent();
+        final XSDNamedComponent component = (XSDNamedComponent) _namedObject.getComponent();
+
+        final XSDElementDeclaration element = component instanceof XSDElementDeclaration ? (XSDElementDeclaration) component
+                : null;
+        if (element != null) {
+            setNamedComponentNewName(element, _name);
+            EmfXsdUtils.updateModelReferencers(baseComponent, element);
+        } else {
+            final XSDTypeDefinition type = (XSDTypeDefinition) component;
+            if (type != null) {
+                if (!((IStructureType) _namedObject).isAnonymous()) {
+                    setNamedComponentNewName(type, _name);
+                    EmfXsdUtils.updateModelReferencers(baseComponent, type);
+                } else {
+                    return new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+                            Messages.RenameStructureTypeCommand_msg_can_not_rename_anonymous_type);
+                }
+            } else {
+                return new Status(IStatus.ERROR, Activator.PLUGIN_ID, MessageFormat.format(
+                        Messages.RenameStructureTypeCommand_msg_can_not_find_XSD_element_for_type_X, _namedObject.getName()));
+            }
+        }
+
+        return Status.OK_STATUS;
+    }
 
 }

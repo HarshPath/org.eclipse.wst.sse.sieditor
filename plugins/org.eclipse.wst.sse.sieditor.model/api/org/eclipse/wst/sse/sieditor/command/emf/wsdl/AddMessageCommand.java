@@ -38,7 +38,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.Description;
 /**
  * 
  * 
- * 
  */
 public class AddMessageCommand extends AbstractNotificationOperation {
     public static final String DEFAULT_PART_NAME = "Parameter"; //$NON-NLS-1$

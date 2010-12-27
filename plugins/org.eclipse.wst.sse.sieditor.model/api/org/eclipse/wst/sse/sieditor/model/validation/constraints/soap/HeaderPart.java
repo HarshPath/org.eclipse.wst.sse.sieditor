@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.constraints.soap;
 
@@ -23,33 +22,36 @@ import org.eclipse.wst.wsdl.binding.soap.SOAPHeaderBase;
 import org.eclipse.wst.wsdl.binding.soap.SOAPHeaderFault;
 
 import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
+import org.eclipse.wst.sse.sieditor.model.utils.ElementAttributeUtils;
 import org.eclipse.wst.sse.sieditor.model.validation.constraints.AbstractConstraint;
 
-public class HeaderPart extends AbstractConstraint{
+public class HeaderPart extends AbstractConstraint {
 
-	@Override
-	protected IStatus doValidate(IValidationContext ctx) {
-		SOAPHeaderBase header = (SOAPHeaderBase) ctx.getTarget();
-		
-		Message eMessage = header.getEMessage();
-		
-		if (eMessage != null) {
-			if (header.getEPart() == null) {
-				String partAttribute = header.getElement().getAttribute("part"); //$NON-NLS-1$
-				if (partAttribute != null) {
-					if (header instanceof SOAPHeaderFault) {
-						return ConstraintStatus.createStatus(ctx, header, null, Messages.SOAPHeaderPart_1, partAttribute, eMessage.getQName().getLocalPart());
-					}
-					return ConstraintStatus.createStatus(ctx, header, null, Messages.SOAPHeaderPart_2, partAttribute, eMessage.getQName().getLocalPart());
-				}
-			}
-		}
-		return ConstraintStatus.createSuccessStatus(ctx, header, null);
-	}
+    @Override
+    protected IStatus doValidate(final IValidationContext ctx) {
+        final SOAPHeaderBase header = (SOAPHeaderBase) ctx.getTarget();
 
-	@Override
-	protected boolean shouldExecute(IValidationContext ctx) {
-		return true;
-	}
+        final Message eMessage = header.getEMessage();
+
+        if (eMessage != null) {
+            if (header.getEPart() == null) {
+                if (ElementAttributeUtils.hasAttributeValue(header.getElement(), "part")) { //$NON-NLS-1$
+                    final String partAttribute = header.getElement().getAttribute("part"); //$NON-NLS-1$
+                    if (header instanceof SOAPHeaderFault) {
+                        return ConstraintStatus.createStatus(ctx, header, null, Messages.SOAPHeaderPart_1, partAttribute,
+                                eMessage.getQName().getLocalPart());
+                    }
+                    return ConstraintStatus.createStatus(ctx, header, null, Messages.SOAPHeaderPart_2, partAttribute, eMessage
+                            .getQName().getLocalPart());
+                }
+            }
+        }
+        return ConstraintStatus.createSuccessStatus(ctx, header, null);
+    }
+
+    @Override
+    protected boolean shouldExecute(final IValidationContext ctx) {
+        return true;
+    }
 
 }

@@ -70,7 +70,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
 import org.eclipse.wst.sse.sieditor.model.generic.DocumentSaveException;
 import org.eclipse.wst.sse.sieditor.model.generic.DuplicateException;
 import org.eclipse.wst.sse.sieditor.model.generic.IllegalInputException;
-import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.model.search.DocumentType;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfWsdlUtils;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
@@ -87,8 +86,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.UnresolvedType;
 /**
  * {@link IDescription} implementation for the EMF WSDL model
  * 
- * 
- * 
  */
 public final class Description extends AbstractWSDLComponent implements IDescription,
         org.eclipse.wst.sse.sieditor.model.write.wsdl.api.IDescription {
@@ -96,10 +93,10 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
     private static final String XI_EXTENSION = ".xi"; //$NON-NLS-1$
     private static final String XSD_EXTENSION = ".xsd"; //$NON-NLS-1$
     private static final String WSDL_EXTENSION = ".wsdl"; //$NON-NLS-1$
-    private URI uri;
-    private SchemaResolver _schemaResolver;
+    private final URI uri;
+    private final SchemaResolver _schemaResolver;
 
-    public Description(final IWsdlModelRoot modelRoot, final Definition definition, URI uri) {
+    public Description(final IWsdlModelRoot modelRoot, final Definition definition, final URI uri) {
         super(definition, modelRoot, null);
         Nil.checkNil(definition, "definition"); //$NON-NLS-1$
 
@@ -111,7 +108,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
     public Collection<IServiceInterface> getAllInterfaces() {
         final List<IServiceInterface> interfaces = new ArrayList<IServiceInterface>(1);
         final List<PortType> portTypes = ((Definition) component).getEPortTypes();
-        for (PortType current : portTypes) {
+        for (final PortType current : portTypes) {
             interfaces.add(new ServiceInterface(getModelRoot(), this, current));
         }
         return interfaces;
@@ -120,9 +117,9 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
     @SuppressWarnings("unchecked")
     public List<IServiceInterface> getInterface(final String name) {
         Nil.checkNil(name, "name"); //$NON-NLS-1$
-        List<IServiceInterface> interfaces = new ArrayList<IServiceInterface>();
+        final List<IServiceInterface> interfaces = new ArrayList<IServiceInterface>();
         final List<PortType> portTypes = ((Definition) component).getEPortTypes();
-        for (PortType current : portTypes) {
+        for (final PortType current : portTypes) {
             final String localPart = current.getQName().getLocalPart();
             if (name.equals(localPart)) {
                 interfaces.add(new ServiceInterface(getModelRoot(), this, current));
@@ -134,7 +131,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
     public String getLocation() {
         try {
             return URIHelper.decodeURI(uri);
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             final String msg = e.getMessage();
 
             Logger.logError(msg, e);
@@ -153,13 +150,13 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         final List<Import> wsdlImports = ((Definition) component).getEImports();
         for (final Import wsdlImport : wsdlImports) {
             Definition importedDefinition = (Definition) wsdlImport.getDefinition();
-            String targetNamespace = importedDefinition == null ? null : importedDefinition.getTargetNamespace();
-            String location = importedDefinition == null ? null : importedDefinition.getLocation();
-            String importNamespace = wsdlImport.getNamespaceURI();
-            String importLocation = wsdlImport.getLocationURI();
+            final String targetNamespace = importedDefinition == null ? null : importedDefinition.getTargetNamespace();
+            final String location = importedDefinition == null ? null : importedDefinition.getLocation();
+            final String importNamespace = wsdlImport.getNamespaceURI();
+            final String importLocation = wsdlImport.getLocationURI();
             
-            boolean isNamespaceEqual = targetNamespace == null ? importNamespace == null : targetNamespace.equals(importNamespace);
-            boolean isLocationEqual = location == null ? importLocation == null : location.equals(importLocation);
+            final boolean isNamespaceEqual = targetNamespace == null ? importNamespace == null : targetNamespace.equals(importNamespace);
+            final boolean isLocationEqual = location == null ? importLocation == null : location.equals(importLocation);
             if (// imported definition is not used anywhere in the enclosing
                 // definition (that is the reason for null), so ask "import" to resolve it explicitly
                     null == importedDefinition ||
@@ -168,22 +165,22 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
                     !isNamespaceEqual || !isLocationEqual) {
 
                 // this operation has to be executed within a write transaction
-                Map options = new HashMap(2);
+                final Map options = new HashMap(2);
                 options.put(Transaction.OPTION_NO_VALIDATION, Boolean.TRUE);
-                AbstractEMFOperation importCommand = new AbstractEMFOperation(getModelRoot().getEnv().getEditingDomain(), "", //$NON-NLS-1$
+                final AbstractEMFOperation importCommand = new AbstractEMFOperation(getModelRoot().getEnv().getEditingDomain(), "", //$NON-NLS-1$
                         options) {
 
                     @Override
-                    protected IStatus doExecute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+                    protected IStatus doExecute(final IProgressMonitor monitor, final IAdaptable info) throws ExecutionException {
                         ((ImportImpl) wsdlImport).importDefinitionOrSchema();
                         return Status.OK_STATUS;
                     }
                 };
                 try {
-                    IStatus status = importCommand.execute(null, null);
+                    final IStatus status = importCommand.execute(null, null);
                     if (!status.isOK())
                         Logger.log(status);
-                } catch (ExecutionException e) {
+                } catch (final ExecutionException e) {
                     Logger.logError("SI editor could not resolve some imports", e); //$NON-NLS-1$
                 }
 
@@ -193,7 +190,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
             if (null != importedDefinition &&
             		// do not add referred WSDLs, which TNS differs the Import tag
             		isNamespaceEqual) {
-                URI importedWsdlURI = ResourceUtils.constructURI(this, importedDefinition);
+                final URI importedWsdlURI = ResourceUtils.constructURI(this, importedDefinition);
                 imported.add(new Description(getModelRoot(), importedDefinition, importedWsdlURI));
             }
         }
@@ -202,7 +199,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
 
     @SuppressWarnings("unchecked")
     public List<ISchema> getAllVisibleSchemas() {
-        boolean debug = Logger.isDebugEnabled();
+        final boolean debug = Logger.isDebugEnabled();
         if (debug)
             Logger.getDebugTrace().traceEntry(""); //$NON-NLS-1$
 
@@ -213,7 +210,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
             Logger.getDebugTrace().trace("", "Processing WSDL Imports"); //$NON-NLS-1$ //$NON-NLS-2$
 
         final List<Import> wsdlImports = ((Definition) component).getEImports();
-        for (Import wsdlImport : wsdlImports) {
+        for (final Import wsdlImport : wsdlImports) {
             final Definition importedDefinition = (Definition) wsdlImport.getDefinition();
             if (null != importedDefinition) {
                 // Schemas from imported wsdls must not be visible
@@ -230,7 +227,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
             // only within
             // the xsd:schema element of the types section.
             final XSDSchema wsdlImportSchema = wsdlImport.getESchema();
-            ISchema schema = createISchema(wsdlImportSchema);
+            final ISchema schema = createISchema(wsdlImportSchema);
             if (null != schema) {
                 visibleSchemas.add(schema);
                 visibleSchemas.addAll(resolveImportedAndIncludedSchemas(wsdlImportSchema));
@@ -245,9 +242,9 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
             return visibleSchemas;
 
         final List<XSDSchema> schemas = types.getSchemas();
-        for (XSDSchema schema : schemas) {
+        for (final XSDSchema schema : schemas) {
             if (EmfWsdlUtils.getWsiImports(schema).isEmpty()) {
-                ISchema i_schema = createISchema(schema, this);
+                final ISchema i_schema = createISchema(schema, this);
                 if (null != i_schema) {
                     visibleSchemas.add(i_schema);
                 }
@@ -258,7 +255,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         if (debug)
             Logger.getDebugTrace().traceExit(""); //$NON-NLS-1$
 
-        Set<ISchema> noDuplicates = new HashSet<ISchema>(visibleSchemas);
+        final Set<ISchema> noDuplicates = new HashSet<ISchema>(visibleSchemas);
         visibleSchemas.clear();
         visibleSchemas.addAll(noDuplicates);
 
@@ -269,11 +266,11 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         return getSchema(namespace, true);
     }
 
-    public ISchema[] getSchema(final String namespace, boolean shouldTraverseVisibleSchemas) {
+    public ISchema[] getSchema(final String namespace, final boolean shouldTraverseVisibleSchemas) {
         // Initialize imported and contained documents
         final ArrayList<ISchema> result = new ArrayList<ISchema>(1);
         final Condition<ISchema> matchingSchema = new Condition<ISchema>() {
-            public boolean isSatisfied(ISchema schema) {
+            public boolean isSatisfied(final ISchema schema) {
                 return namespace == null ? schema.getNamespace() == null : namespace.equals(schema.getNamespace());
             }
         };
@@ -293,7 +290,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
             xsdSchemas.addAll(types.getSchemas());
         }
 
-        for (XSDSchema schema : xsdSchemas) {
+        for (final XSDSchema schema : xsdSchemas) {
             Schema containedSchema = null;
             containedSchema = new Schema(schema, this, uri);
 
@@ -322,7 +319,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         return command.getInterface();
     }
 
-    public ISchema addSchema(String namespace) throws IllegalInputException, ExecutionException {
+    public ISchema addSchema(final String namespace) throws IllegalInputException, ExecutionException {
         Nil.checkNil(namespace, "namespace"); //$NON-NLS-1$
         if (!EmfXsdUtils.isValidURI(namespace))
             throw new IllegalInputException("Schema Namespace is not valid"); //$NON-NLS-1$
@@ -353,10 +350,10 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
                     schema = cmd.getNewSchema();
                     ((Schema) schema).setResolver(_schemaResolver);
                 } else
-                    schema = (Schema) schemas[0];
+                    schema = schemas[0];
 
                 final XSDNamedComponent eType = type.getComponent();
-                IType oldType = schema.getType(eType instanceof XSDElementDeclaration, type.getName());
+                final IType oldType = schema.getType(eType instanceof XSDElementDeclaration, type.getName());
 
                 if (null != oldType)
                     return oldType;
@@ -391,12 +388,12 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         final Set<ISchema> schemas = new HashSet<ISchema>(getContainedSchemas());
         schemas.addAll(getAllVisibleSchemas());
         final Collection<ISchema> matches = CollectionTypeUtils.findAll(schemas, new Condition<ISchema>() {
-            public boolean isSatisfied(ISchema in) {
+            public boolean isSatisfied(final ISchema in) {
                 return null == namespace ? null == in.getNamespace() : namespace.equals(in.getNamespace());
             }
         });
 
-        for (ISchema schema : matches) {
+        for (final ISchema schema : matches) {
             removeSchema(schema);
         }
         return true;
@@ -408,7 +405,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         return true;
     }
 
-    public void setNamespace(String namespace) throws IllegalInputException, ExecutionException {
+    public void setNamespace(final String namespace) throws IllegalInputException, ExecutionException {
         Nil.checkNil(namespace, "namespace"); //$NON-NLS-1$
         if (!EmfXsdUtils.isValidURI(namespace))
             throw new IllegalInputException("Namespace is not valid"); //$NON-NLS-1$
@@ -426,10 +423,10 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
             // GFB-POC TODO: this should not be done here
             // _source.refreshLocal(IResource.DEPTH_INFINITE,
             // new NullProgressMonitor());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             Logger.logError("WSDL Resource " + uri.toString() + " could not be saved", e); //$NON-NLS-1$ //$NON-NLS-2$
             throw new DocumentSaveException("WSDL Resource " + uri.toString() + " could not be saved", e); //$NON-NLS-1$ //$NON-NLS-2$
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Logger.logError("WSDL Resource " + uri.toString() + " could not be saved", e); //$NON-NLS-1$ //$NON-NLS-2$
             throw new DocumentSaveException("WSDL Resource " + uri.toString() + " could not be saved", e); //$NON-NLS-1$ //$NON-NLS-2$
         }
@@ -441,7 +438,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
     }
 
     public IType resolveType(final XSDNamedComponent xsdComponent, final boolean processSchemaImportedSchemas) {
-        boolean debug = Logger.isDebugEnabled();
+        final boolean debug = Logger.isDebugEnabled();
         Nil.checkNil(xsdComponent, "name"); //$NON-NLS-1$
         if (!(xsdComponent instanceof XSDTypeDefinition || xsdComponent instanceof XSDElementDeclaration))
             return null;
@@ -463,21 +460,21 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         final List<ISchema> containedSchemas = getContainedSchemas();
 
         // If with same namesSpace search in current schema and included schema
-        for (ISchema schema : containedSchemas) {
+        for (final ISchema schema : containedSchemas) {
             String namespace = schema.getNamespace();
-            String xsdComponentNamespace = xsdComponent.getTargetNamespace();
+            final String xsdComponentNamespace = xsdComponent.getTargetNamespace();
             boolean equalNamespaces = namespace == null ? xsdComponentNamespace == null : namespace.equals(xsdComponentNamespace);
             if (equalNamespaces) {
                 result = (IType) ((Schema) schema).resolveComponent(xsdComponent, false);
             } else if (processSchemaImportedSchemas) {
                 final Collection<ISchema> referredSchemas = schema.getAllReferredSchemas();
-                for (ISchema iSchema : referredSchemas) {
+                for (final ISchema iSchema : referredSchemas) {
                     if (Schema.getSchemaForSchema().equals(iSchema)) {
                         continue;
                     }
 
                     namespace = iSchema.getNamespace();
-                    equalNamespaces = namespace == null ? xsdComponentNamespace == null || xsdComponentNamespace.equals("") : namespace.equals(xsdComponentNamespace);////$NON-NLS-N$ //$NON-NLS-1$ //$NON-NLS-1$
+                    equalNamespaces = namespace == null ? xsdComponentNamespace == null || xsdComponentNamespace.isEmpty(): namespace.equals(xsdComponentNamespace);
                     if (equalNamespaces) {
                         result = ((Schema) iSchema).getTypeByComponent(xsdComponent);
                     }
@@ -497,10 +494,10 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         final List<ISchema> visibleSchemas = getAllVisibleSchemas();
         visibleSchemas.removeAll(containedSchemas);
         // If not found nameSpace search all the visible schemas also
-        for (ISchema visibleSchema : visibleSchemas) {
-            String namespace = visibleSchema.getNamespace();
-            String xsdComponentNamespace = xsdComponent.getTargetNamespace();
-            boolean equalNamespaces = namespace == null ? xsdComponentNamespace == null || xsdComponentNamespace.equals("") : namespace.equals(xsdComponentNamespace); //$NON-NLS-1$
+        for (final ISchema visibleSchema : visibleSchemas) {
+            final String namespace = visibleSchema.getNamespace();
+            final String xsdComponentNamespace = xsdComponent.getTargetNamespace();
+            final boolean equalNamespaces = namespace == null ? xsdComponentNamespace == null || xsdComponentNamespace.equals("") : namespace.equals(xsdComponentNamespace); //$NON-NLS-1$
             if (equalNamespaces) {
                 result = (IType) ((Schema) visibleSchema).resolveComponent(xsdComponent, false);
             }
@@ -545,17 +542,17 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
     public void refreshSchemas() {
         final List<ISchema> containedSchemas = getContainedSchemas();
         final Map<XSDSchema, ISchema> processed = new HashMap<XSDSchema, ISchema>(1);
-        for (ISchema schema : containedSchemas) {
+        for (final ISchema schema : containedSchemas) {
             processed.put(schema.getComponent(), schema);
         }
 
         final Types types = ((Definition) component).getETypes();
         final List<XSDSchema> schemas = types.getSchemas();
-        for (XSDSchema schema : schemas) {
+        for (final XSDSchema schema : schemas) {
             if (null == schema.getTargetNamespace()) {
                 final ArrayList<XSDImport> directives = new ArrayList<XSDImport>(1);
                 boolean containsOthers = false;
-                for (XSDSchemaContent schemaContent : schema.getContents()) {
+                for (final XSDSchemaContent schemaContent : schema.getContents()) {
                     if (schemaContent instanceof XSDImport)
                         directives.add((XSDImport) schemaContent);
                     else {
@@ -583,19 +580,19 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         return _schemaResolver;
     }
 
-    private ISchema createISchema(XSDSchema xsdSchema) {
+    private ISchema createISchema(final XSDSchema xsdSchema) {
         return this.createISchema(xsdSchema, null);
     }
 
-    private ISchema createISchema(XSDSchema xsdSchema, Description parent) {
+    private ISchema createISchema(final XSDSchema xsdSchema, final Description parent) {
         if (xsdSchema == null) {
             return null;
         }
 
         Schema schema = null;
-        Description parentForURI = parent == null ? this : parent;
+        final Description parentForURI = parent == null ? this : parent;
 
-        URI relativeUri = parent == null ? ResourceUtils.constructURI(parentForURI, xsdSchema) : ResourceUtils.constructURI(
+        final URI relativeUri = parent == null ? ResourceUtils.constructURI(parentForURI, xsdSchema) : ResourceUtils.constructURI(
                 parent, xsdSchema);
 
         schema = new Schema(xsdSchema, parent, relativeUri);
@@ -605,18 +602,18 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
         return schema;
     }
 
-    private List<ISchema> resolveImportedAndIncludedSchemas(XSDSchema schema) {
-        List<ISchema> importedSchemas = new ArrayList<ISchema>();
+    private List<ISchema> resolveImportedAndIncludedSchemas(final XSDSchema schema) {
+        final List<ISchema> importedSchemas = new ArrayList<ISchema>();
         if (schema == null) {
             return importedSchemas;
         }
 
         final ArrayList<XSDSchemaDirective> directives = new ArrayList<XSDSchemaDirective>();
-        List<XSDImport> wsiImports = EmfWsdlUtils.getWsiImports(schema);
+        final List<XSDImport> wsiImports = EmfWsdlUtils.getWsiImports(schema);
         if (!wsiImports.isEmpty()) {
             directives.addAll(wsiImports);
         } else {
-            for (XSDSchemaContent schemaContent : schema.getContents()) {
+            for (final XSDSchemaContent schemaContent : schema.getContents()) {
                 XSDSchemaDirective directive = null;
                 if (schemaContent instanceof XSDInclude) {
                     directive = (XSDInclude) schemaContent;
@@ -629,25 +626,26 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
             }
         }
 
-        for (XSDSchemaDirective directive : directives) {
+        for (final XSDSchemaDirective directive : directives) {
             XSDSchema resolvedSchema = directive.getResolvedSchema();
             // Make the file resolvable
-            if (null == resolvedSchema && directive instanceof XSDImport) {
+            if ((null == resolvedSchema || resolvedSchema.eResource() == null) && 
+            		directive instanceof XSDImport) {
                 ISchema abstractSchema = null;
                 if (null == getModelRoot()) {
                     abstractSchema = new Schema(schema, this, uri);
                 } else {
-                    Schema newSchema = new Schema(schema, this, uri);
+                    final Schema newSchema = new Schema(schema, this, uri);
                     newSchema.setResolver(_schemaResolver);
                     abstractSchema = newSchema;
                 }
-                ResolveImportedSchemaCommand command = new ResolveImportedSchemaCommand((XSDImportImpl) directive,
+                final ResolveImportedSchemaCommand command = new ResolveImportedSchemaCommand((XSDImportImpl) directive,
                         ((Schema) abstractSchema).getModelRoot(), this);
                 try {
                     if (command.execute(new NullProgressMonitor(), null).isOK()) {
                         resolvedSchema = command.getResolvedSchema();
                     }
-                } catch (ExecutionException e) {
+                } catch (final ExecutionException e) {
                     Logger.log(Activator.PLUGIN_ID, IStatus.ERROR, "Can not resolve imported schema for location " + //$NON-NLS-1$
                             directive.getSchemaLocation(), e);
                     continue;
@@ -657,7 +655,7 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
             if (null == resolvedSchema)
                 continue;
 
-            ISchema visibleSchema = createISchema(resolvedSchema, this);
+            final ISchema visibleSchema = createISchema(resolvedSchema, this);
             importedSchemas.add(visibleSchema);
             importedSchemas.addAll(resolveImportedAndIncludedSchemas(resolvedSchema));
         }
@@ -667,14 +665,14 @@ public final class Description extends AbstractWSDLComponent implements IDescrip
 
     public IDescription getReferencedDescription(final String targetNamespace) {
 
-        Condition<IDescription> importedDescription = new Condition<IDescription>() {
+        final Condition<IDescription> importedDescription = new Condition<IDescription>() {
 
-            public boolean isSatisfied(IDescription x) {
+            public boolean isSatisfied(final IDescription x) {
             	
                 return x != null && (x.getComponent().getTargetNamespace().equals(targetNamespace));
             }
         };
-        List<IDescription> found = CollectionTypeUtils.find(getReferencedServices(), importedDescription);
+        final List<IDescription> found = CollectionTypeUtils.find(getReferencedServices(), importedDescription);
         return found.isEmpty() ? null : found.get(0);
 
     }

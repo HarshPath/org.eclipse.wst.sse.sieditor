@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.i18n;
 
@@ -57,6 +56,7 @@ public class Messages extends NLS {
     public static String CANNOT_ADD_FACET_ERR;
     public static String ChangeOperationTypeCommand_change_operation_type_label;
     public static String ChangeTargetNamespaceCommand_change_target_namespace_command_label;
+    public static String CloneNamespaceCommand_clone_namespace_command_label;
     public static String SetNamespaceCommand_set_namespace_command_label;
     public static String CopyElementCommand_copy_element_command_label;
     public static String CopyElementCommand_msg_can_not_create_type_definition;
@@ -73,6 +73,7 @@ public class Messages extends NLS {
     public static String ImportSchemaCommand_import_schema_command_label;
     public static String ImportSchemaCommand_msg_can_not_resolve_XSD_schema;
     public static String ImportSchemaCommand_msg_namespace_is_empty;
+    public static String InlineNamespaceCompositeCommand_inline_namespace_command;
     public static String InlineStructureTypeCommand_inline_structure_type_command_label;
     public static String InputOutputMessagesDefined_0;
     public static String InputOutputMessagesDefined_1;
@@ -93,6 +94,7 @@ public class Messages extends NLS {
     public static String UnresolvedType_1;
     public static String UnresolvedType_2;
     public static String UpdateSchemaImportsCommand_command_label;
+    public static String UpdateSchemasImportsCompositeCommand_update_imports_command_label;
     public static String DuplicateKey;
     public static String DuplicateUnique;
     public static String EmfXsdUtils_MissingSchemaForSchema1;
@@ -121,6 +123,7 @@ public class Messages extends NLS {
     public static String MakeResolvableCommand_make_resolvable_command_label;
     public static String MakeTypeResolvableCommand_make_type_resolvable_command_label;
     public static String MakeTypeResolvableCommand_mesg_can_not_resolve_type_X;
+    public static String WsdlImportSchemasCompositeCommand_import_in_wsdl_command_label;
     public static String WSDLModelReconcileCommand_wsdl_model_reconcile_operation_label;
     public static String XMLSchemaModelReconcileCommand_xsd_model_reconcile_operation_label;
     public static String NcName_0;
@@ -172,7 +175,9 @@ public class Messages extends NLS {
     public static String SOAPHeaderPart_2;
     public static String SOAPOperationBinding_0;
 
-    public static String SetElementNillableCommand_set_element_nillable_command_label;
+    public static String SetElementDefaultValueCommand_0;
+	public static String SetElementDefaultValueCommand_1;
+	public static String SetElementNillableCommand_set_element_nillable_command_label;
     public static String SetElementOccurences_set_element_occurences_label;
     public static String SetElementTypeCommand_msg_can_not_resolve_type_X;
     public static String SetElementTypeCommand_set_element_type_command_label;
@@ -186,7 +191,6 @@ public class Messages extends NLS {
     public static String SetStructureTypeCommand_set_structure_type_command_label;
     public static String TextCommand_0;
     public static String ValidationService_1;
-    public static String ValidationService_ValidationJobLbl;
     public static String ValidXSDEntity_Missing_Schema_Element0;
 
     public static String WSIConstants_0;
@@ -222,6 +226,10 @@ public class Messages extends NLS {
     public static String FaultsState_1;
     public static String FaultsState_2;
     public static String FaultsState_3;
+    
+    public static String UnresolvedXsdContentsValidation_element_reference_X_Y_is_unresolved_msg;
+    public static String UnresolvedXsdContentsValidation_attributes_reference_X_Y_is_unresolved_msg;
+    public static String UnresolvedXsdContentsValidation_type_reference_X_Y_is_unresolved_validation_msg;
 
     static {
         // initialize resource bundle

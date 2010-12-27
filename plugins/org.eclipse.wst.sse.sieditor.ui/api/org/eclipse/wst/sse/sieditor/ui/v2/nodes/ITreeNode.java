@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.nodes;
 
@@ -53,6 +52,10 @@ public interface ITreeNode {
      */
     public String getDisplayName();
 
+    public String getTreeDisplayText();
+    
+    public String getTypeDisplayText();
+    
     /**
      * 
      * @return - Returns the Image which is appended to the node in the Tree
@@ -86,4 +89,5 @@ public interface ITreeNode {
     public boolean isReadOnly();
 
     public boolean isImportedNode();
+    
 }

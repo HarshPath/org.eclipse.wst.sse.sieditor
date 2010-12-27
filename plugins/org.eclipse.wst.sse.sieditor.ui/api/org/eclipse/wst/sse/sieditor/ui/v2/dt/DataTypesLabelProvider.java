@@ -11,59 +11,40 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
 import org.eclipse.jface.viewers.ILabelProviderListener;
 
-import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
-import org.eclipse.wst.sse.sieditor.model.xsd.api.IStructureType;
-import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
-import org.eclipse.wst.sse.sieditor.ui.v2.UIConstants;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.AbstractEditorLabelProvider;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.IDataTypesTreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.IElementNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes.IStructureTypeNode;
 
 public class DataTypesLabelProvider extends AbstractEditorLabelProvider {
 
-    public String getText(Object element) {
+    @Override
+    public String getText(final Object element) {
         if (element instanceof IDataTypesTreeNode) {
-            IDataTypesTreeNode node = (IDataTypesTreeNode) element;
-            String displayText = node.getDisplayName();
-            String typeText = null;
-            if (node instanceof IElementNode) {
-                IElement elementModelObject = (IElement) node.getModelObject();
-                IType type = elementModelObject.getType();
-                typeText = getTypeDisplayText(type, node);
-            } else if (element instanceof IStructureTypeNode) {
-                IStructureType structureType = (IStructureType) node.getModelObject();
-                if (structureType.isElement()) {
-                    IType type = structureType.getType();
-                    typeText = getTypeDisplayText(type, node);
-                }
-            }
-            if (displayText == null) {
-                displayText = UIConstants.EMPTY_STRING;
-            }
-            return typeText == null ? displayText : new StringBuilder(displayText).append(UIConstants.SPACE).append(
-                    UIConstants.COLON).append(UIConstants.SPACE).append(typeText).toString();
+            final IDataTypesTreeNode node = (IDataTypesTreeNode) element;
+            return node.getTreeDisplayText();
         }
         return null;
     }
 
-    public void addListener(ILabelProviderListener listener) {
+    @Override
+    public void addListener(final ILabelProviderListener listener) {
     }
 
+    @Override
     public void dispose() {
     }
 
-    public boolean isLabelProperty(Object element, String property) {
+    @Override
+    public boolean isLabelProperty(final Object element, final String property) {
         return false;
     }
 
-    public void removeListener(ILabelProviderListener listener) {
+    @Override
+    public void removeListener(final ILabelProviderListener listener) {
     }
 
 }

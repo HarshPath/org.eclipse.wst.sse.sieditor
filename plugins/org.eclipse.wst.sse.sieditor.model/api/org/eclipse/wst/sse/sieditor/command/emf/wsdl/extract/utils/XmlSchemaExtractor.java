@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.utils;
 
@@ -32,6 +31,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import org.eclipse.wst.sse.sieditor.model.utils.ElementAttributeUtils;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 
@@ -90,8 +90,9 @@ public class XmlSchemaExtractor implements IXmlSchemaExtractor {
 
     protected void processSchemaImport(final Map<String, String> filenamesMap, final Element element,
             final String relativeLocation) {
-        if (element.getTagName().substring(element.getTagName().indexOf(':') + 1).equals(XSDConstants.IMPORT_ELEMENT_TAG)
-                && element.getAttribute(XSDConstants.NAMESPACE_ATTRIBUTE) != null) {
+        final String elementSimpleName = element.getTagName().substring(element.getTagName().indexOf(':') + 1);
+        if (XSDConstants.IMPORT_ELEMENT_TAG.equals(elementSimpleName)
+                && ElementAttributeUtils.hasAttributeValue(element, XSDConstants.NAMESPACE_ATTRIBUTE)) {
 
             final String schemaLocation = element.getAttribute(XSDConstants.SCHEMALOCATION_ATTRIBUTE);
             if (schemaLocation == null) {
@@ -100,16 +101,17 @@ public class XmlSchemaExtractor implements IXmlSchemaExtractor {
                         .getAttribute(XSDConstants.NAMESPACE_ATTRIBUTE)));
             } else {
                 element.setAttribute(XSDConstants.SCHEMALOCATION_ATTRIBUTE, new Path(relativeLocation).append(schemaLocation)
-                        .toOSString());
+                        .toString());
             }
         }
     }
 
     protected void processSchemaInclude(final Element element, final String relativeLocation) {
-        if (element.getTagName().substring(element.getTagName().indexOf(':') + 1).equals(XSDConstants.INCLUDE_ELEMENT_TAG)) {
+        final String elementSimpleName = element.getTagName().substring(element.getTagName().indexOf(':') + 1);
+        if (XSDConstants.INCLUDE_ELEMENT_TAG.equals(elementSimpleName)) {
             final String schemaLocation = element.getAttribute(XSDConstants.SCHEMALOCATION_ATTRIBUTE);
             element.setAttribute(XSDConstants.SCHEMALOCATION_ATTRIBUTE, new Path(relativeLocation).append(schemaLocation)
-                    .toOSString());
+                    .toString());
         }
     }
 
@@ -119,7 +121,7 @@ public class XmlSchemaExtractor implements IXmlSchemaExtractor {
             if (prefix != null) {
                 attributeName = attributeName + ":" + prefix; //$NON-NLS-1$
             }
-            if (schemaElement.getAttribute(attributeName) == null) {
+            if (!ElementAttributeUtils.hasAttributeValue(schemaElement, attributeName)) {
                 schemaElement.setAttribute(attributeName, prefixesMap.get(prefix));
             }
         }
@@ -154,7 +156,7 @@ public class XmlSchemaExtractor implements IXmlSchemaExtractor {
 
         FileOutputStream fileOutputStream = null;
         try {
-            final File file = new File(iFile.getRawLocation().toOSString());
+            final File file = new File(iFile.getRawLocation().toString());
             file.getParentFile().mkdirs();
             file.createNewFile();
             fileOutputStream = new FileOutputStream(file);

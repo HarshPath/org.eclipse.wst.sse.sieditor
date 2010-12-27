@@ -17,8 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.generic;
 
 /**
  * Thrown when save of the doucment fails
- * 
- *
  */
 public class DocumentSaveException extends Exception {
 

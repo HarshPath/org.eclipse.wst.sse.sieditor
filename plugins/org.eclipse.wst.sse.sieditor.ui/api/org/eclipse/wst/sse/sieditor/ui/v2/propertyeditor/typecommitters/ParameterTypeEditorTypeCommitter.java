@@ -24,8 +24,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller.SIFormPageController;
  * The {@link ParameterTypeEditor} type committer helper implementation of the
  * {@link ITypeCommitter} interface
  * 
- * 
- * 
  */
 public class ParameterTypeEditorTypeCommitter implements ITypeCommitter {
 

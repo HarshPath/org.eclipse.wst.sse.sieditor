@@ -54,8 +54,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.OperationType;
 
 /**
  * 
- * 
- * 
  */
 public class ServiceOperation extends AbstractWSDLComponent implements IOperation,
         org.eclipse.wst.sse.sieditor.model.write.wsdl.api.IOperation {

@@ -75,7 +75,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.AbstractType;
  * Command for making a type inline
  * 
  * 
- * 
  */
 public class MakeTypeResolvableCommand extends AbstractWSDLNotificationOperation {
 

@@ -16,21 +16,18 @@
 package org.eclipse.wst.sse.sieditor.model.xsd.impl;
 
 import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDTypeDefinition;
 
 import org.eclipse.wst.sse.sieditor.core.common.Nil;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
+import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 
 /**
- * 
- * 
  * 
  */
 public abstract class AbstractType extends AbstractXSDComponent implements IType,
@@ -59,44 +56,12 @@ public abstract class AbstractType extends AbstractXSDComponent implements IType
 
     public boolean isAnonymous() {
         if (_component instanceof XSDTypeDefinition) {
-            final XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition) _component;
-            final XSDConcreteComponent container = xsdTypeDefinition.getContainer();
-            return null == xsdTypeDefinition.getName() && !(container instanceof XSDSchema);
+            return EmfXsdUtils.isAnonymous((XSDTypeDefinition) _component);
 
         } else if (_component instanceof XSDElementDeclaration) {
-            final XSDTypeDefinition anonymousTypeDefinition = ((XSDElementDeclaration) _component).getAnonymousTypeDefinition();
-            return isAnonymous(anonymousTypeDefinition);
+            return EmfXsdUtils.isAnonymous((XSDElementDeclaration) _component);
         }
         return false;
-    }
-
-    /**
-     * Utility method checking if the type definition is anonymous. Here we are
-     * explicitly checking if the name of the base type of the definition is
-     * equal to "anyType". Imagine we have the following element in the source: <br>
-     * <br>
-     * &lt;xsd:element name="NewOperation"> <br>
-     * &nbsp;&nbsp;&lt;xsd:complexType> <br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;xsd:sequence><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsd:element minOccurs="1"
-     * maxOccurs="1" name="Element1" type="tns:StructureType2"><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/xsd:element><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&lt;/xsd:sequence><br>
-     * &nbsp;&nbsp;&lt;/xsd:complexType> <br>
-     * &lt;/xsd:element><br>
-     * <br>
-     * Here, the anonymousTypeDefinition is the first child of the element - the
-     * &lt;complexType>...&lt;/complexType> element. The element is anonymous if
-     * the complexType has no type. The EMF model reflects this by setting the
-     * type of the complexType to "anyType". This is why we need to check it.
-     * 
-     * @param anonymousTypeDefinition
-     * @return <code>true</code> if the structure type is anonymous.
-     *         <code>false</code> otherwise.
-     */
-    private boolean isAnonymous(final XSDTypeDefinition anonymousTypeDefinition) {
-        return (anonymousTypeDefinition != null && anonymousTypeDefinition.getBaseType() != null && "anyType" //$NON-NLS-1$
-        .equals(anonymousTypeDefinition.getBaseType().getName()));
     }
 
     public String getName() {

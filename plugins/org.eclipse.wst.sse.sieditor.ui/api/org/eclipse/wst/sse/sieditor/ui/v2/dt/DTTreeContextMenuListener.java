@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
@@ -63,6 +62,8 @@ public class DTTreeContextMenuListener extends AbstractTreeContextMenuListener {
 
     private Separator groupRefactorNamespace;
 
+    private Action maneAnInlineNamespaceAction;
+
     private Action extractNamespaceAction;
 
     private Separator groupRefactorGlobalElement;
@@ -72,6 +73,8 @@ public class DTTreeContextMenuListener extends AbstractTreeContextMenuListener {
     private Action convertToAnonymousTypeAction;
 
     private Action convertToGlobalTypeAction;
+
+    private IMenuManager refactorSubmenuManager;
 
     private final DataTypesEditorActionEnablementForSelectionManager selectionEnablementManager;
 
@@ -222,19 +225,34 @@ public class DTTreeContextMenuListener extends AbstractTreeContextMenuListener {
     }
 
     private void addRefactorSubMenu(final IMenuManager manager) {
-        final IMenuManager submenuManager = new MenuManager(Messages.DTTreeContextMenuListener_refactor_submenu,
+        refactorSubmenuManager = new MenuManager(Messages.DTTreeContextMenuListener_refactor_submenu,
                 ContextMenuConstants.REFACTOR_SUBMENU_ID);
 
-        submenuManager.add(groupRefactorGlobalElement);
-        submenuManager.add(groupRefactorNamespace);
+        refactorSubmenuManager.add(groupRefactorGlobalElement);
+        refactorSubmenuManager.add(groupRefactorNamespace);
 
-        addExtractNamespaceAction(submenuManager);
+        addExtractNamespaceAction(refactorSubmenuManager);
+        addMakeAnInlineNamespaceAction(refactorSubmenuManager);
 
-        addConvertToGlobalTypeAction(submenuManager);
-        addConvertToAnonymoysTypeAction(submenuManager);
-        addConvertToAnonymoysTypeWithTypeContentsAction(submenuManager);
+        addConvertToGlobalTypeAction(refactorSubmenuManager);
+        addConvertToAnonymoysTypeAction(refactorSubmenuManager);
+        addConvertToAnonymoysTypeWithTypeContentsAction(refactorSubmenuManager);
 
-        manager.appendToGroup(ContextMenuConstants.GROUP_REFACTOR, submenuManager);
+        manager.appendToGroup(ContextMenuConstants.GROUP_REFACTOR, refactorSubmenuManager);
+    }
+
+    private void addMakeAnInlineNamespaceAction(final IMenuManager submenuManager) {
+        if (maneAnInlineNamespaceAction == null) {
+            maneAnInlineNamespaceAction = new Action(Messages.DTTreeContextMenuListener_make_an_inline_namespace_action, Action.AS_PUSH_BUTTON) {
+                @Override
+                public void run() {
+                    getController().handleMakeAnInlineNamespace(
+                            (ITreeNode) ((IStructuredSelection) treeViewer.getSelection()).getFirstElement());
+                }
+            };
+            maneAnInlineNamespaceAction.setId(ContextMenuConstants.MAKE_AN_INLINE_NAMESPACE_ACTION_ID);
+        }
+        submenuManager.appendToGroup(ContextMenuConstants.GROUP_REFACTOR_NAMESPACE, maneAnInlineNamespaceAction);
     }
 
     private void addExtractNamespaceAction(final IMenuManager submenuManager) {
@@ -404,6 +422,14 @@ public class DTTreeContextMenuListener extends AbstractTreeContextMenuListener {
 
     public Action getExtractNamespaceAction() {
         return extractNamespaceAction;
+    }
+
+    public Action getMakeAnInlineNamespaceAction() {
+        return maneAnInlineNamespaceAction;
+    }
+
+    public IMenuManager getRefactorSubmenuManager() {
+        return refactorSubmenuManager;
     }
 
 }

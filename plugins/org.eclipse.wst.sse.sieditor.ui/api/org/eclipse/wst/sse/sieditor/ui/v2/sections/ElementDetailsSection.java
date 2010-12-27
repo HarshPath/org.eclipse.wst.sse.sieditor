@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.sections;
 
@@ -40,7 +39,6 @@ import org.eclipse.xsd.XSDPackage;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
-import org.eclipse.wst.sse.sieditor.model.xsd.api.IStructureType;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 import org.eclipse.wst.sse.sieditor.model.xsd.impl.UnresolvedType;
 import org.eclipse.wst.sse.sieditor.ui.Activator;
@@ -50,11 +48,8 @@ import org.eclipse.wst.sse.sieditor.ui.v2.UIConstants;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.CarriageReturnListener;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.LabeledControl;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.ITypeDisplayer;
-import org.eclipse.wst.sse.sieditor.ui.v2.newtypedialog.ITypeDialogStrategy;
-import org.eclipse.wst.sse.sieditor.ui.v2.newtypedialog.SimpleTypeDialogStrategy;
+import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.BaseTypeEditor;
 import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.ElementTypeEditor;
-import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.TypePropertyEditor;
-import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.typecommitters.ITypeCommitter;
 import org.eclipse.wst.sse.sieditor.ui.v2.sections.elements.ElementNodeDetailsController;
 import org.eclipse.wst.sse.sieditor.ui.v2.sections.elements.ElementNodeDetailsController.CardinalityType;
 
@@ -83,7 +78,7 @@ public class ElementDetailsSection extends AbstractDetailsPageSection implements
         dirtyControls = new HashSet<Object>();
         typeEditor = new ElementTypeEditor(detailsController, typeDisplayer);
         typeEditor.initialize(managedForm);
-        baseTypeEditor = new BaseTypeEditor((AbstractFormPageController) detailsController.getFormPageController(), typeDisplayer);
+        baseTypeEditor = new BaseTypeEditor((AbstractFormPageController) detailsController.getFormPageController(), typeDisplayer, detailsController);
         baseTypeEditor.initialize(managedForm);
         typeEditor.setDetailsController(detailsController);
     }
@@ -366,53 +361,4 @@ public class ElementDetailsSection extends AbstractDetailsPageSection implements
         return !dirtyControls.isEmpty();
     }
 
-    private class BaseTypeEditor extends TypePropertyEditor {
-
-        private final BaseTypeEditorTypeCommitter typeCommitter;
-
-        public BaseTypeEditor(final AbstractFormPageController controller, final ITypeDisplayer typeDisplayer) {
-            super(controller, typeDisplayer);
-            typeDialogDisplayText = Messages.ElementDetailsSection_type_dialog_text_set_base_type;
-            showComplexTypes = false;
-            typeCommitter = new BaseTypeEditorTypeCommitter();
-        }
-
-        @Override
-        protected IType getType() {
-            return detailsController.getBaseType();
-        }
-
-        @Override
-        public ITypeCommitter getTypeCommitter() {
-            return typeCommitter;
-        }
-
-        @Override
-        public ITypeDialogStrategy createNewTypeDialogStrategy() {
-            final SimpleTypeDialogStrategy strategy = new SimpleTypeDialogStrategy();
-            IModelObject inputObject = getInput().getModelObject();
-
-            if (inputObject instanceof IStructureType && ((IStructureType) inputObject).isElement()) {
-                // should be always true until setting a base complex type is
-                // implemented
-                inputObject = ((IStructureType) inputObject).getType();
-            }
-            strategy.setInput(inputObject);
-            strategy.setController(getFormPageController());
-            return strategy;
-        }
-    }
-
-    private class BaseTypeEditorTypeCommitter implements ITypeCommitter {
-        @Override
-        public void commitType(final IType type) {
-            detailsController.setBaseType(type);
-        }
-
-        @Override
-        public void commitName(final IType type, final String typeName) {
-            detailsController.setBaseType(type);
-        }
-
-    }
 }

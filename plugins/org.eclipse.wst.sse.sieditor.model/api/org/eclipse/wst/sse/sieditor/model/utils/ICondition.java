@@ -11,13 +11,11 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Keshav Veerapaneni - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.utils;
 
 /**
  * A condition on an object.
- * 
  *
  * @param <T>
  */

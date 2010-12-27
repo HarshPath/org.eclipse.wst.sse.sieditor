@@ -23,9 +23,9 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.wst.wsdl.Definition;
 
 import org.eclipse.wst.sse.sieditor.command.common.AbstractWSDLNotificationOperation;
-import org.eclipse.wst.sse.sieditor.command.emf.common.namespace.ImportsUpdaterUtils;
-import org.eclipse.wst.sse.sieditor.command.emf.common.namespace.NamespaceMappingsUtils;
-import org.eclipse.wst.sse.sieditor.command.emf.common.namespace.RemapReferencesUtils;
+import org.eclipse.wst.sse.sieditor.command.emf.common.utils.ImportsUpdaterUtils;
+import org.eclipse.wst.sse.sieditor.command.emf.common.utils.NamespaceMappingsUtils;
+import org.eclipse.wst.sse.sieditor.command.emf.common.utils.RemapReferencesUtils;
 import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
 import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
@@ -37,8 +37,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
  * <br>
  * <i>NOTE: This command updates schema imports for the renamed schema
  * targetNamespaces.</i>
- * 
- * 
  * 
  */
 class ChangeDefinitionTNSInternalCommand extends AbstractWSDLNotificationOperation {

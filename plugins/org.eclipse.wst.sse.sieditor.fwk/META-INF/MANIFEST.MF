@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Fwk Plug-in
+Bundle-Name: Service Interface Editor Fwk Plug-in
 Bundle-SymbolicName: org.eclipse.wst.sse.sieditor.fwk;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipse.wst.sse.sieditor.fwk.Activator
@@ -22,4 +22,4 @@ Export-Package: org.eclipse.wst.sse.sieditor.fwk;uses:="org.eclipse.core.runtime
    org.eclipse.wst.sse.sieditor.model.api",
  org.eclipse.wst.sse.sieditor.fwk.mvp.ui;uses:="org.eclipse.swt.widgets",
  org.eclipse.wst.sse.sieditor.mm;uses:="org.eclipse.wst.sse.sieditor.model.write.api,org.eclipse.wst.sse.sieditor.model.api",
- org.eclipse.wst.sse.sieditor.utils
+ org.eclipse.wst.sse.sieditor.utils;uses:="org.eclipse.core.runtime"

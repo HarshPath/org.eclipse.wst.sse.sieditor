@@ -38,7 +38,6 @@ import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
  * {@link XSDComplexTypeDefinition} so that we can add child elements
  * 
  * 
- * 
  */
 public class EnsureElementAnonymousTypeCommand extends AbstractXSDNotificationOperation {
     private final XSDElementDeclaration _element;

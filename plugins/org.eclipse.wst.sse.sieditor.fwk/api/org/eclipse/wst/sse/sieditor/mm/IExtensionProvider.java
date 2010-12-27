@@ -19,8 +19,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 
 /**
  * 
- * 
- *
  */
 public interface IExtensionProvider {
 

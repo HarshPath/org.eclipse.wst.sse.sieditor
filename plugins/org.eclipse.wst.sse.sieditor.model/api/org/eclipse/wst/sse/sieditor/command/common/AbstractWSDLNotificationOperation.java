@@ -21,7 +21,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
  * WSDL specific AbstractNotificationCommand
  * 
  * @see AbstractNotificationCommand
- * 
  */
 public abstract class AbstractWSDLNotificationOperation extends AbstractNotificationOperation {
 

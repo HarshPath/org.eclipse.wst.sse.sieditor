@@ -23,7 +23,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 
 /**
  * Generic inteface all the writable {@link IModelObject} interfaces
- * 
  * @deprecated The write API is deprecated. Use commands instead.
  */
 public interface IWritable {

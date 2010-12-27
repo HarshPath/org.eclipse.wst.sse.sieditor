@@ -40,7 +40,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
  * Command for adding a new Global ComplexTypeDefinition or ElementDeclaration
  * 
  * 
- * 
  */
 public class AddStructureTypeCommand extends AbstractXSDNotificationOperation {
     private final String _name;

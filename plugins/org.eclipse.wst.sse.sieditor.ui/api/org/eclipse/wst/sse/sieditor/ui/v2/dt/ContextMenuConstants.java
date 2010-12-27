@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
@@ -43,6 +42,8 @@ public class ContextMenuConstants {
     public static final String CONVERT_TO_ANONYMOUS_TYPE_WITH_TYPE_CONTENTS_ID = SIE_CONTEXT_MENU_ID_PREFIX
             + "dt.convert.to.anonymous.type.with.type.contents"; //$NON-NLS-1$
     public static final String EXTRACT_NAMESPACE_ACTION_ID = SIE_CONTEXT_MENU_ID_PREFIX + "dt.menu.extract.namespace"; //$NON-NLS-1$
+    public static final String MAKE_AN_INLINE_NAMESPACE_ACTION_ID = SIE_CONTEXT_MENU_ID_PREFIX
+            + "dt.menu.make.an.inline.namespace"; //$NON-NLS-1$
     public static final String GROUP_REFACTOR_NAMESPACE = GROUP_REFACTOR + ".namespace"; //$NON-NLS-1$
     public static final String GROUP_REFACTOR_GLOBAL_TYPE = GROUP_REFACTOR + ".global.type"; //$NON-NLS-1$
 }

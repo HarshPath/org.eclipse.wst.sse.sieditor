@@ -11,13 +11,14 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.reconcile;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 
 public interface IResolveUtils {
@@ -28,6 +29,13 @@ public interface IResolveUtils {
     public abstract XSDAttributeDeclaration resolveAttributeDeclaration(final XSDSchema schema, final String namespaceURI,
             final String attributeName);
 
-    public abstract XSDTypeDefinition resolveTypeDefinition(XSDSchema changedSchema, String targetNamespace, String name);
+    public abstract XSDComplexTypeDefinition resolveComplexTypeDefinition(XSDSchema changedSchema, String targetNamespace,
+            String name);
+
+    public abstract XSDSimpleTypeDefinition resolveSimpleTypeDefinition(XSDSchema changedSchema, String targetNamespace,
+            String name);
+
+    public abstract XSDTypeDefinition resolveTypeDefinition(XSDSchema xsdSchema, String targetNamespace,
+            String typeName);
 
 }

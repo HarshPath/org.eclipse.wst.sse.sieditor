@@ -32,7 +32,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.ServiceOperation;
  * Command for adding parameter to operation response
  * 
  * 
- * 
  */
 public class AddOutParameterCommand extends AbstractAddParameterCommand {
     public AddOutParameterCommand(IWsdlModelRoot root, final IOperation component, final String name) {

@@ -34,8 +34,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.AbstractFormPageController;
  * (method returned <code>null</code>), then try to resolve it by its name,
  * namespace and defining workspace file.
  * 
- * 
- * 
  */
 public interface ITypeResolver {
 

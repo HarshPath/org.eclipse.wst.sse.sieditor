@@ -17,8 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.xsd.api;
 
 /**
  * 
- * 
- *
  */
 public interface ISimpleType extends IType {
 	

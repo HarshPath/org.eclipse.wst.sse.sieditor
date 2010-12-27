@@ -42,8 +42,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
  * probable fix is setting the transaction policy to
  * {@link TransactionPolicy#MULTI}
  * 
- * 
- * 
  */
 public abstract class AbstractCompositeNotificationOperation extends AbstractNotificationOperation {
 

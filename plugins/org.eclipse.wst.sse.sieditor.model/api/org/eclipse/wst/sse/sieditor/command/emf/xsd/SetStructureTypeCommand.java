@@ -42,7 +42,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
  * {@link XSDElementDeclaration})
  * 
  * 
- * 
  */
 public class SetStructureTypeCommand extends AbstractNotificationOperation {
     private IType _type;
@@ -82,14 +81,12 @@ public class SetStructureTypeCommand extends AbstractNotificationOperation {
             final XSDNamedComponent component = _type.getComponent();
             if (component instanceof XSDTypeDefinition) {
                 final XSDTypeDefinition xsdType = (XSDTypeDefinition) component;
-                if (null != _type) {
-                    XSDElementDeclaration element = ((StructureType) structure).getElement();
-                    ((EObject) element).eUnset(XSDPackage.eINSTANCE.getXSDElementDeclaration_AnonymousTypeDefinition());
-                    ((EObject) element).eUnset(XSDPackage.eINSTANCE.getXSDElementDeclaration_TypeDefinition());
-                    element.setTypeDefinition(xsdType);
-                    element.updateElement(true);
-                    return Status.OK_STATUS;
-                }
+                XSDElementDeclaration element = ((StructureType) structure).getElement();
+                ((EObject) element).eUnset(XSDPackage.eINSTANCE.getXSDElementDeclaration_AnonymousTypeDefinition());
+                ((EObject) element).eUnset(XSDPackage.eINSTANCE.getXSDElementDeclaration_TypeDefinition());
+                element.setTypeDefinition(xsdType);
+                element.updateElement(true);
+                return Status.OK_STATUS;
             }
         }
 

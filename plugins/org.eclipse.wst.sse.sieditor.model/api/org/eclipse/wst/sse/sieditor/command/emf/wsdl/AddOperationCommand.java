@@ -51,7 +51,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema;
  * Command for adding a new operaiton
  * 
  * 
- * 
  */
 public class AddOperationCommand extends AbstractWSDLNotificationOperation {
     private String _name;

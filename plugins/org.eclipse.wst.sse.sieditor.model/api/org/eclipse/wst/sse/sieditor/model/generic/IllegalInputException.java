@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.generic;
 
 /**
  * Thrown if a component of same type already exists and if its being added again
- *  *
  */
 public class IllegalInputException extends Exception {
 

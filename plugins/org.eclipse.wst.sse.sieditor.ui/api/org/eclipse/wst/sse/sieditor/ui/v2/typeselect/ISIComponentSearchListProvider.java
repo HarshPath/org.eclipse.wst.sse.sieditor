@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 /*******************************************************************************
  * Copyright (c) 2010 SAP AG.
  * All rights reserved. This program and the accompanying materials
@@ -12,9 +15,6 @@
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
  *******************************************************************************/
-/**
- * 
- */
 package org.eclipse.wst.sse.sieditor.ui.v2.typeselect;
 
 import org.eclipse.wst.common.ui.internal.search.dialogs.IComponentSearchListProvider;
@@ -22,7 +22,7 @@ import org.eclipse.wst.common.ui.internal.search.dialogs.IComponentSearchListPro
 import org.eclipse.wst.sse.sieditor.ui.v2.AbstractFormPageController;
 
 /**
- *  Temporary interface in order not to break the ESR colleagues,
+ * Temporary interface in order not to break the ESR colleagues,
  *         and still be able to submit until the end of the tact and the code
  *         line pull. This interface should be deleted when the ESR colleagues
  *         decide to add the dependency to org.eclispe.wst.common.ui plugin in

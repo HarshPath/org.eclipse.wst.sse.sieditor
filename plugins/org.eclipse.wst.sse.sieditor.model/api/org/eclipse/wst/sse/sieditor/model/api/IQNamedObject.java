@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.model.api;
 
 /**
  * Marker class for objects scoped with both name and namespace
- * 
  * @see INamedObject
  * @see INamespacedObject
  */

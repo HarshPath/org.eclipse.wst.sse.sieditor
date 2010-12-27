@@ -11,13 +11,13 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.xsd.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -28,6 +28,8 @@ import org.eclipse.xsd.XSDAttributeGroupContent;
 import org.eclipse.xsd.XSDAttributeUse;
 import org.eclipse.xsd.XSDComplexTypeContent;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDConcreteComponent;
+import org.eclipse.xsd.XSDDerivationMethod;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDModelGroup;
 import org.eclipse.xsd.XSDNamedComponent;
@@ -57,17 +59,18 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 public class StructureType extends AbstractType implements IStructureType,
         org.eclipse.wst.sse.sieditor.model.write.xsd.api.IStructureType {
 
-    
     public StructureType(final IXSDModelRoot modelRoot, final Schema schema, final XSDNamedComponent component) {
-        this(modelRoot,schema,schema,component);
+        this(modelRoot, schema, schema, component);
     }
-    
-    public StructureType(final IXSDModelRoot modelRoot, final Schema schema, final IModelObject parent, final XSDNamedComponent component) {
+
+    public StructureType(final IXSDModelRoot modelRoot, final Schema schema, final IModelObject parent,
+            final XSDNamedComponent component) {
         super(modelRoot, component, schema, parent);
         if (!(component instanceof XSDElementDeclaration || component instanceof XSDComplexTypeDefinition)) {
             throw new RuntimeException("Component must be either XSDElementDeclaration or XSDComplexTypeDefinition"); //$NON-NLS-1$
         }
-        XSDElementDeclaration _element = component instanceof XSDElementDeclaration ? (XSDElementDeclaration) component : null;
+        final XSDElementDeclaration _element = component instanceof XSDElementDeclaration ? (XSDElementDeclaration) component
+                : null;
 
         if (null == _element)
             Assert.isTrue(component instanceof XSDComplexTypeDefinition);
@@ -90,25 +93,29 @@ public class StructureType extends AbstractType implements IStructureType,
     }
 
     public IType getBaseType() {
+        return getBaseType(getComponent(), getSchema());
+    }
+
+    static IType getBaseType(final XSDConcreteComponent component, final Schema schema) {
         // deliberately not using the following line in order to preserve the
         // checks from the prev. implementation
         // XSDTypeDefinition baseType = getXSDTypeDefinition().getBaseType();
         XSDTypeDefinition baseType = null;
-        if (getComponent() instanceof XSDElementDeclaration) {
-            XSDTypeDefinition type = ((XSDElementDeclaration) getComponent()).getType();
+        if (component instanceof XSDElementDeclaration) {
+            final XSDTypeDefinition type = ((XSDElementDeclaration) component).getType();
             if (type == null || type.getName() != null) {
                 return null;
             }
             baseType = type.getBaseType();
-        } else if (getComponent() instanceof XSDComplexTypeDefinition) {
-            baseType = ((XSDTypeDefinition) getComponent()).getBaseType();
+        } else if (component instanceof XSDComplexTypeDefinition) {
+            baseType = ((XSDTypeDefinition) component).getBaseType();
         }
         if (baseType == null) {
             return null;
         }
         // If type is not set which will not be the case, as the type will be
         // anyType
-        return (IType) getSchema().resolveComponent(baseType, true);
+        return (IType) schema.resolveComponent(baseType, true);
     }
 
     public void setType(final IType type) throws ExecutionException {
@@ -124,7 +131,7 @@ public class StructureType extends AbstractType implements IStructureType,
         }
     }
 
-    public void setBaseType(IType baseType) throws ExecutionException {
+    public void setBaseType(final IType baseType) throws ExecutionException {
         /*
          * IType resolvedType = null; if (baseType instanceof AbstractType)
          * resolvedType = _schema.resolveType((AbstractType) baseType);
@@ -134,13 +141,13 @@ public class StructureType extends AbstractType implements IStructureType,
          * return;
          */
 
-        final SetBaseTypeCommand command = new SetBaseTypeCommand(getModelRoot(), this, (AbstractType) baseType);
+        final SetBaseTypeCommand command = new SetBaseTypeCommand(getModelRoot(), this, baseType);
         getModelRoot().getEnv().execute(command);
     }
 
     public Collection<IElement> getAllElements() {
         final List<IElement> elements = new ArrayList<IElement>();
-        XSDTypeDefinition xsdTypeDefinition = getXSDTypeDefinition();
+        final XSDTypeDefinition xsdTypeDefinition = getXSDTypeDefinition();
         if (null != getElement()
                 && (null == xsdTypeDefinition || xsdTypeDefinition instanceof XSDSimpleTypeDefinition || null != xsdTypeDefinition
                         .getName())) {
@@ -181,7 +188,7 @@ public class StructureType extends AbstractType implements IStructureType,
     private List<Element> processModelGroup(final XSDModelGroup modelGroup) {
         final List<XSDParticle> particles = modelGroup.getParticles();
         final List<Element> result = new ArrayList<Element>(1);
-        for (XSDParticle particle : particles) {
+        for (final XSDParticle particle : particles) {
             result.addAll(processParticle(particle, modelGroup));
         }
         return result;
@@ -190,7 +197,7 @@ public class StructureType extends AbstractType implements IStructureType,
     private List<Element> processAttributeGroupContent(final XSDComplexTypeDefinition type) {
         final List<XSDAttributeGroupContent> contents = type.getAttributeContents();
         final List<Element> result = new ArrayList<Element>(contents.size());
-        for (XSDAttributeGroupContent content : contents) {
+        for (final XSDAttributeGroupContent content : contents) {
             if (content instanceof XSDAttributeUse) {
                 result.add(new Element(getModelRoot(), ((XSDAttributeUse) content).getContent(), null, this, getSchema()));
             }
@@ -201,12 +208,12 @@ public class StructureType extends AbstractType implements IStructureType,
     public Collection<IElement> getElements(final String name) {
         final Collection<IElement> result = new ArrayList<IElement>(1);
         final Collection<IElement> elements = getAllElements();
-        if(name != null) {
-	        for (IElement element : elements) {
-	            if (name.equals(element.getName())) {
-	                result.add(element);
-	            }
-	        }
+        if (name != null) {
+            for (final IElement element : elements) {
+                if (name.equals(element.getName())) {
+                    result.add(element);
+                }
+            }
         }
         return result;
     }
@@ -249,7 +256,7 @@ public class StructureType extends AbstractType implements IStructureType,
     public void removeElement(final String name) throws ExecutionException {
         Nil.checkNil(name, "name"); //$NON-NLS-1$
         final Collection<IElement> elements = getAllElements();
-        for (IElement element : elements) {
+        for (final IElement element : elements) {
             if (name.equals(element.getName())) {
                 final DeleteElementCommand command = new DeleteElementCommand(getModelRoot(), this, element);
                 getModelRoot().getEnv().execute(command);
@@ -263,6 +270,42 @@ public class StructureType extends AbstractType implements IStructureType,
         return getComponent() instanceof XSDElementDeclaration;
     }
 
+    public boolean isComplexTypeSimpleContent() {
+        if (isElement()) {
+            final XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration) getComponent();
+
+            if (xsdElementDeclaration.getType() == null) {
+                return false;
+            }
+            final XSDTypeDefinition baseType = xsdElementDeclaration.getType().getBaseType();
+            if (baseType instanceof XSDSimpleTypeDefinition) {
+                return true;
+            }
+            return isComplexTypeSimpleContentInternal((XSDComplexTypeDefinition) baseType, new HashSet<XSDTypeDefinition>());
+
+        } else {
+            final XSDComplexTypeDefinition xsdComplexType = (XSDComplexTypeDefinition) getComponent();
+            return isComplexTypeSimpleContentInternal(xsdComplexType, new HashSet<XSDTypeDefinition>());
+        }
+    }
+
+    private boolean isComplexTypeSimpleContentInternal(final XSDComplexTypeDefinition xsdComplexType,
+            final Collection<XSDTypeDefinition> visited) {
+        if (xsdComplexType == null) {
+            return false;
+        }
+        final XSDTypeDefinition baseType = xsdComplexType.getBaseType();
+        if (baseType instanceof XSDSimpleTypeDefinition) {
+            return xsdComplexType.getDerivationMethod() == XSDDerivationMethod.EXTENSION_LITERAL;
+
+        } else if (baseType instanceof XSDComplexTypeDefinition && !visited.contains(baseType)) {
+            visited.add(baseType);
+            return xsdComplexType.getDerivationMethod() == XSDDerivationMethod.EXTENSION_LITERAL
+                    && isComplexTypeSimpleContentInternal((XSDComplexTypeDefinition) baseType, visited);
+        }
+        return false;
+    }
+
     public Schema getSchema() {
         return (Schema) getParent();
     }
@@ -274,7 +317,7 @@ public class StructureType extends AbstractType implements IStructureType,
             throw new IllegalInputException("Entered Type name '" + name + "' is not valid"); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
-        XSDSchema schema = getSchema().getComponent();
+        final XSDSchema schema = getSchema().getComponent();
         if (isElement()) {
             if (schema.resolveElementDeclaration(name).eContainer() != null) {
                 throw new DuplicateException("Element with name '" + name + "' already exists"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -285,7 +328,7 @@ public class StructureType extends AbstractType implements IStructureType,
             }
         }
 
-        AbstractEMFOperation command = new RenameStructureTypeCommand(getModelRoot(), this, name);
+        final AbstractEMFOperation command = new RenameStructureTypeCommand(getModelRoot(), this, name);
         getModelRoot().getEnv().execute(command);
     }
 
@@ -305,7 +348,7 @@ public class StructureType extends AbstractType implements IStructureType,
      * description); return null; }
      */
 
-    public void setNamespace(String namespace) {
+    public void setNamespace(final String namespace) {
         // Do Nothing
     }
 
@@ -317,11 +360,11 @@ public class StructureType extends AbstractType implements IStructureType,
         if (!(getComponent() instanceof XSDElementDeclaration)) {
             return null;
         }
-        XSDElementDeclaration element = (XSDElementDeclaration) getComponent();
+        final XSDElementDeclaration element = (XSDElementDeclaration) getComponent();
 
         XSDTypeDefinition type = element.getAnonymousTypeDefinition();
         if (type != null) {
-            //type is anonymous
+            // type is anonymous
             if (type instanceof XSDComplexTypeDefinition) {
                 return new StructureType(getModelRoot(), getSchema(), this, type);
             }
@@ -336,12 +379,12 @@ public class StructureType extends AbstractType implements IStructureType,
         return (IType) getSchema().resolveComponent(type, true);
     }
 
-    public static boolean isGlobalElement(IType type) {
+    public static boolean isGlobalElement(final IType type) {
         return (type instanceof IStructureType) && ((IStructureType) type).isElement();
     }
 
     public boolean isNillable() {
-        XSDElementDeclaration element = getElement();
+        final XSDElementDeclaration element = getElement();
         if (element != null) {
             return element.isNillable();
         }
@@ -353,7 +396,7 @@ public class StructureType extends AbstractType implements IStructureType,
     }
 
     public XSDTypeDefinition getXSDTypeDefinition() {
-        XSDElementDeclaration element = getElement();
+        final XSDElementDeclaration element = getElement();
         return element == null ? (XSDComplexTypeDefinition) getComponent() : element.getType();
     }
 

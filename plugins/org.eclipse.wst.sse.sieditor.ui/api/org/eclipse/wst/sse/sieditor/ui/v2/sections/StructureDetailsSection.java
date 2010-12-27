@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.sections;
 
@@ -40,6 +39,10 @@ import org.eclipse.wst.sse.sieditor.ui.v2.common.LabeledControl;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.IDataTypesFormPageController;
 import org.eclipse.wst.sse.sieditor.ui.v2.utils.UIUtils;
 
+/**
+ * @deprecated Use {@link StructureTypeDetailsSection} instead
+ */
+@Deprecated
 public class StructureDetailsSection extends AbstractDetailsPageSection {
 
     protected Text nameText;
@@ -47,7 +50,8 @@ public class StructureDetailsSection extends AbstractDetailsPageSection {
     private boolean isNameDirty;
 
     private LabeledControl<Text> nameControl;
-
+    
+    @Deprecated
     public StructureDetailsSection(final IFormPageController controller, final FormToolkit toolkit, final IManagedForm managedForm) {
         super(controller, toolkit, managedForm);
     }
@@ -60,7 +64,7 @@ public class StructureDetailsSection extends AbstractDetailsPageSection {
         section.setClient(clientComposite);
         setCompositeLayout(clientComposite);
 
-        createNameControls(toolkit, clientComposite);
+        createControls(toolkit, clientComposite);
 
         toolkit.paintBordersFor(clientComposite);
     }
@@ -74,7 +78,7 @@ public class StructureDetailsSection extends AbstractDetailsPageSection {
         return PlatformUI.getWorkbench().getSharedImages();
     }
 
-    private void createNameControls(final FormToolkit toolkit, final Composite clientComposite) {
+    protected void createControls(final FormToolkit toolkit, final Composite clientComposite) {
 
         nameControl = new LabeledControl<Text>(toolkit, clientComposite, Messages.StructureDetailsSection_name_label);
         nameControl.setControl(toolkit.createText(clientComposite, UIConstants.EMPTY_STRING, SWT.SINGLE));

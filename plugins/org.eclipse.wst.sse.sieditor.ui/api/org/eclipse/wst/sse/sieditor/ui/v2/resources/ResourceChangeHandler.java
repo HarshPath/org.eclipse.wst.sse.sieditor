@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Vasil Vasilev - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.resources;
 
@@ -46,7 +45,7 @@ import org.eclipse.wst.sse.sieditor.ui.Activator;
  * The purpose of this class is to provide refresh functionality for file editor
  * input editors
  * 
- *  Two types of events are handled: 1. Project close 2. Change
+ * Two types of events are handled: 1. Project close 2. Change
  *         of the edited resource from outside
  */
 public class ResourceChangeHandler implements IResourceChangeListener, IResourceDeltaVisitor {

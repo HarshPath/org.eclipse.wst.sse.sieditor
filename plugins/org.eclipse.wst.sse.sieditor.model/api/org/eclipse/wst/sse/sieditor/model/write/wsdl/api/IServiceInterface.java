@@ -27,7 +27,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IOperation;
 /**
  * @deprecated The write API is deprecated. Use commands instead.
  * 
- * 
  */
 public interface IServiceInterface extends IQNamedObject, IExtensibleObject {
 

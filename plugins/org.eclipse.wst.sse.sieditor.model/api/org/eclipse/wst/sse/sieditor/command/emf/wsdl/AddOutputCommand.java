@@ -34,7 +34,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.Description;
  * COmmand for adding Output element to an operation
  * 
  * 
- * 
  */
 public class AddOutputCommand extends AbstractWSDLNotificationOperation {
     private Output _output;

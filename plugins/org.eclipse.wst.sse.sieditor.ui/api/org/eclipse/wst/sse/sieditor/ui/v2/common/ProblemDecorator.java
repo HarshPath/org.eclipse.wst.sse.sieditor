@@ -32,8 +32,6 @@ import org.eclipse.wst.sse.sieditor.model.validation.IValidationStatusProvider;
 /**
  * A default implementation for {@link IProblemDecorator}
  * 
- * 
- * 
  */
 public class ProblemDecorator implements IProblemDecorator {
 

@@ -50,7 +50,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
  * Updates documentation for XSD Components
  * 
  * 
- * 
  */
 public class SetDocumentationCommand extends AbstractNotificationOperation {
     private static final String DOCU_ELEMENT_TAG = "documentation"; //$NON-NLS-1$

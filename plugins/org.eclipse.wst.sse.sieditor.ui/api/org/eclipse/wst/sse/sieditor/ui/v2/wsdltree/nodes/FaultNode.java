@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.wsdltree.nodes;
 
@@ -20,24 +19,24 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IFault;
 import org.eclipse.wst.sse.sieditor.ui.Activator;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.impl.AbstractTreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller.SIFormPageController;
 
-public class FaultNode extends AbstractTreeNode {
+public class FaultNode extends AbstractWsdlTreeNode {
 
     public FaultNode(final ITreeNode parent, final IFault fault, final SIFormPageController nodeMapperContainer) {
-        super(fault, parent, 
-                nodeMapperContainer == null ? null : nodeMapperContainer.getTreeNodeMapper());
+        super(fault, parent, nodeMapperContainer == null ? null : nodeMapperContainer.getTreeNodeMapper());
 
     }
 
+    @Override
     public Object[] getChildren() {
         return new Object[0];
     }
 
+    @Override
     public Image getImage() {
-        return isReadOnly() ? getImageRegistry().get(Activator.NODE_OPER_FAULT_OBJECT_GRAY) :
-            getImageRegistry().get(Activator.NODE_OPER_FAULT_OBJECT);
+        return isReadOnly() ? getImageRegistry().get(Activator.NODE_OPER_FAULT_OBJECT_GRAY) : getImageRegistry().get(
+                Activator.NODE_OPER_FAULT_OBJECT);
     }
 
 }

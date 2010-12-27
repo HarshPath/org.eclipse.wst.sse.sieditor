@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Tsvetan Stoyanov - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.constraints.http;
 
@@ -29,7 +28,6 @@ import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.model.validation.constraints.AbstractConstraint;
 /**
  * Ensure the HTTP operation has been defined
- * 
  */
 public class InputChildrenOperation extends AbstractConstraint{
 

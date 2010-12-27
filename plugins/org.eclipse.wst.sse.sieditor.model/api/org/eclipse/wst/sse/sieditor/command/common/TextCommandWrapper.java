@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.common;
 
@@ -37,7 +36,6 @@ import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
  */
 public class TextCommandWrapper extends AbstractNotificationOperation {
 
-    private boolean isFromDidCommit = false;
     private final Command command;
     private final XMLModelNotifierWrapper modelNotifier;
 
@@ -53,31 +51,6 @@ public class TextCommandWrapper extends AbstractNotificationOperation {
         final Map<Object, Object> options = new HashMap<Object, Object>();
         options.put(Transaction.OPTION_NO_VALIDATION, Boolean.TRUE);
         setOptions(options);
-    }
-
-    @Override
-    /**
-     * The method must not call notifyListeners().
-     * The reason is that not dirty SIE must be updated automatically, when the underling WSDL file is updated.
-     * In case that the listeners are updated the editor will become dirty. 
-     */
-    protected void didCommit(final Transaction transaction) {
-        isFromDidCommit = true;
-        try {
-            super.didCommit(transaction);
-        } finally {
-            isFromDidCommit = false;
-        }
-    }
-
-    @Override
-    protected void notifyListeners() {
-        // do not notify listeners, because the editor will become dirty in case
-        // that file content is changed
-        // from the system.
-        if (!isFromDidCommit) {
-            super.notifyListeners();
-        }
     }
 
     @Override
@@ -114,7 +87,17 @@ public class TextCommandWrapper extends AbstractNotificationOperation {
         return command.canUndo();
     }
 
-    // =========================================================
+    @Override
+    public boolean shouldNotifyOnDidCommit() {
+        // TextCommandWrapper should not notify listeners. The reason is that
+        // not dirty editor will become dirty in
+        // case of changing file contents from:
+        // (1) the system or
+        // (2) replace previous from local history
+        return false;
+    }
+
+ // =========================================================
     // helpers
     // =========================================================
 
@@ -123,6 +106,7 @@ public class TextCommandWrapper extends AbstractNotificationOperation {
     }
 
     public Command getCommand() {
-		return command;
-	}
+        return command;
+    }
+
 }

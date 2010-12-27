@@ -81,7 +81,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema;
 /**
  * 
  * 
- * 
  */
 public class CopyTypeCommand extends AbstractNotificationOperation {
 
@@ -100,8 +99,8 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
 
     private static final String XMLNS_PREFIX_BASE = "imp"; //$NON-NLS-1$
 
-    public CopyTypeCommand(final IModelRoot root, final IModelObject modelObject, final XSDNamedComponent typeToBeCopied, final ISchema targetSchema,
-            final String name) {
+    public CopyTypeCommand(final IModelRoot root, final IModelObject modelObject, final XSDNamedComponent typeToBeCopied,
+            final ISchema targetSchema, final String name) {
         super(root, modelObject, Messages.CopyTypeCommand_copy_type_comand_label);
         this._sourceType = typeToBeCopied;
         this._parent = modelObject;
@@ -111,7 +110,7 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
 
     @Override
     public boolean canExecute() {
-        return null != getModelRoot() && null != _parent && null != _sourceType && _sourceType.eResource()!=null;
+        return null != getModelRoot() && null != _parent && null != _sourceType && _sourceType.eResource() != null;
     }
 
     @SuppressWarnings("unchecked")
@@ -123,7 +122,7 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
             final EList<XSDTypeDefinition> typeDefinitions = modelRoot.getSchema().getComponent().getTypeDefinitions();
             for (final XSDTypeDefinition typeDef : typeDefinitions) {
                 final XSDSchema schema = typeDef.getSchema();
-                if (!inlineSchemas.contains(schema)) {
+                if (schema != null && !inlineSchemas.contains(schema)) {
                     inlineSchemas.add(schema);
                 }
             }
@@ -664,7 +663,8 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
         return refersTargetComp;
     }
 
-    private boolean visitAttributeGroupContent(final Collection<XSDAttributeGroupContent> attributeContents, final XSDSchema source) {
+    private boolean visitAttributeGroupContent(final Collection<XSDAttributeGroupContent> attributeContents,
+            final XSDSchema source) {
         boolean refersTargetComp = false;
         for (final XSDAttributeGroupContent attributeGroupContent : attributeContents) {
             if (attributeGroupContent instanceof XSDAttributeGroupDefinition) {
@@ -727,7 +727,7 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
             schemas = CollectionTypeUtils.findAll(getInlineSchemas(), new Condition<XSDSchema>() {
 
                 public boolean isSatisfied(final XSDSchema in) {
-                    return namespace.equals(in.getTargetNamespace());
+                    return namespace != null && namespace.equals(in.getTargetNamespace());
                 }
 
             });
@@ -846,7 +846,8 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
 
                 XSDSchema resolvedSchema = directive.getResolvedSchema();
                 if (resolvedSchema == null && _parent instanceof Description) {
-                    final List<Schema> resolvedSchemas = ((Description) _parent).getSchemaResolver().resolveSchema(nameSpace, null);
+                    final List<Schema> resolvedSchemas = ((Description) _parent).getSchemaResolver().resolveSchema(nameSpace,
+                            null);
                     if (!resolvedSchemas.isEmpty()) {
                         resolvedSchema = resolvedSchemas.get(0).getComponent();
                     }
@@ -883,9 +884,8 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
             final Collection<XSDSchema> schemas = CollectionTypeUtils.findAll(getInlineSchemas(), new Condition<XSDSchema>() {
 
                 public boolean isSatisfied(final XSDSchema in) {
-                    return null != namespace && namespace.equals(in.getTargetNamespace()); // DOIT
-                    // check
-                    // this
+                    return namespace != null && namespace.equals(in.getTargetNamespace());
+
                 }
 
             });
@@ -952,7 +952,8 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
         return null == component.eContainer();
     }
 
-    private static String generateXmlnsPrefix(final Map<String, String> wsdlNamespacesMap, final Map<String, String> xsdNamespaceMap) {
+    private static String generateXmlnsPrefix(final Map<String, String> wsdlNamespacesMap,
+            final Map<String, String> xsdNamespaceMap) {
         for (int i = 0; i < 10000; i++) {
             final String key = XMLNS_PREFIX_BASE + String.valueOf(i);
             if (wsdlNamespacesMap.containsKey(key) || xsdNamespaceMap.containsKey(key)) {
@@ -1122,7 +1123,8 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends XSDNamedComponent> T getTargetSchemaComponent(final XSDNamedComponent component, final Class<T> componentType) {
+    private <T extends XSDNamedComponent> T getTargetSchemaComponent(final XSDNamedComponent component,
+            final Class<T> componentType) {
         if (null == component)
             return null;
         final String name = component.getName();

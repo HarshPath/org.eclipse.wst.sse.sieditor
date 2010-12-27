@@ -32,7 +32,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.ServiceOperation;
  * Command for adding a fault parameter for fault
  * 
  * 
- * 
  */
 public class AddFaultParameterCommand extends AbstractAddParameterCommand {
 

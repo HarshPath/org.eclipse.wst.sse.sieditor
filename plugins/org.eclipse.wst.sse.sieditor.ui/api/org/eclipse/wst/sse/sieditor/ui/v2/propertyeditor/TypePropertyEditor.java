@@ -11,11 +11,11 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -32,14 +32,17 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
+import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IFault;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IParameter;
+import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IStructureType;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
+import org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema;
 import org.eclipse.wst.sse.sieditor.model.xsd.impl.UnresolvedType;
 import org.eclipse.wst.sse.sieditor.ui.Activator;
 import org.eclipse.wst.sse.sieditor.ui.i18n.Messages;
-import org.eclipse.wst.sse.sieditor.ui.v2.AbstractFormPageController;
+import org.eclipse.wst.sse.sieditor.ui.v2.IFormPageController;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.AbstractProblemDecoratableControl;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.CarriageReturnListener;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.ITypeDisplayer;
@@ -49,13 +52,12 @@ import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.selectionlisteners.Type
 import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.selectionlisteners.TypePropertyEditorNewButtonSelectionListener;
 import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.selectionlisteners.TypePropertyEditorTypeComboEventListener;
 import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.typecommitters.ITypeCommitter;
-import org.eclipse.wst.sse.sieditor.ui.v2.providers.WSDLLabelProvider;
 
 public abstract class TypePropertyEditor extends AbstractProblemDecoratableControl {
 
     private static final int NUMBER_OF_COLUMNS_PER_ROW = 4;
 
-    private final AbstractFormPageController formPageController;
+    private final IFormPageController formPageController;
 
     protected CCombo typeCombo;
 
@@ -63,7 +65,7 @@ public abstract class TypePropertyEditor extends AbstractProblemDecoratableContr
 
     // private Label typeErrorLabel;
 
-    private final ITypeDisplayer typeDisplayer;
+    private ITypeDisplayer typeDisplayer;
 
     protected boolean isTypeDirty;
 
@@ -73,7 +75,7 @@ public abstract class TypePropertyEditor extends AbstractProblemDecoratableContr
 
     private Button browseButton;
 
-    private Button newButton;
+    protected Button newButton;
 
     private IType selectedType;
 
@@ -83,9 +85,56 @@ public abstract class TypePropertyEditor extends AbstractProblemDecoratableContr
 
     protected boolean showComplexTypes = true;
 
-    public TypePropertyEditor(final AbstractFormPageController controller, final ITypeDisplayer typeDisplayer) {
+    protected HyperlinkAdapter hyperLinkSelectionHandler = createHyperLinkSelectionHandler();
+
+    public TypePropertyEditor(final IFormPageController controller, final ITypeDisplayer typeDisplayer) {
         this.formPageController = controller;
         this.typeDisplayer = typeDisplayer;
+    }
+
+    protected HyperlinkAdapter createHyperLinkSelectionHandler() {
+        return new HyperLinkSelectionHandler();
+    }
+
+    protected class HyperLinkSelectionHandler extends HyperlinkAdapter {
+        @Override
+        public void linkActivated(final HyperlinkEvent e) {
+            handleLinkActivated(TypePropertyEditor.this.input, TypePropertyEditor.this.selectedType);
+        }
+
+        protected void handleLinkActivated(final ITreeNode input, final IType selectedType) {
+            if (hasToOpenTheSelectedTypeInNewEditor(input, selectedType)) {
+                TypePropertyEditor.this.getFormPageController().openInNewEditor(getSelectedType());
+            } else {
+                update();
+                typeDisplayer.showType(getType());
+            }
+        }
+
+        protected boolean hasToOpenTheSelectedTypeInNewEditor(final ITreeNode input, final IType selectedType) {
+            // reach the parent model root in case that the input object is
+            // imported tree node
+            final IModelObject originalModelObject = input.getModelObject().getModelRoot().getModelObject();
+            final Collection<ISchema> allVisibleSchemas = new HashSet<ISchema>();
+            if (originalModelObject instanceof IDescription) {
+                allVisibleSchemas.addAll(((IDescription) originalModelObject).getAllVisibleSchemas());
+            } else if (originalModelObject instanceof ISchema) {
+                allVisibleSchemas.addAll(EmfXsdUtils.getAllVisibleSchemas((ISchema) originalModelObject));
+                allVisibleSchemas.add((ISchema) (originalModelObject));
+            }
+            return !isSelectedTypeExistInVisibleSchemas(allVisibleSchemas, selectedType);
+        }
+
+        protected boolean isSelectedTypeExistInVisibleSchemas(final Collection<ISchema> allVisibleSchemas,
+                final IType selectedType) {
+            for (final ISchema schema : allVisibleSchemas) {
+                if (schema.getAllContainedTypes().contains(selectedType)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 
     public void initialize(final IManagedForm form) {
@@ -112,24 +161,17 @@ public abstract class TypePropertyEditor extends AbstractProblemDecoratableContr
         browseButton.addSelectionListener(new TypePropertyEditorBrowseButtonSelectionListener(this));
 
         newButton = toolkit.createButton(parent, Messages.TypePropertyEditor_new_button, SWT.PUSH | SWT.FLAT);
-        newButton.setEnabled(!getFormPageController().isResourceReadOnly());
+        newButton.setEnabled(isNewTypeButtonEnabled());
         newButton.addSelectionListener(new TypePropertyEditorNewButtonSelectionListener(this));
 
         if (typeDisplayer != null) {
-            typeLink.addHyperlinkListener(new HyperlinkAdapter() {
-                @Override
-                public void linkActivated(final HyperlinkEvent e) {
-                    if (!TypePropertyEditor.this.getFormPageController().isPartOfEdittedDocument(
-                            TypePropertyEditor.this.selectedType)) {
-                        TypePropertyEditor.this.getFormPageController().openInNewEditor(TypePropertyEditor.this.selectedType);
-                    } else {
-                        update();
-                        typeDisplayer.showType(getType());
-                    }
-                }
-            });
+            typeLink.addHyperlinkListener(hyperLinkSelectionHandler);
         }
         return browseButton;
+    }
+
+    protected boolean isNewTypeButtonEnabled() {
+        return !getFormPageController().isResourceReadOnly();
     }
 
     protected abstract IType getType();
@@ -141,7 +183,12 @@ public abstract class TypePropertyEditor extends AbstractProblemDecoratableContr
     public void update() {
         setSelectedType(getType());
 
-        setSelectedTypeName(WSDLLabelProvider.getTypeDisplayText(getSelectedType(), getInput()));
+        setSelectedTypeName(getInput().getTypeDisplayText()/*
+                                                            * WSDLLabelProvider.getTypeDisplayText
+                                                            * (
+                                                            * getSelectedType(),
+                                                            * getInput())
+                                                            */);
         if (getSelectedTypeName() != null) {
             typeCombo.setText(getSelectedTypeName().trim());
         }
@@ -161,7 +208,7 @@ public abstract class TypePropertyEditor extends AbstractProblemDecoratableContr
 
         typeCombo.setEnabled(isEditable);
         browseButton.setEnabled(isEditable);
-        newButton.setEnabled(isEditable);
+        newButton.setEnabled(isEditable && isNewTypeButtonEnabled());
         isTypeDirty = false;
         managedForm.dirtyStateChanged();
     }
@@ -257,8 +304,12 @@ public abstract class TypePropertyEditor extends AbstractProblemDecoratableContr
         this.selectedTypeName = selectedTypeName;
     }
 
-    public AbstractFormPageController getFormPageController() {
+    public IFormPageController getFormPageController() {
         return formPageController;
+    }
+
+    protected void setTypeDisplayer(final ITypeDisplayer displayer) {
+        this.typeDisplayer = displayer;
     }
 
 }

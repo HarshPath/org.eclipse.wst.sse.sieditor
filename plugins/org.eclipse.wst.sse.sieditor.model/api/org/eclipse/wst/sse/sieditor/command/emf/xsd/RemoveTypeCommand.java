@@ -38,7 +38,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema;
  * Command for Removing a type {@link IStructureType} or {@link ISimpleType}
  * 
  * 
- * 
  */
 public class RemoveTypeCommand extends AbstractNotificationOperation {
     private final IType _type;

@@ -51,10 +51,9 @@ import org.eclipse.wst.sse.sieditor.core.common.IEnvironment;
 import org.eclipse.wst.sse.sieditor.core.common.IModelReconcileRegistry;
 import org.eclipse.wst.sse.sieditor.core.common.Logger;
 import org.eclipse.wst.sse.sieditor.model.Activator;
+import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 
 /**
- * 
- * 
  *         A class, which is responsible for the creation of
  *         <code>IEnviroment</code> instances.
  */
@@ -113,8 +112,8 @@ public final class EnvironmentFactory {
                 editingDomain.setID(id);
             } 
             else {
-            	throw new IllegalStateException("TransactionalEditingDomain for the current file already exists. " +
-            			"Do close all editors for the current file before openening this one. ");
+            	throw new IllegalStateException("TransactionalEditingDomain for the current file already exists. " + //$NON-NLS-1$
+            			"Do close all editors for the current file before openening this one. "); //$NON-NLS-1$
             }
             resourceSet.eAdapters().add(this);
         }

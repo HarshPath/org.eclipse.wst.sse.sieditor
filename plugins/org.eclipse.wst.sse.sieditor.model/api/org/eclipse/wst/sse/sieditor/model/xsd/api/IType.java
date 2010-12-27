@@ -21,8 +21,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IQNamedObject;
 
 /**
  * 
- * 
- *
  */
 public interface IType extends IQNamedObject{
 	

@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.wsdltree.nodes;
 
@@ -24,36 +23,38 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IServiceInterface;
 import org.eclipse.wst.sse.sieditor.ui.Activator;
 import org.eclipse.wst.sse.sieditor.ui.v2.factory.WSDLNodeFactory;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.impl.AbstractTreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller.SIFormPageController;
 
-public class ServiceInterfaceNode extends AbstractTreeNode {
+public class ServiceInterfaceNode extends AbstractWsdlTreeNode {
 
     private final SIFormPageController nodeMapperContainer;
 
-    public ServiceInterfaceNode(ITreeNode parent, IServiceInterface serviceInterface, SIFormPageController nodeMapperContainer) {
+    public ServiceInterfaceNode(final ITreeNode parent, final IServiceInterface serviceInterface, final SIFormPageController nodeMapperContainer) {
         super(serviceInterface, parent, nodeMapperContainer == null ? null : nodeMapperContainer.getTreeNodeMapper());
         this.nodeMapperContainer = nodeMapperContainer;
     }
 
+    @Override
     public Object[] getChildren() {
         // Returns all opertion nodes
-        IServiceInterface serviceInterface = (IServiceInterface)getModelObject();
-        ArrayList<IOperation> operations = new ArrayList<IOperation>(serviceInterface.getAllOperations());
-        ArrayList<ITreeNode> operationNodes = new ArrayList<ITreeNode>();
-        for (IOperation operation : operations) {
+        final IServiceInterface serviceInterface = (IServiceInterface)getModelObject();
+        final ArrayList<IOperation> operations = new ArrayList<IOperation>(serviceInterface.getAllOperations());
+        final ArrayList<ITreeNode> operationNodes = new ArrayList<ITreeNode>();
+        for (final IOperation operation : operations) {
             operationNodes.add(getOperationNode(operation));
         }
         return operationNodes.toArray();
     }
 
+    @Override
     public Image getImage() {
         return isReadOnly() ? Activator.getDefault().getImage(Activator.NODE_SI_GRAY) :
             Activator.getDefault().getImage(Activator.NODE_SI); 
     }
 
+    @Override
     public boolean hasChildren() {
-        IServiceInterface serviceInterface = (IServiceInterface)getModelObject();
+        final IServiceInterface serviceInterface = (IServiceInterface)getModelObject();
         return !serviceInterface.getAllOperations().isEmpty();
     }
 

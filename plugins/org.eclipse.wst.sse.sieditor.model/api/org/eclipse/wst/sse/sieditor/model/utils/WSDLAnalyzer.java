@@ -51,8 +51,6 @@ import org.eclipse.wst.sse.sieditor.core.common.Nil;
 /**
  * Utilities for checking some of the WSDL specific's e.g. Document or RPC Style
  * 
- * 
- * 
  */
 public class WSDLAnalyzer {
 

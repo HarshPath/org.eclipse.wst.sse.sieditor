@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model.validation.constraints.webservice.interoperability;
 
@@ -70,6 +69,7 @@ import org.eclipse.wst.wsdl.util.WSDLConstants;
 import org.eclipse.xsd.util.XSDConstants;
 import org.w3c.dom.Element;
 
+import org.eclipse.wst.sse.sieditor.model.utils.ElementAttributeUtils;
 import org.eclipse.wst.sse.sieditor.model.validation.constraints.AbstractConstraint;
 
 public class WSIOperationCompliant extends AbstractConstraint {
@@ -82,11 +82,11 @@ public class WSIOperationCompliant extends AbstractConstraint {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected IStatus doValidate(IValidationContext validationContext) {
+    protected IStatus doValidate(final IValidationContext validationContext) {
         this.operation = (Operation) validationContext.getTarget();
 
-        Definition definition = (Definition) this.operation.getEnclosingDefinition();
-        for (PortType port : (List<PortType>) definition.getEPortTypes()) {
+        final Definition definition = this.operation.getEnclosingDefinition();
+        for (final PortType port : (List<PortType>) definition.getEPortTypes()) {
             // check whether current operation is in this service(port)
             if (!port.getEOperations().contains(this.operation))
                 continue;
@@ -95,14 +95,15 @@ public class WSIOperationCompliant extends AbstractConstraint {
             if (soapBindingsForTheCurrentPort == null) {
                 break;
             }
-            for (Binding currentBinding : soapBindingsForTheCurrentPort) {
+            for (final Binding currentBinding : soapBindingsForTheCurrentPort) {
                 // check whether currentBinding contains target operation
                 boolean isBindingContainOperation = false;
-                for (BindingOperation currentBindingOperation : (List<BindingOperation>) currentBinding.getEBindingOperations()) {
+                for (final BindingOperation currentBindingOperation : (List<BindingOperation>) currentBinding
+                        .getEBindingOperations()) {
                     if (currentBindingOperation == null)
                         continue;
 
-                    Operation currentEOperation = currentBindingOperation.getEOperation();
+                    final Operation currentEOperation = currentBindingOperation.getEOperation();
                     if (currentEOperation != null && currentEOperation.equals(this.operation)) {
                         isBindingContainOperation = true;
                         break;
@@ -111,13 +112,13 @@ public class WSIOperationCompliant extends AbstractConstraint {
                 if (!isBindingContainOperation)
                     continue;
 
-                SOAPBinding currentSoapBinding = getSOAPBinding(currentBinding);
+                final SOAPBinding currentSoapBinding = getSOAPBinding(currentBinding);
                 if (currentSoapBinding == null) {
                     return ConstraintStatus.createStatus(validationContext, port, null, INAPPROPRIATE_SOAP_BINDING,
                             INAPPROPRIATE_SOAP_BINDING);
                 }
 
-                String theBindingStyle = currentSoapBinding.getStyle();
+                final String theBindingStyle = currentSoapBinding.getStyle();
                 return getStatusAccordingToSoapBindingStyle(validationContext, port, currentBinding, theBindingStyle);
             }
         }
@@ -127,7 +128,7 @@ public class WSIOperationCompliant extends AbstractConstraint {
     }
 
     @Override
-    protected boolean shouldExecute(IValidationContext ctx) {
+    protected boolean shouldExecute(final IValidationContext ctx) {
         // if bindings are not specified or bindings are not SOAP bindings, then
         // validation over wsdl:operations shouldn't be executed
         return WSIManager.shouldExecuteContraintsOnOperation();
@@ -142,7 +143,7 @@ public class WSIOperationCompliant extends AbstractConstraint {
      * 
      * @return status for "this.operation" according to WS-I specification
      */
-    private IStatus statusThatOperationDoesNotHaveSimilarBindingOperation(IValidationContext validationContext) {
+    private IStatus statusThatOperationDoesNotHaveSimilarBindingOperation(final IValidationContext validationContext) {
         return ConstraintStatus.createStatus(validationContext, this.operation, null,
                 OPERATION_DOESNOT_HAVE_SIMILAR_BINDING_OPERATION, OPERATION_DOESNOT_HAVE_SIMILAR_BINDING_OPERATION);
     }
@@ -162,8 +163,8 @@ public class WSIOperationCompliant extends AbstractConstraint {
      *            is the specified binding style
      * @return status for "this.operation" according to WS-I specification
      */
-    private IStatus getStatusAccordingToSoapBindingStyle(IValidationContext validationContext, PortType port,
-            Binding currentBinding, String theBindingStyle) {
+    private IStatus getStatusAccordingToSoapBindingStyle(final IValidationContext validationContext, final PortType port,
+            final Binding currentBinding, final String theBindingStyle) {
 
         initializeInputAndOutputParts();
 
@@ -189,16 +190,16 @@ public class WSIOperationCompliant extends AbstractConstraint {
         this.hasPartsAttributeInBindingInputParameters = false;
         this.hasPartsAttributeInBindingOutputParameters = false;
 
-        Input input = (Input) this.operation.getEInput();
+        final Input input = this.operation.getEInput();
         if (input != null) {
-            Message message = input.getEMessage();
+            final Message message = input.getEMessage();
             if (message != null) {
                 this.partsInInputMessage = message.getEParts();
             }
         }
-        Output output = (Output) this.operation.getEOutput();
+        final Output output = this.operation.getEOutput();
         if (output != null) {
-            Message message = output.getEMessage();
+            final Message message = output.getEMessage();
             if (message != null) {
                 this.partsInOutputMessage = message.getEParts();
             }
@@ -218,9 +219,10 @@ public class WSIOperationCompliant extends AbstractConstraint {
      * @return status in case of document-style binding
      */
     @SuppressWarnings("unchecked")
-    private IStatus checkInCaseOfDocumentStyleBinding(IValidationContext validationContext, PortType portType,
-            Binding currentBinding) {
-        for (BindingOperation bindingOperationForWSIChecking : (List<BindingOperation>) currentBinding.getEBindingOperations()) {
+    private IStatus checkInCaseOfDocumentStyleBinding(final IValidationContext validationContext, final PortType portType,
+            final Binding currentBinding) {
+        for (final BindingOperation bindingOperationForWSIChecking : (List<BindingOperation>) currentBinding
+                .getEBindingOperations()) {
             if (!this.operation.equals(bindingOperationForWSIChecking.getEOperation()))
                 continue;
 
@@ -242,7 +244,7 @@ public class WSIOperationCompliant extends AbstractConstraint {
                         NAMESPACE_ATTRIBUTE_ISNOT_ALLOWED_IN_SOAPBIND_ELEMENTS_WHEN_DOCUMENT_STYLE_IS_SPECIFIED);
             }
 
-            Collection<IStatus> statuses = new HashSet<IStatus>();
+            final Collection<IStatus> statuses = new HashSet<IStatus>();
 
             validateFaults(validationContext, statuses, bindingOperationForWSIChecking);
 
@@ -268,22 +270,22 @@ public class WSIOperationCompliant extends AbstractConstraint {
      *         soapbind:body
      */
     @SuppressWarnings("unchecked")
-    private boolean isCorrectIfPartsAttributeIsSpecifiedInSomeSoapBody(BindingOperation bindingOperationForWSIChecking) {
-        BindingInput input = (BindingInput) bindingOperationForWSIChecking.getBindingInput();
-        BindingOutput output = (BindingOutput) bindingOperationForWSIChecking.getBindingOutput();
-        List<BindingFault> faults = (List<BindingFault>) bindingOperationForWSIChecking.getEBindingFaults();
+    private boolean isCorrectIfPartsAttributeIsSpecifiedInSomeSoapBody(final BindingOperation bindingOperationForWSIChecking) {
+        final BindingInput input = (BindingInput) bindingOperationForWSIChecking.getBindingInput();
+        final BindingOutput output = (BindingOutput) bindingOperationForWSIChecking.getBindingOutput();
+        final List<BindingFault> faults = bindingOperationForWSIChecking.getEBindingFaults();
 
-        boolean resultFromFaultsCheking = hasAtMostOnePartListedInPartsAttributeInFaults(faults);
+        final boolean resultFromFaultsCheking = hasAtMostOnePartListedInPartsAttributeInFaults(faults);
 
         return (ensureAppropriatePartElements(input) & ensureAppropriatePartElements(output)) && resultFromFaultsCheking;
     }
 
     @SuppressWarnings("unchecked")
-    private boolean ensureAppropriatePartElements(ExtensibleElement extensibleElement) {
+    private boolean ensureAppropriatePartElements(final ExtensibleElement extensibleElement) {
         if (extensibleElement == null) {
             return true;
         }
-        List<ExtensibilityElement> extensibilityElements = ((extensibleElement).getExtensibilityElements());
+        final List<ExtensibilityElement> extensibilityElements = ((extensibleElement).getExtensibilityElements());
 
         if (extensibleElement instanceof BindingInput) {
             return checkThePartsWhichAreRefferedByBindingOperation(extensibilityElements, this.partsInInputMessage, true);
@@ -297,8 +299,8 @@ public class WSIOperationCompliant extends AbstractConstraint {
     }
 
     @SuppressWarnings("unchecked")
-    private boolean checkThePartsWhichAreRefferedByBindingOperation(List<ExtensibilityElement> extensibilityElements,
-            List<Part> partsInTheMessage, boolean areElementsFromBindingInput) {
+    private boolean checkThePartsWhichAreRefferedByBindingOperation(final List<ExtensibilityElement> extensibilityElements,
+            final List<Part> partsInTheMessage, final boolean areElementsFromBindingInput) {
 
         if (partsInTheMessage == null || partsInTheMessage.size() == 0) {
             return true;
@@ -308,13 +310,13 @@ public class WSIOperationCompliant extends AbstractConstraint {
         int numberOfPartsRefferedBySoapHeader = 0;
         boolean isCorrectTheSizeOfListedParts = true;// change the name
 
-        for (ExtensibilityElement element : extensibilityElements) {
+        for (final ExtensibilityElement element : extensibilityElements) {
             if (element instanceof SOAPBody) {
-                SOAPBody soapPart = (SOAPBody) element;
+                final SOAPBody soapPart = (SOAPBody) element;
                 if (!soapPart.getElement().hasAttribute(PARTS_ATTRIBUTE)) {
                     continue;
                 }
-                List<Part> listedParts = soapPart.getParts();
+                final List<Part> listedParts = soapPart.getParts();
                 if (listedParts == null || listedParts.size() == 0) {
                     continue;
                 }
@@ -328,8 +330,8 @@ public class WSIOperationCompliant extends AbstractConstraint {
                     isCorrectTheSizeOfListedParts = false;
                 }
             } else if (element instanceof SOAPHeader) {
-                SOAPHeader soapPart = (SOAPHeader) element;
-                Part partInHeader = soapPart.getEPart();
+                final SOAPHeader soapPart = (SOAPHeader) element;
+                final Part partInHeader = soapPart.getEPart();
                 if (partInHeader == null) {
                     continue;
                 }
@@ -346,13 +348,13 @@ public class WSIOperationCompliant extends AbstractConstraint {
     }
 
     @SuppressWarnings("unchecked")
-    private boolean hasAtMostOnePartListedInSoapBody(List extensibilityElements) {
-        for (ExtensibilityElement element : (List<ExtensibilityElement>) extensibilityElements) {
+    private boolean hasAtMostOnePartListedInSoapBody(final List extensibilityElements) {
+        for (final ExtensibilityElement element : (List<ExtensibilityElement>) extensibilityElements) {
             if (!(element instanceof SOAPBody)) {
                 continue;
             }
-            SOAPBody soapPart = (SOAPBody) element;
-            List<Part> listedParts = soapPart.getEParts();
+            final SOAPBody soapPart = (SOAPBody) element;
+            final List<Part> listedParts = soapPart.getEParts();
             if (listedParts != null && listedParts.size() > 1) {
                 return false;
             }
@@ -361,17 +363,16 @@ public class WSIOperationCompliant extends AbstractConstraint {
     }
 
     @SuppressWarnings("unchecked")
-    private boolean hasAtMostOnePartListedInPartsAttributeInFaults(List<BindingFault> faults) {
+    private boolean hasAtMostOnePartListedInPartsAttributeInFaults(final List<BindingFault> faults) {
         boolean resultFromFaultsCheking = true;
         if (faults == null || faults.isEmpty()) {
             return resultFromFaultsCheking;
         }
-        for (BindingFault bindingFault : faults) {
+        for (final BindingFault bindingFault : faults) {
             if (bindingFault == null) {
                 continue;
             }
-            resultFromFaultsCheking &= hasAtMostOnePartListedInSoapBody((List<ExtensibilityElement>) bindingFault
-                    .getExtensibilityElements());
+            resultFromFaultsCheking &= hasAtMostOnePartListedInSoapBody(bindingFault.getExtensibilityElements());
         }
         return resultFromFaultsCheking;
     }
@@ -387,16 +388,16 @@ public class WSIOperationCompliant extends AbstractConstraint {
      *         operation
      */
     @SuppressWarnings("unchecked")
-    private boolean isNamespaceAttributeExistInSoapElementsForSpecifiedBindingOperation(BindingOperation bindingOperation) {
-        BindingInput input = (BindingInput) bindingOperation.getBindingInput();
-        BindingOutput output = (BindingOutput) bindingOperation.getBindingOutput();
-        List<BindingFault> faults = (List<BindingFault>) bindingOperation.getEBindingFaults();
+    private boolean isNamespaceAttributeExistInSoapElementsForSpecifiedBindingOperation(final BindingOperation bindingOperation) {
+        final BindingInput input = (BindingInput) bindingOperation.getBindingInput();
+        final BindingOutput output = (BindingOutput) bindingOperation.getBindingOutput();
+        final List<BindingFault> faults = bindingOperation.getEBindingFaults();
         return haveNamespaceAttributesForExtensibleElement(input) || haveNamespaceAttributesForExtensibleElement(output)
                 || isNamespaceAttributeExistInSoapFaults(faults);
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends ExtensibleElement> boolean haveNamespaceAttributesForExtensibleElement(T bindingExtensibleElement) {
+    private <T extends ExtensibleElement> boolean haveNamespaceAttributesForExtensibleElement(final T bindingExtensibleElement) {
         boolean hasNamespaceAttribute = false;
         if (bindingExtensibleElement == null)
             return false;
@@ -408,13 +409,12 @@ public class WSIOperationCompliant extends AbstractConstraint {
     }
 
     @SuppressWarnings("unchecked")
-    private boolean isNamespaceAttributeExistInSoapFaults(List<BindingFault> faults) {
+    private boolean isNamespaceAttributeExistInSoapFaults(final List<BindingFault> faults) {
         if (faults == null || faults.isEmpty())
             return false;
         boolean isNamespaceAttributeExist = false;
-        for (BindingFault bindingFault : faults) {
-            List<ExtensibilityElement> extensibilityElements = (List<ExtensibilityElement>) bindingFault
-                    .getExtensibilityElements();
+        for (final BindingFault bindingFault : faults) {
+            final List<ExtensibilityElement> extensibilityElements = bindingFault.getExtensibilityElements();
             if (extensibilityElements == null)
                 return true;
             isNamespaceAttributeExist = haveNamespaceAttributesInExtensibilityElements(extensibilityElements);
@@ -424,24 +424,24 @@ public class WSIOperationCompliant extends AbstractConstraint {
         return isNamespaceAttributeExist;
     }
 
-    private boolean haveNamespaceAttributesInExtensibilityElements(List<ExtensibilityElement> extensibleElements) {
+    private boolean haveNamespaceAttributesInExtensibilityElements(final List<ExtensibilityElement> extensibleElements) {
         if (extensibleElements == null || extensibleElements.isEmpty())
             return false;
-        for (ExtensibilityElement element : extensibleElements) {
+        for (final ExtensibilityElement element : extensibleElements) {
             if (element instanceof SOAPBody) {
-                SOAPBody soapPart = (SOAPBody) element;
+                final SOAPBody soapPart = (SOAPBody) element;
                 if (soapPart.getNamespaceURI() == null)
                     return false;
             } else if (element instanceof SOAPFault) {
-                SOAPFault soapPart = (SOAPFault) element;
+                final SOAPFault soapPart = (SOAPFault) element;
                 if (soapPart.getNamespaceURI() == null)
                     return false;
             } else if (element instanceof SOAPHeader) {
-                SOAPHeader soapPart = (SOAPHeader) element;
+                final SOAPHeader soapPart = (SOAPHeader) element;
                 if (soapPart.getNamespaceURI() == null)
                     return false;
             } else if (element instanceof SOAPHeaderFault) {
-                SOAPHeaderFault soapPart = (SOAPHeaderFault) element;
+                final SOAPHeaderFault soapPart = (SOAPHeaderFault) element;
                 if (soapPart.getNamespaceURI() == null)
                     return false;
             }
@@ -466,22 +466,22 @@ public class WSIOperationCompliant extends AbstractConstraint {
      * @return status according to the rules mentioned above from WS-I
      *         validation
      */
-    private IStatus getStatusForMoreThenOnePartInMessage(IValidationContext validationContext,
-            BindingOperation bindingOperationForWSIChecking, Collection<IStatus> statuses) {
+    private IStatus getStatusForMoreThenOnePartInMessage(final IValidationContext validationContext,
+            final BindingOperation bindingOperationForWSIChecking, final Collection<IStatus> statuses) {
 
         if (!isCorrectIfPartsAttributeIsSpecifiedInSomeSoapBody(bindingOperationForWSIChecking)) {
             statuses.add(ConstraintStatus.createStatus(validationContext, this.operation, null,
                     HAS_AT_MOST_ONE_PART_LISTED_IN_PARTS_ATTRIBUTE, HAS_AT_MOST_ONE_PART_LISTED_IN_PARTS_ATTRIBUTE));
         }
 
-        Input input = (Input) this.operation.getInput();
+        final Input input = (Input) this.operation.getInput();
         if (input != null) {
             checkThePartsForWSICompliantWhenDocumentBindingStyleIsSpecified(validationContext, statuses,
                     !this.hasPartsAttributeInBindingInputParameters, this.partsInInputMessage,
                     THE_OPERATION_HAS_MORE_THAN_ONE_INPUT_PARAMETER,
                     THE_PART_DOESNOT_HAVE_ELEMENT_ATTRIBUTE_IN_SOME_INPUT_MESSAGE);
         }
-        Output output = (Output) this.operation.getOutput();
+        final Output output = (Output) this.operation.getOutput();
         if (output != null) {
             checkThePartsForWSICompliantWhenDocumentBindingStyleIsSpecified(validationContext, statuses,
                     !this.hasPartsAttributeInBindingOutputParameters, this.partsInOutputMessage,
@@ -492,9 +492,10 @@ public class WSIOperationCompliant extends AbstractConstraint {
         return createStatusFromAGivenListOfStatues(validationContext, statuses);
     }
 
-    private void checkThePartsForWSICompliantWhenDocumentBindingStyleIsSpecified(IValidationContext validationContext,
-            Collection<IStatus> statuses, Boolean shouldBeCheckedForMoreThanOneInputParameter, List<Part> currentParts,
-            String warningForInappropiateCountOfParts, String warningForMissingElementAttribute) {
+    private void checkThePartsForWSICompliantWhenDocumentBindingStyleIsSpecified(final IValidationContext validationContext,
+            final Collection<IStatus> statuses, final Boolean shouldBeCheckedForMoreThanOneInputParameter,
+            final List<Part> currentParts, final String warningForInappropiateCountOfParts,
+            final String warningForMissingElementAttribute) {
 
         if (shouldBeCheckedForMoreThanOneInputParameter && currentParts != null && currentParts.size() > 1) {
             statuses.add(ConstraintStatus.createStatus(validationContext, this.operation, null,
@@ -503,21 +504,19 @@ public class WSIOperationCompliant extends AbstractConstraint {
         checkTheElementAttributes(validationContext, currentParts, warningForMissingElementAttribute, statuses);
     }
 
-    private void checkTheElementAttributes(IValidationContext validationContext, List<Part> currentParts, String warningMessage,
-            Collection<IStatus> statuses) {
+    private void checkTheElementAttributes(final IValidationContext validationContext, final List<Part> currentParts,
+            final String warningMessage, final Collection<IStatus> statuses) {
         if (currentParts == null) {
             return;
         }
-        for (Part part : currentParts) {
-            String valueOfElementAttribute = part.getElement().getAttribute(WSDLConstants.ELEMENT_ATTRIBUTE);
-            if ((valueOfElementAttribute == null)) {
+        for (final Part part : currentParts) {
+            if (!ElementAttributeUtils.hasAttributeValue(part.getElement(), WSDLConstants.ELEMENT_ATTRIBUTE)) {
                 statuses.add(ConstraintStatus.createStatus(validationContext, part, null, warningMessage, warningMessage));
+
             } else if (XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001.equals(part.getElement().getAttributeNS(
                     XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, WSDLConstants.ELEMENT_ATTRIBUTE))) {
-
                 statuses.add(ConstraintStatus.createStatus(validationContext, part, null, ELEMENT_ATTRIBUTE_HAS_INVALID_VALUE,
                         ELEMENT_ATTRIBUTE_HAS_INVALID_VALUE));
-
             }
         }
     }
@@ -535,8 +534,10 @@ public class WSIOperationCompliant extends AbstractConstraint {
      * @return status in case of document-style binding
      */
     @SuppressWarnings("unchecked")
-    private IStatus checkInCaseOfRpcStyleBinding(IValidationContext validationContext, PortType portType, Binding currentBinding) {
-        for (BindingOperation bindingOperationForWSIChecking : (List<BindingOperation>) currentBinding.getEBindingOperations()) {
+    private IStatus checkInCaseOfRpcStyleBinding(final IValidationContext validationContext, final PortType portType,
+            final Binding currentBinding) {
+        for (final BindingOperation bindingOperationForWSIChecking : (List<BindingOperation>) currentBinding
+                .getEBindingOperations()) {
             // if current binding operation != from the target operation
             if (!this.operation.equals(bindingOperationForWSIChecking.getEOperation()))
                 continue;
@@ -561,11 +562,11 @@ public class WSIOperationCompliant extends AbstractConstraint {
                         NAMESPACE_ATTRIBUTE_MUST_NOT_BE_SPECIFIED_IN_SOAP_FAULT_HEADER_FAULT_AND_HEADER);
             }
 
-            Collection<IStatus> statuses = new HashSet<IStatus>();
+            final Collection<IStatus> statuses = new HashSet<IStatus>();
 
             validateFaults(validationContext, statuses, bindingOperationForWSIChecking);
 
-            return hasTypeAttributeInAllParts(validationContext,statuses);
+            return hasTypeAttributeInAllParts(validationContext, statuses);
 
         }
         // Possible when current operation hasn't binding for operation
@@ -573,9 +574,9 @@ public class WSIOperationCompliant extends AbstractConstraint {
                 OPERATION_DOESNOT_HAVE_SIMILAR_BINDING_OPERATION);
     }
 
-    private void validateFaults(IValidationContext validationContext, Collection<IStatus> statuses,
-            BindingOperation bindingOperationForWSIChecking) {
-        FaultsState faultState = getFaultsState(bindingOperationForWSIChecking);
+    private void validateFaults(final IValidationContext validationContext, final Collection<IStatus> statuses,
+            final BindingOperation bindingOperationForWSIChecking) {
+        final FaultsState faultState = getFaultsState(bindingOperationForWSIChecking);
         if (faultState != FaultsState.FAULT_STATE_IS_OK) {
             statuses.add(ConstraintStatus.createStatus(validationContext, operation, null, faultState.getMessage(), faultState
                     .getMessage()));
@@ -592,14 +593,14 @@ public class WSIOperationCompliant extends AbstractConstraint {
      * @return whether namespace attribute missing in non soap body element
      */
     @SuppressWarnings("unchecked")
-    private boolean isNamespaceAttributeMissingInNonSoapBodyElement(BindingOperation bindingOperation) {
-        BindingInput input = (BindingInput) bindingOperation.getBindingInput();
-        BindingOutput output = (BindingOutput) bindingOperation.getBindingOutput();
-        List<BindingFault> faults = (List<BindingFault>) bindingOperation.getEBindingFaults();
+    private boolean isNamespaceAttributeMissingInNonSoapBodyElement(final BindingOperation bindingOperation) {
+        final BindingInput input = (BindingInput) bindingOperation.getBindingInput();
+        final BindingOutput output = (BindingOutput) bindingOperation.getBindingOutput();
+        final List<BindingFault> faults = bindingOperation.getEBindingFaults();
 
         boolean isNamespaceAttributeMissingInFaultsExtensibleElementWhichIsNotSoapBody = true;
         if (faults != null && !faults.isEmpty()) {
-            for (BindingFault bindingFault : faults) {
+            for (final BindingFault bindingFault : faults) {
                 if (bindingFault == null) {
                     continue;
                 }
@@ -615,7 +616,7 @@ public class WSIOperationCompliant extends AbstractConstraint {
 
     @SuppressWarnings("unchecked")
     private <T extends ExtensibleElement> boolean isNamespaceAttributesMissingInNonSoapBodyForExtensibleElement(
-            T bindingExtensibleElement) {
+            final T bindingExtensibleElement) {
         boolean isNamespaceAttributeMissing = true;
         if (bindingExtensibleElement == null) {
             return isNamespaceAttributeMissing;
@@ -627,21 +628,21 @@ public class WSIOperationCompliant extends AbstractConstraint {
         return isNamespaceAttributeMissing;
     }
 
-    private boolean isNamespaceAttributeMissingInNonSoapBodyExtensibleElements(List<ExtensibilityElement> extensibleElements) {
+    private boolean isNamespaceAttributeMissingInNonSoapBodyExtensibleElements(final List<ExtensibilityElement> extensibleElements) {
         if (extensibleElements == null || extensibleElements.isEmpty()) {
             return true;
         }
-        for (ExtensibilityElement element : extensibleElements) {
+        for (final ExtensibilityElement element : extensibleElements) {
             if (element instanceof SOAPFault) {
-                SOAPFault soapPart = (SOAPFault) element;
+                final SOAPFault soapPart = (SOAPFault) element;
                 if (soapPart.getNamespaceURI() != null)
                     return false;
             } else if (element instanceof SOAPHeader) {
-                SOAPHeader soapPart = (SOAPHeader) element;
+                final SOAPHeader soapPart = (SOAPHeader) element;
                 if (soapPart.getNamespaceURI() != null)
                     return false;
             } else if (element instanceof SOAPHeaderFault) {
-                SOAPHeaderFault soapPart = (SOAPHeaderFault) element;
+                final SOAPHeaderFault soapPart = (SOAPHeaderFault) element;
                 if (soapPart.getNamespaceURI() != null)
                     return false;
             }
@@ -659,14 +660,14 @@ public class WSIOperationCompliant extends AbstractConstraint {
      * @return whether have namespace attribute for all soap bodies when RPC
      *         binding style is specified
      */
-    private boolean hasNamespaceAttributeInAllSoapBodies(BindingOperation bindingOperation) {
-        BindingInput input = (BindingInput) bindingOperation.getBindingInput();
-        BindingOutput output = (BindingOutput) bindingOperation.getBindingOutput();
+    private boolean hasNamespaceAttributeInAllSoapBodies(final BindingOperation bindingOperation) {
+        final BindingInput input = (BindingInput) bindingOperation.getBindingInput();
+        final BindingOutput output = (BindingOutput) bindingOperation.getBindingOutput();
         return isNamespaceAttributesAppearForExtensibleElement(input) && isNamespaceAttributesAppearForExtensibleElement(output);
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends ExtensibleElement> boolean isNamespaceAttributesAppearForExtensibleElement(T bindingExtensibleElement) {
+    private <T extends ExtensibleElement> boolean isNamespaceAttributesAppearForExtensibleElement(final T bindingExtensibleElement) {
         boolean isNamespaceAttributeExist = true;
         if (bindingExtensibleElement == null) {
             return isNamespaceAttributeExist;
@@ -684,7 +685,7 @@ public class WSIOperationCompliant extends AbstractConstraint {
      *            is the parameter from the doValidate(..) method
      * @return status according to referred messages
      */
-    private IStatus hasTypeAttributeInAllParts(IValidationContext validationContext,Collection<IStatus> statuses) {
+    private IStatus hasTypeAttributeInAllParts(final IValidationContext validationContext, final Collection<IStatus> statuses) {
         if (this.operation.getInput() != null) {
             checkForTypeAttribute(validationContext, this.partsInInputMessage, statuses,
                     THE_PART_DOESNOT_HAVE_TYPE_ATTRIBUTE_IN_SOME_INPUT_MESSAGE);
@@ -699,14 +700,14 @@ public class WSIOperationCompliant extends AbstractConstraint {
         return createStatusFromAGivenListOfStatues(validationContext, statuses);
     }
 
-    private void checkForTypeAttribute(IValidationContext validationContext, List<Part> currentParts,
-            Collection<IStatus> statuses, String warringMessage) {
+    private void checkForTypeAttribute(final IValidationContext validationContext, final List<Part> currentParts,
+            final Collection<IStatus> statuses, final String warringMessage) {
         if (currentParts == null) {
             return;
         }
-        for (Part part : currentParts) {
-            Element partElement = part.getElement();
-            if (partElement.getAttribute(WSDLConstants.TYPE_ATTRIBUTE) != null) {
+        for (final Part part : currentParts) {
+            final Element partElement = part.getElement();
+            if (ElementAttributeUtils.hasAttributeValue(partElement, WSDLConstants.TYPE_ATTRIBUTE)) {
                 continue;
             }
             statuses.add(ConstraintStatus.createStatus(validationContext, part, null, warringMessage, warringMessage));
@@ -714,22 +715,22 @@ public class WSIOperationCompliant extends AbstractConstraint {
     }
 
     private boolean isNamespaceAttributeAppearCorrectlyInSoapBodyWhenRPCStyleIsSpecified(
-            List<ExtensibilityElement> extensibleElements) {
-        for (ExtensibilityElement element : extensibleElements) {
+            final List<ExtensibilityElement> extensibleElements) {
+        for (final ExtensibilityElement element : extensibleElements) {
             if (!(element instanceof SOAPBody)) {
                 continue;
             }
-            SOAPBody soapBody = (SOAPBody) element;
-            String namespaceURI = soapBody.getNamespaceURI();
+            final SOAPBody soapBody = (SOAPBody) element;
+            final String namespaceURI = soapBody.getNamespaceURI();
             if (namespaceURI == null) {
                 return false;
             }
             try {
-                URI uri = new URI(namespaceURI);
+                final URI uri = new URI(namespaceURI);
                 if (!uri.isAbsolute()) {
                     return false;
                 }
-            } catch (URISyntaxException e) {
+            } catch (final URISyntaxException e) {
                 // in this case the namespace attribute is not valid
                 return false;
             }
@@ -749,16 +750,16 @@ public class WSIOperationCompliant extends AbstractConstraint {
      * @return whether have consistent between Input/Output in binding operation
      *         and Input/Output in wsdl:operation
      */
-    private boolean haveConsistentBetweenInputOutputAndBindingInputOutput(BindingOperation bindingOperationForWSIChecking) {
-        BindingInput input = (BindingInput) bindingOperationForWSIChecking.getBindingInput();
-        BindingOutput output = (BindingOutput) bindingOperationForWSIChecking.getBindingOutput();
+    private boolean haveConsistentBetweenInputOutputAndBindingInputOutput(final BindingOperation bindingOperationForWSIChecking) {
+        final BindingInput input = (BindingInput) bindingOperationForWSIChecking.getBindingInput();
+        final BindingOutput output = (BindingOutput) bindingOperationForWSIChecking.getBindingOutput();
 
-        Input operationInput = this.operation.getEInput();
+        final Input operationInput = this.operation.getEInput();
         if ((operationInput != null && input == null) || (operationInput == null && input != null)) {
             return false;
         }
 
-        Output operationOutput = this.operation.getEOutput();
+        final Output operationOutput = this.operation.getEOutput();
         if ((operationOutput != null && output == null) || (operationOutput == null && output != null)) {
             return false;
         }
@@ -780,19 +781,19 @@ public class WSIOperationCompliant extends AbstractConstraint {
      * @return whether have literal value for all use attributes
      */
     @SuppressWarnings("unchecked")
-    private boolean hasLiteralValueForAllUseAttributesInBindingOperation(BindingOperation bindingOperationForWSIChecking) {
-        BindingInput input = (BindingInput) bindingOperationForWSIChecking.getBindingInput();
-        BindingOutput output = (BindingOutput) bindingOperationForWSIChecking.getBindingOutput();
-        List<BindingFault> faults = (List<BindingFault>) bindingOperationForWSIChecking.getEBindingFaults();
+    private boolean hasLiteralValueForAllUseAttributesInBindingOperation(final BindingOperation bindingOperationForWSIChecking) {
+        final BindingInput input = (BindingInput) bindingOperationForWSIChecking.getBindingInput();
+        final BindingOutput output = (BindingOutput) bindingOperationForWSIChecking.getBindingOutput();
+        final List<BindingFault> faults = bindingOperationForWSIChecking.getEBindingFaults();
 
-        boolean resultFromFaultsCheking = hasLiteralValueForUseAttributeInSoapFaults(faults);
+        final boolean resultFromFaultsCheking = hasLiteralValueForUseAttributeInSoapFaults(faults);
 
         return hasLiteralValueInExtensibilityElements(input) && hasLiteralValueInExtensibilityElements(output)
                 && resultFromFaultsCheking;
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends ExtensibleElement> boolean hasLiteralValueInExtensibilityElements(T bindingExtensibleElement) {
+    private <T extends ExtensibleElement> boolean hasLiteralValueInExtensibilityElements(final T bindingExtensibleElement) {
         boolean hasLiteralValueForUseAttributeInExtensibilityElements = true;
         if (bindingExtensibleElement == null) {
             return hasLiteralValueForUseAttributeInExtensibilityElements;
@@ -803,36 +804,36 @@ public class WSIOperationCompliant extends AbstractConstraint {
     }
 
     @SuppressWarnings("unchecked")
-    private boolean hasLiteralValueForUseAttributeInSoapFaults(List<BindingFault> faults) {
+    private boolean hasLiteralValueForUseAttributeInSoapFaults(final List<BindingFault> faults) {
         boolean resultFromFaultsCheking = true;
         if (faults == null || faults.isEmpty()) {
             return resultFromFaultsCheking;
         }
-        for (BindingFault bindingFault : faults) {
+        for (final BindingFault bindingFault : faults) {
             if (bindingFault == null)
                 continue;
-            resultFromFaultsCheking &= hasApproriateValueForUseAttributeInExtesibilityElements((List<ExtensibilityElement>) bindingFault
+            resultFromFaultsCheking &= hasApproriateValueForUseAttributeInExtesibilityElements(bindingFault
                     .getExtensibilityElements());
         }
         return resultFromFaultsCheking;
     }
 
-    private boolean hasApproriateValueForUseAttributeInExtesibilityElements(List<ExtensibilityElement> extensions) {
-        for (ExtensibilityElement element : extensions) {
+    private boolean hasApproriateValueForUseAttributeInExtesibilityElements(final List<ExtensibilityElement> extensions) {
+        for (final ExtensibilityElement element : extensions) {
             if (element instanceof SOAPBody) {
-                SOAPBody soapPart = (SOAPBody) element;
+                final SOAPBody soapPart = (SOAPBody) element;
                 if ((soapPart.getUse() != null) && !soapPart.getUse().equalsIgnoreCase(LITERAL))
                     return false;
             } else if (element instanceof SOAPFault) {
-                SOAPFault soapPart = (SOAPFault) element;
+                final SOAPFault soapPart = (SOAPFault) element;
                 if ((soapPart.getUse() != null) && !soapPart.getUse().equalsIgnoreCase(LITERAL))
                     return false;
             } else if (element instanceof SOAPHeader) {
-                SOAPHeader soapPart = (SOAPHeader) element;
+                final SOAPHeader soapPart = (SOAPHeader) element;
                 if ((soapPart.getUse() != null) && !soapPart.getUse().equalsIgnoreCase(LITERAL))
                     return false;
             } else if (element instanceof SOAPHeaderFault) {
-                SOAPHeaderFault soapPart = (SOAPHeaderFault) element;
+                final SOAPHeaderFault soapPart = (SOAPHeaderFault) element;
                 if ((soapPart.getUse() != null) && !soapPart.getUse().equalsIgnoreCase(LITERAL))
                     return false;
             }
@@ -876,21 +877,20 @@ public class WSIOperationCompliant extends AbstractConstraint {
      * @return FaultState according to WS-I
      */
     @SuppressWarnings("unchecked")
-    private FaultsState getFaultsState(BindingOperation bindingOperationForWSIChecking) {
-        List<BindingFault> bindingFaultsForCurrentOperation = (List<BindingFault>) bindingOperationForWSIChecking
-                .getEBindingFaults();
-        List<Fault> wsdlFaultsDescribedForCurrentOperation = (List<Fault>) this.operation.getEFaults();
-        int expectedSoapFaultsCount = bindingFaultsForCurrentOperation.size();
+    private FaultsState getFaultsState(final BindingOperation bindingOperationForWSIChecking) {
+        final List<BindingFault> bindingFaultsForCurrentOperation = bindingOperationForWSIChecking.getEBindingFaults();
+        final List<Fault> wsdlFaultsDescribedForCurrentOperation = this.operation.getEFaults();
+        final int expectedSoapFaultsCount = bindingFaultsForCurrentOperation.size();
         int actualSoapFaultsCount = 0;
-        for (BindingFault fault : bindingFaultsForCurrentOperation) {
+        for (final BindingFault fault : bindingFaultsForCurrentOperation) {
             if (fault == null)
                 continue;
-            for (ExtensibilityElement element : (List<ExtensibilityElement>) fault.getEExtensibilityElements()) {
+            for (final ExtensibilityElement element : (List<ExtensibilityElement>) fault.getEExtensibilityElements()) {
                 if (!(element instanceof SOAPFault)) {
                     continue;
                 }
                 ++actualSoapFaultsCount;
-                SOAPFault soapFault = (SOAPFault) element;
+                final SOAPFault soapFault = (SOAPFault) element;
                 if (soapFault.getName() == null)
                     return FaultsState.MISSING_NAME_ATTRIBUTE_IN_SOME_SOAPFAULT;
                 if (!soapFault.getName().equals(fault.getName()))
@@ -909,7 +909,8 @@ public class WSIOperationCompliant extends AbstractConstraint {
         }
     }
 
-    private IStatus createStatusFromAGivenListOfStatues(IValidationContext validationContext, Collection<IStatus> statuses) {
+    private IStatus createStatusFromAGivenListOfStatues(final IValidationContext validationContext,
+            final Collection<IStatus> statuses) {
         if (statuses.isEmpty()) {
             return ConstraintStatus.createSuccessStatus(validationContext, this.operation, null);
         } else {

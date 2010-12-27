@@ -30,8 +30,6 @@ import org.eclipse.wst.sse.sieditor.model.reconcile.adapters.AbstractModelReconc
  * This is the base class for all the {@link IModelRootFactory} implementations.
  * Subclasses are responsible for the creation of the custom models
  * 
- * 
- * 
  */
 public abstract class AbstractModelRootFactory implements IModelRootFactory {
 

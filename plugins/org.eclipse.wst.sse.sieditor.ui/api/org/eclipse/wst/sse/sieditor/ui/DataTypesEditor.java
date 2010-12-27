@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui;
 
@@ -24,13 +23,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.PartInitException;
-import org.w3c.dom.Document;
-
 import org.eclipse.wst.sse.sieditor.core.common.Logger;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
 import org.eclipse.wst.sse.sieditor.model.factory.DataTypesModelRootFactory;
-import org.eclipse.wst.sse.sieditor.model.utils.EmfModelPatcher;
 import org.eclipse.wst.sse.sieditor.model.validation.EsmXsdModelAdapter;
 import org.eclipse.wst.sse.sieditor.model.validation.ValidationService;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
@@ -38,6 +34,7 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.ValidationListener;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.DataTypesEditorPage;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.StandaloneDtEditorPage;
+import org.w3c.dom.Document;
 
 public class DataTypesEditor extends AbstractEditorWithSourcePage {
 
@@ -46,11 +43,6 @@ public class DataTypesEditor extends AbstractEditorWithSourcePage {
     @Override
     protected IModelRoot createModelRoot(final Document document) {
         return DataTypesModelRootFactory.instance().createModelRoot(document);
-    }
-
-    @Override
-    protected void reloadModelFromDOM() {
-        EmfModelPatcher.instance().patchEMFModelAfterDomChange(getModelRoot(), modelNotifier.getChangedNodes());
     }
 
     @Override

@@ -47,8 +47,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.Schema;
 /**
  * Command for adding fault elements for operations
  * 
- * 
- * 
  */
 public class AddFaultCommand extends AbstractWSDLNotificationOperation {
     private Fault _fault;

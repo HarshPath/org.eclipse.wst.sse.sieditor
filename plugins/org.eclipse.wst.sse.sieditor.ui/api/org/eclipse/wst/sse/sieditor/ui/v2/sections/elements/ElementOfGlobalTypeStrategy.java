@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Tsvetan Stoyanov - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.sections.elements;
 
@@ -35,8 +34,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.sections.elements.ElementNodeDetailsCo
 /**
  * &lt;element name="something" type="global_type"/&gt;
  * 
- * 
- * 
  */
 public class ElementOfGlobalTypeStrategy implements IElementStrategy {
 
@@ -46,7 +43,7 @@ public class ElementOfGlobalTypeStrategy implements IElementStrategy {
 
     protected IConstraintsController constraintsController;
 
-    public ElementOfGlobalTypeStrategy(IDataTypesFormPageController formPageController) {
+    public ElementOfGlobalTypeStrategy(final IDataTypesFormPageController formPageController) {
         this.formPageController = formPageController;
     }
 
@@ -75,12 +72,12 @@ public class ElementOfGlobalTypeStrategy implements IElementStrategy {
     }
 
     public boolean isConstraintsSectionApplicable() {
-        IType type = getType();
+        final IType type = getType();
         if (type == null) {
             return false;
         }
         // Cannot add facets to anySimpleType
-        XSDNamedComponent component = type.getComponent();
+        final XSDNamedComponent component = type.getComponent();
         if (component instanceof XSDTypeDefinition && XSDConstants.isAnySimpleType((XSDTypeDefinition) component)) {
             return false;
         }
@@ -112,39 +109,39 @@ public class ElementOfGlobalTypeStrategy implements IElementStrategy {
         return true;
     }
 
-    public void setCardinality(CardinalityType cardinality) {
+    public void setCardinality(final CardinalityType cardinality) {
         if (cardinality != null) {
             formPageController.setCardinality(null, input, cardinality.min, cardinality.max);
         }
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         if (!name.equals(getName())) {
             formPageController.renameElement(input, name);
         }
     }
 
-    public void setNamespace(String namespace) {
+    public void setNamespace(final String namespace) {
         throw new IllegalStateException("Namespace cannot be changed!"); //$NON-NLS-1$
     }
 
-    public void setNillable(boolean nillable) {
+    public void setNillable(final boolean nillable) {
         if (nillable != getNillable()) {
             formPageController.setNillable(null, input, nillable);
         }
     }
 
-    public void setInput(ITreeNode treeNode) {
-        IModelObject input = treeNode == null ? null : treeNode.getModelObject();
+    public void setInput(final ITreeNode treeNode) {
+        final IModelObject input = treeNode == null ? null : treeNode.getModelObject();
         this.input = (IElement) input;
         constraintsController = null;
     }
 
     public IType getType() {
-        return input.getType();
+        return input == null ? null : input.getType();
     }
 
-    public void setType(IType type) {
+    public void setType(final IType type) {
         if (type != null && !type.equals(getType())) {
             formPageController.setTypeForElement(type, null, input);
         }
@@ -155,7 +152,7 @@ public class ElementOfGlobalTypeStrategy implements IElementStrategy {
             if (getType().isAnonymous()) {
                 constraintsController = new SimpleTypeConstraintsController(formPageController);
             } else {
-                constraintsController = new ElementConstraintsController(formPageController, (IElement) input);
+                constraintsController = new ElementConstraintsController(formPageController, input);
             }
             constraintsController.setType((ISimpleType) getType());
         }
@@ -163,7 +160,8 @@ public class ElementOfGlobalTypeStrategy implements IElementStrategy {
     }
 
     public IType getBaseType() {
-        return null;
+        final IType type = getType();
+        return type == null ? null : type.getBaseType();
     }
 
     public boolean isBaseTypeApplicable() {
@@ -174,7 +172,7 @@ public class ElementOfGlobalTypeStrategy implements IElementStrategy {
         return false;
     }
 
-    public void setBaseType(IType baseType) {
+    public void setBaseType(final IType baseType) {
     }
 
     public boolean isTypeApplicable() {

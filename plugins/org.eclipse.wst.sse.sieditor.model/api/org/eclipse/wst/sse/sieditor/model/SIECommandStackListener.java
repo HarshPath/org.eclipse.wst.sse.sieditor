@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.model;
 
@@ -26,17 +25,17 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 public class SIECommandStackListener implements ICommandStackListener {
 
     private final IEnvironment env;
-    private final IModelRoot result;
+    private final IModelRoot modelRoot;
     private final XMLModelNotifierWrapper modelNotifier;
 
-    public SIECommandStackListener(final IEnvironment env, final IModelRoot result, final XMLModelNotifierWrapper modelNotifier) {
+    public SIECommandStackListener(final IEnvironment env, final IModelRoot modelRoot, final XMLModelNotifierWrapper modelNotifier) {
         this.env = env;
-        this.result = result;
+        this.modelRoot = modelRoot;
         this.modelNotifier = modelNotifier;
     }
 
     public void commandToBeExecuted(final Command command) {
-        final TextCommandWrapper textCommand = new TextCommandWrapper(result, result.getModelObject(), command, modelNotifier);
+        final TextCommandWrapper textCommand = new TextCommandWrapper(modelRoot, modelRoot.getModelObject(), command, modelNotifier);
         try {
             env.execute(textCommand);
         } catch (final ExecutionException e) {

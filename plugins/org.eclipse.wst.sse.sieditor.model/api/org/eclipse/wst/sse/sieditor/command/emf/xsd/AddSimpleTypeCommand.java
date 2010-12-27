@@ -37,7 +37,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.SimpleType;
  * Command for adding a new SimpleType Definition
  * 
  * 
- * 
  */
 public class AddSimpleTypeCommand extends AbstractXSDNotificationOperation {
 

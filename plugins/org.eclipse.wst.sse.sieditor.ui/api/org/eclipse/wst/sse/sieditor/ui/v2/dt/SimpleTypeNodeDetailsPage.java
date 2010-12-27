@@ -22,8 +22,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.sections.SimpleTypeDetailsSection;
  * This is the simple type node details page. It extends the
  * {@link ElementNodeDetailsPage}
  * 
- * 
- * 
  */
 public class SimpleTypeNodeDetailsPage extends ElementNodeDetailsPage {
 

@@ -16,11 +16,9 @@
 package org.eclipse.wst.sse.sieditor.model.api;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.wst.wsdl.WSDLElement;
 
 /**
  * A generic parent class for all the model classes
- * 
  *
  */
 public interface IModelObject {

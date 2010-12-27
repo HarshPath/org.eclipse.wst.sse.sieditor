@@ -2,7 +2,14 @@
 	<constraint lang="Java" severity="ERROR" mode="Live"
 		name="valid.xsd.entity" id="valid.xsd.entity" statusCode="1"
 		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.ValidXSDEntity">
-		<description>Validates if a XSD entity is a valid one</description>
+		<description>Validates if a XSD entity is a valid one.</description>
+		<message/>
+		<target class="XSDConcreteComponent"/>
+	</constraint>
+	<constraint lang="Java" severity="ERROR" mode="Live"
+		name="unresolved.xsd.contents" id="unresolved.xsd.contents" statusCode="1"
+		class="org.eclipse.wst.sse.sieditor.model.validation.constraints.UnresolvedXsdContentsValidation">
+		<description>Validates unresolved type definitions and references.</description>
 		<message/>
 		<target class="XSDConcreteComponent"/>
 	</constraint>

@@ -23,8 +23,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.sections.elements.ElementNodeDetailsCo
  * The {@link ElementTypeEditor} type committer helper implementation of the
  * {@link ITypeCommitter} interface
  * 
- * 
- * 
  */
 public class ElementTypeEditorTypeCommitter implements ITypeCommitter {
 

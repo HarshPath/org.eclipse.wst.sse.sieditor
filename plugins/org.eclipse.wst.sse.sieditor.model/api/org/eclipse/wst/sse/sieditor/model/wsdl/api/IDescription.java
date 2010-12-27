@@ -28,8 +28,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 /**
  * Represents the root of the ServiceInterface Objects
  * 
- * 
- * 
  */
 public interface IDescription extends INamespacedObject, IExtensibleObject {
     String getLocation();

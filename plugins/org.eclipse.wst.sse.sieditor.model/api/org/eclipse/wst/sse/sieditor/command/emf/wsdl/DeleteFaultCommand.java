@@ -41,7 +41,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.impl.ServiceOperation;
  * Command for removing the fault elements in operations
  * 
  * 
- * 
  */
 public class DeleteFaultCommand extends AbstractWSDLNotificationOperation {
 	private final IFault fault;

@@ -45,8 +45,6 @@ import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
  * responsible for the fixing of problems caused by DOM element attributes
  * changes.
  * 
- * 
- * 
  */
 public class AttributesReconcileAdapter extends AbstractModelReconcileAdapter {
 
@@ -106,23 +104,30 @@ public class AttributesReconcileAdapter extends AbstractModelReconcileAdapter {
     }
 
     private void processSchemaLocationAttribute(final INodeNotifier notifier, final String attributeName, final Object newValue) {
-        if (XSDConstants.SCHEMALOCATION_ATTRIBUTE.equals(attributeName)) {
+    	if(true) {
+    		return;
+    	}
+    	if (XSDConstants.SCHEMALOCATION_ATTRIBUTE.equals(attributeName)) {
             final EObject eObject = concreteComponentSource.getConcreteComponentFor((Element) notifier);
 
             if (eObject instanceof XSDImportImpl) {
-                XSDSchema schema = null;
-
-                final XSDImportImpl xsdImport = (XSDImportImpl) eObject;
-                if (xsdImport.getResolvedSchema() == null && newValue == null) {
-                    xsdImport.reset();
-                    xsdImport.importSchema();
-                }
-                schema = xsdImport.getResolvedSchema();
-                
+                final XSDSchema resolvedSchema = resolveImportedSchema(newValue, eObject);
+                getModelReconcileRegistry().addChangedSchema(resolvedSchema);
                 getModelReconcileRegistry().setNeedsReconciling(true);
-                getModelReconcileRegistry().addChangedSchema(schema);
             }
         }
+    }
+
+    private XSDSchema resolveImportedSchema(final Object newValue, final EObject eObject) {
+        XSDSchema schema = null;
+
+        final XSDImportImpl xsdImport = (XSDImportImpl) eObject;
+        if (xsdImport.getResolvedSchema() == null && newValue == null) {
+            xsdImport.reset();
+            xsdImport.importSchema();
+        }
+        schema = xsdImport.getResolvedSchema();
+        return schema;
     }
 
     private void processAttributeStartingWithXMLNS(final INodeNotifier notifier, final Object oldValue, final Object newValue,
@@ -170,8 +175,8 @@ public class AttributesReconcileAdapter extends AbstractModelReconcileAdapter {
              * we have non-null value, so we must be updating existing
              * namespace, or adding a new one
              */
-            if (XSDConstants.isSchemaForSchemaNamespace(attr.getValue())
-                    && !attr.getValue().equals(xsdSchema.getQNamePrefixToNamespaceMap().get(prefix))) {
+            if (/*XSDConstants.isSchemaForSchemaNamespace(attr.getValue())
+                    &&*/ !attr.getValue().equals(xsdSchema.getQNamePrefixToNamespaceMap().get(prefix))) {
                 // add the namespace to the map
                 xsdSchema.getQNamePrefixToNamespaceMap().put(prefix, attr.getValue());
             }

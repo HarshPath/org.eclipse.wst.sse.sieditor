@@ -27,7 +27,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 /**
  * @deprecated The write API is deprecated. Use commands instead.
  * 
- * 
  */
 public interface ISchema extends INamespacedObject {
 

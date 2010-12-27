@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.i18n;
 
@@ -48,6 +47,7 @@ public class Messages extends NLS {
     public static String DataTypesEditorPage_form_title;
     public static String DataTypesFormPageController_0;
     public static String DataTypesFormPageController_1;
+    public static String DataTypesFormPageController_2;
     public static String DataTypesFormPageController_add_global_type_command_label;
     public static String DataTypesFormPageController_add_structure_type_command_label;
     public static String DataTypesFormPageController_cannot_set_anonymous_X_for_element_Y_error_msg;
@@ -92,16 +92,16 @@ public class Messages extends NLS {
     public static String DataTypesFormPageController_dlg_title_set_base_type;
     public static String DataTypesFormPageController_dlg_title_set_element_nillable;
     public static String DataTypesFormPageController_dlg_title_set_enumeration_facet;
-    public static String DataTypesFormPageController_dlg_title_set_max_occurs;
     public static String DataTypesFormPageController_dlg_title_set_min_occurs;
     public static String DataTypesFormPageController_dlg_title_set_pattern_facet;
     public static String DataTypesFormPageController_dlg_title_set_schema_namespace;
     public static String DataTypesFormPageController_dlg_title_set_structure_type;
     public static String DataTypesFormPageController_error_msg_addition_simple_type_failed;
     public static String DataTypesFormPageController_initialization_error_dlg_title;
+    public static String DataTypesFormPageController_inline_failed_error_msg;
+    public static String DataTypesFormPageController_inline_schema_failed;
     public static String DataTypesFormPageController_inline_structure_type_dlg_message;
     public static String DataTypesFormPageController_inline_structure_type_dlg_title;
-    public static String DataTypesFormPageController_make_type_anonymous_dlg_question;
     public static String DataTypesFormPageController_msg_failure_set_length_facet_type_X;
     public static String DataTypesFormPageController_msg_can_not_add_new_element;
     public static String DataTypesFormPageController_msg_can_not_add_simple_type;
@@ -134,7 +134,6 @@ public class Messages extends NLS {
     public static String DataTypesFormPageController_msg_failure_set_base_type_X;
     public static String DataTypesFormPageController_msg_failure_set_enumeration_facet_type_X;
     public static String DataTypesFormPageController_msg_failure_set_global_element_X_nillable;
-    public static String DataTypesFormPageController_msg_failure_set_max_occurs_element_X;
     public static String DataTypesFormPageController_msg_failure_set_min_occurs_element_X;
     public static String DataTypesFormPageController_msg_failure_set_namespace_schema_X;
     public static String DataTypesFormPageController_msg_failure_set_nillable_element_X;
@@ -164,7 +163,6 @@ public class Messages extends NLS {
     public static String NamespaceDetailsSection_namespace_label;
     public static String NamespaceDetailsSection_section_title;
     public static String NamespaceNode_no_target_namespace_value;
-    public static String NewTypeDialog_anonymous_structure_type_radio_button;
     public static String NewTypeDialog_element_radio_button;
     public static String NewTypeDialog_error_message_new_line;
     public static String NewTypeDialog_group_title_type_category;
@@ -184,12 +182,12 @@ public class Messages extends NLS {
     public static String DTTreeContextMenuListener_add_structure_type_action;
     public static String DTTreeContextMenuListener_extract_namespace_action;
     public static String DTTreeContextMenuListener_inline_structure_type_action;
+    public static String DTTreeContextMenuListener_make_an_inline_namespace_action;
     public static String DTTreeContextMenuListener_make_type_anonymous_context_menu_label;
     public static String DTTreeContextMenuListener_make_type_global_context_menu_label;
     public static String DTTreeContextMenuListener_refactor_submenu;
     public static String DTTreeContextMenuListener_remove_action;
     public static String ElementDetailsSection_0;
-    public static String ElementDetailsSection_anonymous_label;
     public static String ElementDetailsSection_section_title;
     public static String ElementDetailsSection_baseType;
     public static String ElementDetailsSection_cardinality_label;
@@ -204,15 +202,17 @@ public class Messages extends NLS {
     public static String ExtractSchemaWizardPage_page_description;
     public static String ExtractSchemaWizardPage_page_title;
     public static String ExtractSchemaWizardPage_save_as_label;
-    public static String ExtractSchemaWizardPage_use_extracted_xml_schema_in_current_wsdl_checkbox_label;
+    public static String ExtractSchemaWizardPage_keep_inlined_namespaces_in_current_wsdl_checkbox_label;
+    public static String ExtractSchemaWizardPage_references_will_be_replaced_with_imports_description;
     public static String FaultTypeDialogStrategy_DialogTitle;
     public static String GlobalElementDialogStrategy_dlt_title;
+    public static String GlobalElementDialogStrategy_structure_type_base_type_dlg_title;
     public static String ImportedServicesNode_0;
     public static String ImportedTypesNode_node_name;
     public static String MarkerResolutionGenerator_QuickFixLbl0;
     public static String MissingSchemaElementQuickFix_0;
-    public static String MissingSchemaElementQuickFix_Dialog_Title;
-    public static String MissingSchemaElementQuickFix_Error_status_message;
+    public static String MissingSchemaElementQuickFix_1;
+    public static String MissingSchemaElementQuickFix_2;
     public static String MissingSchemaForSchemaQuickFix_0;
     public static String OperationCategoryNode_fault_tooltip;
     public static String OperationCategoryNode_input_param_tooltip;
@@ -228,7 +228,6 @@ public class Messages extends NLS {
     public static String ResourceChangeHandler_0;
     public static String ResourceChangeHandler_1;
     public static String ResourceChangeHandler_3;
-    public static String ResourceChangeHandler_RevertJobLbl;
     public static String ServiceInterfaceDetailsPage_general_name_label;
     public static String ServiceInterfaceDetailsPage_general_section_title;
     public static String ServiceInterfaceEditorPreferencePage_1;

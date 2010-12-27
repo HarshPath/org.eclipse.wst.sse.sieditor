@@ -23,7 +23,6 @@ import org.eclipse.wst.sse.sieditor.core.common.Nil;
 
 /**
  * Eclipse Platform Plugin Utilities
- * 
  *
  */
 public class PlatformUtils {

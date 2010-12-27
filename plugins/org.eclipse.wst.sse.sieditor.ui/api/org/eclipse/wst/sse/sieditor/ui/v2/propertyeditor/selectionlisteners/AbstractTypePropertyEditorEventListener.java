@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Stanislav Nichev - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.selectionlisteners;
 
@@ -19,7 +18,7 @@ import org.eclipse.swt.events.SelectionListener;
 
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
-import org.eclipse.wst.sse.sieditor.ui.v2.AbstractFormPageController;
+import org.eclipse.wst.sse.sieditor.ui.v2.IFormPageController;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.BuiltinTypesHelper;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.TypePropertyEditor;
@@ -27,8 +26,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.TypePropertyEditor;
 /**
  * This is the base {@link TypePropertyEditor} button selection listener.
  * Subclasses are responsible for the event execution handling
- * 
- * 
  * 
  */
 public abstract class AbstractTypePropertyEditorEventListener implements SelectionListener {
@@ -73,7 +70,7 @@ public abstract class AbstractTypePropertyEditorEventListener implements Selecti
     }
 
     protected IType openTypesDialog() {
-        final AbstractFormPageController controller = getPropertyEditor().getFormPageController();
+        final IFormPageController controller = getPropertyEditor().getFormPageController();
         final String typeDialogDisplayText = getPropertyEditor().getTypeDialogDisplayText();
         final ITreeNode editorInput = getPropertyEditor().getInput();
         final IModelObject modelObject = editorInput.getModelObject();

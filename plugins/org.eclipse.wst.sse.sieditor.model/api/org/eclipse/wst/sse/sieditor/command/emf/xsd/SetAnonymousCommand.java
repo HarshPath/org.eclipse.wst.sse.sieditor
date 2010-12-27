@@ -51,7 +51,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
  * Command for making an element Anonymous
  * 
  * 
- * 
  */
 public class SetAnonymousCommand extends AbstractXSDNotificationOperation {
     private static final String ATTRIBUTE_NAME = "ref"; //$NON-NLS-1$

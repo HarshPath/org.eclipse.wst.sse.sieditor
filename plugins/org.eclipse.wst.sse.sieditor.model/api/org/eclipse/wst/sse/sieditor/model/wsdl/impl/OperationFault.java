@@ -41,8 +41,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IParameter;
 
 /**
  * 
- * 
- * 
  */
 public class OperationFault extends AbstractWSDLComponent implements IFault,
         org.eclipse.wst.sse.sieditor.model.write.wsdl.api.IFault {

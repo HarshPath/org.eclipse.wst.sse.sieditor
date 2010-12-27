@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.wsdltree.nodes;
 
@@ -19,23 +18,23 @@ import org.eclipse.swt.graphics.Image;
 
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IParameter;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.impl.AbstractTreeNode;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller.SIFormPageController;
 
-public class ParameterNode extends AbstractTreeNode {
+public class ParameterNode extends AbstractWsdlTreeNode {
 
-    public ParameterNode(final ITreeNode parent, final IParameter parameter,final SIFormPageController nodeMapperContainer) {
-        super(parameter, parent, 
-                nodeMapperContainer == null ? null : nodeMapperContainer.getTreeNodeMapper());
+    public ParameterNode(final ITreeNode parent, final IParameter parameter, final SIFormPageController nodeMapperContainer) {
+        super(parameter, parent, nodeMapperContainer == null ? null : nodeMapperContainer.getTreeNodeMapper());
     }
 
+    @Override
     public Object[] getChildren() {
         // Has no children, as this is the last level in the tree
         return null;
     }
 
+    @Override
     public Image getImage() {
-        return ((OperationCategoryNode)super.getParent()).getImage(isReadOnly());
+        return ((OperationCategoryNode) super.getParent()).getImage(isReadOnly());
     }
 
     /**
@@ -50,5 +49,5 @@ public class ParameterNode extends AbstractTreeNode {
         }
         return null;
     }
-    
+
 }

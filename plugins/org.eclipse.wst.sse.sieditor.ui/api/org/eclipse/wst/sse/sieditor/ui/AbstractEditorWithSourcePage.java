@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui;
 
@@ -72,11 +71,11 @@ import org.eclipse.wst.sse.sieditor.model.XMLModelNotifierWrapper;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
-import org.eclipse.wst.sse.sieditor.model.impl.ModelChangeEvent;
-import org.eclipse.wst.sse.sieditor.model.reconcile.ModelReconciler;
 import org.eclipse.wst.sse.sieditor.model.utils.CommandStackWrapper;
+import org.eclipse.wst.sse.sieditor.model.utils.EmfModelPatcher;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.utils.StatusUtils;
+import org.eclipse.wst.sse.sieditor.model.validation.IValidationListener;
 import org.eclipse.wst.sse.sieditor.model.validation.IValidationStatus;
 import org.eclipse.wst.sse.sieditor.model.validation.ValidationService;
 import org.eclipse.wst.sse.sieditor.model.validation.impl.MarkerUtils;
@@ -86,9 +85,11 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.ui.i18n.Messages;
 import org.eclipse.wst.sse.sieditor.ui.preedit.EditValidator;
 import org.eclipse.wst.sse.sieditor.ui.providers.SurrogateSelectionProvider;
+import org.eclipse.wst.sse.sieditor.ui.v2.PageChangedReconcileManager;
 import org.eclipse.wst.sse.sieditor.ui.v2.PageChangedSelectionManager;
 import org.eclipse.wst.sse.sieditor.ui.v2.UIConstants;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.ThreadUtils;
+import org.eclipse.wst.sse.sieditor.ui.v2.common.ValidationListener;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.DataTypesEditorPage;
 import org.eclipse.wst.sse.sieditor.ui.v2.resources.ResourceChangeHandler;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.formpage.ServiceIntefaceEditorPage;
@@ -141,6 +142,7 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
     private IStructuredModel structuredModel;
 
     private PageChangedSelectionManager pageChangedSelectionManager;
+    private PageChangedReconcileManager pageChangedReconcileManager;
 
     public AbstractEditorWithSourcePage() {
         super();
@@ -198,7 +200,6 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
         }
 
         try {
-            reloadModelOnSourcePageChange();
             final SaveCommand saveCommand = new SaveCommand(commonModel.getEnv().getEditingDomain(), sPage);
             saveCommand.execute(monitor);
             if (siPage != null) {
@@ -226,10 +227,10 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
     protected abstract IModelRoot createModelRoot(final Document document);
 
     protected void reloadModelWithSchemaCheck() {
-        final IModelRoot root = getModelRoot();
-        if (root instanceof IWsdlModelRoot) {
-            final IDescription object = ((IWsdlModelRoot) root).getDescription();
-            final List<ISchema> schemas = object.getAllVisibleSchemas();
+        final IModelRoot modelRoot = getModelRoot();
+        if (modelRoot instanceof IWsdlModelRoot) {
+            final IDescription description = ((IWsdlModelRoot) modelRoot).getDescription();
+            final List<ISchema> schemas = description.getAllVisibleSchemas();
             for (final ISchema schema : schemas) {
                 // do not reload
                 if (EmfXsdUtils.isSchemaForSchemaMissing(schema)) {
@@ -238,13 +239,14 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
             }
         }
 
-        if (!EmfXsdUtils.isSchemaForSchemaMissing(root.getModelObject())) {
+        if (!EmfXsdUtils.isSchemaForSchemaMissing(modelRoot.getModelObject())) {
             reloadModelFromDOM();
-            ModelReconciler.instance().reconcileModel(getModelRoot(), env.getModelReconcileRegistry());
         }
     }
 
-    protected abstract void reloadModelFromDOM();
+    protected void reloadModelFromDOM() {
+        EmfModelPatcher.instance().patchEMFModelAfterDomChange(getModelRoot(), modelNotifier.getChangedNodes());
+    }
 
     protected IModelRoot createModel(final IDocumentProvider documentProvider) {
         final IDocument textDocument = documentProvider.getDocument(getEditorInput());
@@ -261,6 +263,7 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
             if (structuredModel != null)
                 structuredModel.releaseFromRead();
         }
+
         env = modelRoot.getEnv();
         env.setEditValidator(new EditValidator(this));
 
@@ -364,6 +367,7 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
         try {
             sourcePage = new SISourceEditorPart();
             pageChangedSelectionManager = new PageChangedSelectionManager(sourcePage);
+            pageChangedReconcileManager = new PageChangedReconcileManager();
 
             addPage(sourcePage, in);
             sourcePage.initPart(in, this);
@@ -385,8 +389,11 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
     }
 
     public void reloadModel(final IStorageEditorInput newEditorInput) {
+        reloadModel(newEditorInput, false);
+    }
 
-        Display.getDefault().asyncExec((new Runnable() {
+    public void reloadModel(final IStorageEditorInput newEditorInput, final boolean syncExec) {
+        final Runnable reloadRunnable = new Runnable() {
 
             public void run() {
                 // Clear undo/redo history
@@ -407,12 +414,22 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
                     }
                 }
 
-                validate();
+                final List<IValidationListener> validationListeners = validationService.getValidationListeners();
+                for (final IValidationListener validationListener : validationListeners) {
+                    if (validationListener instanceof ValidationListener) {
+                        ((ValidationListener) validationListener).resetPagesFormTitle();
+                    }
+                }
 
+                validate();
             }
 
-        }));
-
+        };
+        if (syncExec) {
+            Display.getDefault().syncExec(reloadRunnable);
+        } else {
+            Display.getDefault().asyncExec(reloadRunnable);
+        }
     }
 
     protected void niceSetPartName(final String partName) {
@@ -491,9 +508,7 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
 
     }
 
-    protected void validate() {
-
-    }
+    protected abstract void validate();
 
     public void gotoMarker(final IMarker marker) {
     }
@@ -504,49 +519,14 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
 
     @Override
     public void pageChange(final int newPageIndex) {
-        final int currentPageIndex = getCurrentPage();
-
-        reloadModelOnSourcePageChange();
-
+        final int oldPageIndex = getCurrentPage();
         super.pageChange(newPageIndex);
-
-        if (pageChangedSelectionManager != null) {// because of ESR
-            pageChangedSelectionManager.performSelection(newPageIndex, currentPageIndex, getPages(), getModelRoot());
+        if (pageChangedSelectionManager != null) {
+            pageChangedSelectionManager.performSelection(newPageIndex, oldPageIndex, getPages(), getModelRoot());
         }
-    }
-
-    private boolean reloadModelOnSourcePageChange() {
-        if (isDirty() && getCurrentPage() > -1 && getEditor(getCurrentPage()) instanceof SISourceEditorPart) {
-
-            final AbstractEMFOperation reloadModelCommand = new AbstractEMFOperation(commonModel.getEnv().getEditingDomain(),
-                    Messages.AbstractEditorWithSourcePage_3) {
-
-                @Override
-                protected IStatus doExecute(final IProgressMonitor monitor, final IAdaptable info) throws ExecutionException {
-
-                    reloadModelWithSchemaCheck();
-                    commonModel.notifyListeners(new ModelChangeEvent(commonModel.getModelObject()));
-                    return Status.OK_STATUS;
-                }
-            };
-
-            try {
-                final Map<Object, Object> options = new HashMap<Object, Object>();
-                options.put(Transaction.OPTION_NO_VALIDATION, Boolean.TRUE);
-                reloadModelCommand.setOptions(options);
-
-                final IStatus status = reloadModelCommand.execute(null, null);
-                if (!StatusUtils.canContinue(status)) {
-                    Logger.log(status);
-                    StatusUtils.showStatusDialog(Messages.AbstractEditorWithSourcePage_4, MessageFormat.format(
-                            Messages.AbstractEditorWithSourcePage_5, getPartName()), status);
-                }
-            } catch (final ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-            return true;
+        if (pageChangedReconcileManager != null) {
+            pageChangedReconcileManager.performReconcile(newPageIndex, oldPageIndex, getPages(), getModelRoot());
         }
-        return false;
     }
 
     protected void validate(final Collection<? extends IModelObject> validatedEntitites) {

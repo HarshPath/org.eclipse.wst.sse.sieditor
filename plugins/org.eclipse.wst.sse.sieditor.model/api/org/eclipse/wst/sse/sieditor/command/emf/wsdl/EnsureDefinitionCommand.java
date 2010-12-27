@@ -44,8 +44,6 @@ import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
  * note: if included in a composite command execution in separate transaction
  * should be preffered, due to custom implementation of undo/redo
  * 
- * 
- * 
  */
 public class EnsureDefinitionCommand extends AbstractNotificationOperation {
 

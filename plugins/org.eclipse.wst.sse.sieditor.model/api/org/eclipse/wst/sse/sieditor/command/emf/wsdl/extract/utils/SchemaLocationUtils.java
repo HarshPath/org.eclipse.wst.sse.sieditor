@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.command.emf.wsdl.extract.utils;
 
@@ -45,6 +44,6 @@ public class SchemaLocationUtils {
     }
 
     public String getSchemaToWsdlRelativeLocation(final IPath schemaLocation, final IPath wsdlLocationPath) {
-        return schemaLocation.removeLastSegments(1).makeRelativeTo(wsdlLocationPath.removeLastSegments(1)).toOSString();
+        return schemaLocation.removeLastSegments(1).makeRelativeTo(wsdlLocationPath.removeLastSegments(1)).toString();
     }
 }

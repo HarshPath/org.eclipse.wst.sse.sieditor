@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Vasil Vasilev - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.input;
 
@@ -24,7 +23,6 @@ import org.eclipse.core.runtime.IStatus;
 
 /**
  * Writable storage
- * 
  * This storage provides method for setting resulting contents
  */
 public interface IWritableStorage extends IStorage {

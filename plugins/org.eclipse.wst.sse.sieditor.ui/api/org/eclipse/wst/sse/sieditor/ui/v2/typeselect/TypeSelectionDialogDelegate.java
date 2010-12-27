@@ -36,8 +36,6 @@ import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
  * <p>
  * All methods should be called from the UI thread!
  * 
- * 
- * 
  */
 public class TypeSelectionDialogDelegate implements
 		ITypeSelectionDialogDelegate {

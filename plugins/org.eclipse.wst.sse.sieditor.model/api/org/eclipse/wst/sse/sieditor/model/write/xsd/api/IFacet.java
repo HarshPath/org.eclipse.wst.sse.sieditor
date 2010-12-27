@@ -21,7 +21,6 @@ import org.eclipse.wst.sse.sieditor.model.write.api.IWritable;
 
 /**
  * @deprecated The write API is deprecated. Use commands instead.
- * 
  *
  */
 public interface IFacet extends IWritable{

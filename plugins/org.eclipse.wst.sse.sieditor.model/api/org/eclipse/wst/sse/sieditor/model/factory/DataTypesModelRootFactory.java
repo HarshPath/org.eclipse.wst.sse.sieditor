@@ -39,7 +39,6 @@ import org.eclipse.wst.sse.sieditor.model.reconcile.adapters.componentsource.Xsd
  * This is the Data Types Editor model root factory. It builds the
  * {@link IXSDModelRoot} from the given document.
  * 
- * 
  */
 public class DataTypesModelRootFactory extends AbstractModelRootFactory {
 

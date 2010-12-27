@@ -35,7 +35,6 @@ import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
  * Updates documentation for WSDL Components
  * 
  * 
- * 
  */
 public class SetDocumentationCommand extends AbstractNotificationOperation {
 

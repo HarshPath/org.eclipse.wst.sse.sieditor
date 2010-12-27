@@ -11,10 +11,10 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.sections;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -82,7 +82,14 @@ public class DocumentationSection extends AbstractDetailsPageSection {
                 final String documentation = documentationText.getText();
                 if (isDirty && documentation != null
                         && !documentation.equals(getModelObject() != null ? getModelObject().getDocumentation() : null)) {
-                    getController().editDocumentation(getNode(), documentation);
+
+                    final IModelObject modelObject = getNode().getModelObject();
+                    final EObject component = modelObject.getComponent();
+                    final EObject componentContainer = component.eContainer();
+
+                    if (componentContainer != null) {
+                        getController().editDocumentation(getNode(), documentation);
+                    }
                     isDirty = false;
                     dirtyStateChanged();
                 }

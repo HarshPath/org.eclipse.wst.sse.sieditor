@@ -21,7 +21,6 @@ import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
  * XSD Schema specific AbstractNotificationCommand
  * 
  * @see AbstractNotificationCommand
- * 
  */
 public abstract class AbstractXSDNotificationOperation extends AbstractNotificationOperation {
 

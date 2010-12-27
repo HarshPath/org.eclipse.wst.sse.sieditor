@@ -16,27 +16,26 @@
 package org.eclipse.wst.sse.sieditor.model.reconcile;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.transaction.Transaction;
-import org.eclipse.wst.wsdl.Definition;
+import org.eclipse.wst.xml.core.internal.document.XMLModelNotifier;
 import org.eclipse.xsd.XSDSchema;
 
+import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
 import org.eclipse.wst.sse.sieditor.core.common.IModelReconcileRegistry;
+import org.eclipse.wst.sse.sieditor.model.XMLModelNotifierWrapper;
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
 import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
 import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
-import org.eclipse.wst.sse.sieditor.model.reconcile.commands.AbstractModelReconcileCommand;
 import org.eclipse.wst.sse.sieditor.model.reconcile.commands.WSDLModelReconcileCommand;
 import org.eclipse.wst.sse.sieditor.model.reconcile.commands.XMLSchemaModelReconcileCommand;
+import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 
 /**
  * This is default implementation of the {@link IModelReconciler} interface.
- * 
- * 
  * 
  */
 public class ModelReconciler implements IModelReconciler {
@@ -61,20 +60,13 @@ public class ModelReconciler implements IModelReconciler {
         return modelReconcileRegistry.needsReconciling();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void reconcileModel(final IModelRoot modelRoot, final IModelReconcileRegistry modelReconcileRegistry) {
         final IModelObject modelObject = modelRoot.getModelObject();
 
         if (modelRoot instanceof IWsdlModelRoot) {
-            final Definition definition = ((IWsdlModelRoot) modelRoot).getDescription().getComponent();
-
-            List<XSDSchema> changedSchemas = modelReconcileRegistry.getChangedSchemas();
-            if (changedSchemas.isEmpty() && definition.getETypes() != null) {
-                changedSchemas = definition.getETypes().getSchemas();
-            }
-
-            reconcileWsdlModel(definition, changedSchemas, modelRoot, modelObject);
+            final IDescription description = ((IWsdlModelRoot) modelRoot).getDescription();
+            reconcileWsdlModel(description, modelRoot, modelObject);
 
         } else if (modelRoot instanceof IXSDModelRoot) {
             reconcileXsdModel(((IXSDModelRoot) modelRoot).getSchema().getComponent(), modelRoot, modelObject);
@@ -82,14 +74,15 @@ public class ModelReconciler implements IModelReconciler {
     }
 
     @Override
-    public void modelReconciled(final IModelReconcileRegistry modelReconcileRegistry) {
+    public void modelReconciled(final IModelReconcileRegistry modelReconcileRegistry, final XMLModelNotifier xmlModelNotifier) {
         modelReconcileRegistry.clearRegistry();
+        if (xmlModelNotifier instanceof XMLModelNotifierWrapper) {
+            ((XMLModelNotifierWrapper) xmlModelNotifier).getChangedNodes().clear();
+        }
     }
 
-    private void reconcileWsdlModel(final Definition definition, final List<XSDSchema> changedSchemas,
-            final IModelRoot modelRoot, final IModelObject modelObject) {
-        final WSDLModelReconcileCommand command = new WSDLModelReconcileCommand(modelRoot, modelObject, changedSchemas,
-                definition);
+    private void reconcileWsdlModel(final IDescription description, final IModelRoot modelRoot, final IModelObject modelObject) {
+        final WSDLModelReconcileCommand command = new WSDLModelReconcileCommand(modelRoot, modelObject, description);
         executeReconcileModelCommand(command);
     }
 
@@ -98,7 +91,7 @@ public class ModelReconciler implements IModelReconciler {
         executeReconcileModelCommand(command);
     }
 
-    private void executeReconcileModelCommand(final AbstractModelReconcileCommand command) {
+    private void executeReconcileModelCommand(final AbstractNotificationOperation command) {
         try {
             final Map<Object, Object> options = new HashMap<Object, Object>();
             options.put(Transaction.OPTION_NO_VALIDATION, Boolean.TRUE);

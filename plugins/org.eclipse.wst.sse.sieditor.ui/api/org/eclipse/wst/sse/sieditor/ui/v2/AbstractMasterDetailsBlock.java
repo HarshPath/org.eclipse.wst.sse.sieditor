@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2;
 
@@ -44,6 +43,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import org.eclipse.wst.sse.sieditor.model.api.IChangeListener;
+import org.eclipse.wst.sse.sieditor.model.api.IModelChangeEvent;
 import org.eclipse.wst.sse.sieditor.ui.Activator;
 
 public abstract class AbstractMasterDetailsBlock extends MasterDetailsBlock implements IChangeListener {
@@ -104,6 +104,16 @@ public abstract class AbstractMasterDetailsBlock extends MasterDetailsBlock impl
         });
     }
 
+    @Override
+    public void componentChanged(IModelChangeEvent event) {
+        refreshTreeViewer();
+        if (detailsPart != null) {
+            detailsPart.refresh();
+        }
+        updateButtonsState((IStructuredSelection) treeViewer.getSelection());
+
+    }
+
     protected ImageRegistry getImageRegistry() {
         if (imageRegistry == null) {
             imageRegistry = Activator.getDefault().getImageRegistry();
@@ -113,7 +123,8 @@ public abstract class AbstractMasterDetailsBlock extends MasterDetailsBlock impl
 
     private void createMasterSectionControlls(final FormToolkit toolkit, final Composite masterClientComposite) {
 
-        final FilteredTree filteredTree = new FilteredTree(masterClientComposite, SWT.BORDER | SWT.MULTI, new PatternFilter(), true);
+        final FilteredTree filteredTree = new FilteredTree(masterClientComposite, SWT.BORDER | SWT.MULTI, new PatternFilter(),
+                true);
         treeViewer = filteredTree.getViewer();
 
         final Composite buttonsComposite = toolkit.createComposite(masterClientComposite);
@@ -157,7 +168,7 @@ public abstract class AbstractMasterDetailsBlock extends MasterDetailsBlock impl
     protected abstract void createButtons(FormToolkit toolkit, Composite buttonsComposite);
 
     protected abstract IDetailsPageProvider createDetailsPageProvider();
-    
+
     protected abstract void updateButtonsState(final IStructuredSelection structSelection);
 
     @Override
@@ -189,12 +200,14 @@ public abstract class AbstractMasterDetailsBlock extends MasterDetailsBlock impl
     public TreeViewer getTreeViewer() {
         return treeViewer;
     }
-    
+
     /**
      * Used to handle doubleClick events in SIE and DTE
-     * @param selection is the current selected item in the treeViewer
+     * 
+     * @param selection
+     *            is the current selected item in the treeViewer
      */
-    private void handleDoubleClickEvent(IStructuredSelection selection){
+    private void handleDoubleClickEvent(IStructuredSelection selection) {
         if (!selection.isEmpty()) {
             Object firstElement = selection.getFirstElement();
             if (treeViewer.getExpandedState(firstElement)) {
@@ -205,7 +218,7 @@ public abstract class AbstractMasterDetailsBlock extends MasterDetailsBlock impl
 
         }
     }
-    
+
     /**
      * used to refresh the treeViewer
      */
@@ -214,18 +227,18 @@ public abstract class AbstractMasterDetailsBlock extends MasterDetailsBlock impl
         treeViewer.refresh();
         treeViewer.setExpandedElements(expandedTreeItems);
     }
-    
+
     /**
-     * Sets the focus to the current detail page.
-     * It's up to the page to decide if and how (on which section and widget) to set it.
+     * Sets the focus to the current detail page. It's up to the page to decide
+     * if and how (on which section and widget) to set it.
      */
     public void setDetailsPartFocus() {
-    	IDetailsPage currentPage = detailsPart.getCurrentPage();
-    	if (currentPage != null) {
-    		currentPage.setFocus();
-    	}
+        IDetailsPage currentPage = detailsPart.getCurrentPage();
+        if (currentPage != null) {
+            currentPage.setFocus();
+        }
     }
-    
+
     /**
      * utility method. returns new {@link KeyAdapter} implementation for the
      * SIE/DTE tree
@@ -254,29 +267,30 @@ public abstract class AbstractMasterDetailsBlock extends MasterDetailsBlock impl
     protected boolean shouldProcessRemoveAction(final KeyEvent e) {
         return e.keyCode == SWT.DEL && getRemoveButton().isEnabled();
     }
-    
-    protected abstract void removePressed();
-    protected abstract Button getRemoveButton();
-    
-    public static class TreeViewerSelectionListener implements ISelectionChangedListener {
-    	
-    	private final SectionPart masterSectionPart;
-		private final IManagedForm managedForm;
 
-		public TreeViewerSelectionListener(SectionPart masterSectionPart, IManagedForm managedForm) {
-			this.masterSectionPart = masterSectionPart;
-			this.managedForm = managedForm;
-		}
-    	
+    protected abstract void removePressed();
+
+    protected abstract Button getRemoveButton();
+
+    public static class TreeViewerSelectionListener implements ISelectionChangedListener {
+
+        private final SectionPart masterSectionPart;
+        private final IManagedForm managedForm;
+
+        public TreeViewerSelectionListener(SectionPart masterSectionPart, IManagedForm managedForm) {
+            this.masterSectionPart = masterSectionPart;
+            this.managedForm = managedForm;
+        }
+
         @Override
         public void selectionChanged(final SelectionChangedEvent event) {
             // This way informs the details part for the node change
-        	ISelection selection = event.getSelection();
-        	if (((IStructuredSelection) selection).size() > 1) {
-        		//don't show any details in case of multiple selection
-        		selection = null;
-        	}
-        	managedForm.fireSelectionChanged(masterSectionPart, selection);
+            ISelection selection = event.getSelection();
+            if (((IStructuredSelection) selection).size() > 1) {
+                // don't show any details in case of multiple selection
+                selection = null;
+            }
+            managedForm.fireSelectionChanged(masterSectionPart, selection);
         }
     }
 }

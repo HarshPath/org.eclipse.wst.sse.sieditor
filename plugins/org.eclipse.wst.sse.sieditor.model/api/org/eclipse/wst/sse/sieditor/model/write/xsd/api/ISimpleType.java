@@ -21,7 +21,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IFacet;
 
 /**
  * @deprecated The write API is deprecated. Use commands instead.
- * 
  *
  */
 public interface ISimpleType extends IType {

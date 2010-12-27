@@ -55,7 +55,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
  * Command for copying a local ElementDeclaration or an AttributeDeclaration
  * 
  * 
- * 
  */
 public class CopyElementCommand extends AbstractXSDNotificationOperation {
     private final IElement _element;

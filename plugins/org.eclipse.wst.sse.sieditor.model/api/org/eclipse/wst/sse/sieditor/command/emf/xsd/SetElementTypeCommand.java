@@ -55,7 +55,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.UnresolvedType;
  * element has anonymous type or if it refers some global element etc.
  * 
  * 
- * 
  */
 public class SetElementTypeCommand extends AbstractCompositeNotificationOperation {
 

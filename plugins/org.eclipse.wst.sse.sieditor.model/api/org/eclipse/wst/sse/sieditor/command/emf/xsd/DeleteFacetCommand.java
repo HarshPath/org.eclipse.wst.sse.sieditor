@@ -34,7 +34,6 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.ISimpleType;
  * Command for removing a facet in SimpleTypeDefinition
  * 
  * 
- * 
  */
 public class DeleteFacetCommand extends AbstractNotificationOperation {
 	private EClass _facetEClass;
