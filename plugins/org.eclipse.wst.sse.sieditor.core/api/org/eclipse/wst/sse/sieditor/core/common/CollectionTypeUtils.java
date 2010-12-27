@@ -25,7 +25,6 @@ import java.util.Set;
 
 /**
  * Collection utility functions.
- 
  */
 public class CollectionTypeUtils
 {

@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.core.common;
 
 /**
  * A condition on an object.
- * 
  * @param <T> the type of objects for which the {@link Condition} can hold
  */
 public interface Condition<T>

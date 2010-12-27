@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Tsvetan Stoyanov - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.core.common;
 
@@ -40,7 +39,6 @@ import org.eclipse.wst.sse.sieditor.core.SIEditorCoreActivator;
  * <br/>
  * 
  * Please use the tracing only as a debug mechanism. Don't use it for logging errors or warnings.
- * 
  * 
  *
  */

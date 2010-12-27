@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.core.common;
 
 /**
  Thrown when unimplemented code parts are tried to be executed.
- 
  */
 public class NotImplemented extends RuntimeException
 {

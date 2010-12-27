@@ -21,7 +21,6 @@ import java.util.List;
 
 /**
  Static class containing simple check procedures.
- 
  */
 public final class Checker
 {

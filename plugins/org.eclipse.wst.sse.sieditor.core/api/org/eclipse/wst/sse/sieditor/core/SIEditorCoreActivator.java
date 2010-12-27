@@ -11,7 +11,6 @@
  *    Dimitar Tenev - initial API and implementation.
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
- *    Richard Birenheide - initial API and implementation.
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.core;
 
@@ -37,7 +36,7 @@ public class SIEditorCoreActivator extends AbstractUIPlugin {
 	private DebugTrace debugTrace; 
 	
 	/**
-	 * The constructor of the activator
+	 * The constructor
 	 */
 	public SIEditorCoreActivator() {
 	}

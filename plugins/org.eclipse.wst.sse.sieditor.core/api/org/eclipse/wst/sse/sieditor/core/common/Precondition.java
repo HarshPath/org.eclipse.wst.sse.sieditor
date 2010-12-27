@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.core.common;
 
 /**
  Thrown in case of a precondition violation. 
- 
  */
 public class Precondition extends IllegalArgumentException
 {

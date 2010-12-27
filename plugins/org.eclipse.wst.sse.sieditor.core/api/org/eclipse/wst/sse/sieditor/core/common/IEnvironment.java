@@ -24,7 +24,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.AbstractEMFOperation;
 
 /**
- *  Provides access to common environmental properties of an
+ * Provides access to common environmental properties of an
  *         editor instance.
  */
 public interface IEnvironment {

@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.core.common;
 
 /**
  Thrown if something is illegally nil.
- 
  */
 public class Nil extends Precondition
 {

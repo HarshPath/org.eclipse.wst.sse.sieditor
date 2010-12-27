@@ -17,7 +17,6 @@ package org.eclipse.wst.sse.sieditor.core.common;
 
 /**
  Checks equality of objects.
- 
  * @param <T> the type of the objects to be compared
  */
 public interface Equal<T>
