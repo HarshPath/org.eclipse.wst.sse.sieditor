@@ -808,13 +808,9 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
             final EObject parent = component.eContainer();
             if (null != parent && parent instanceof XSDSchema) {
                 final String sourceTypeSchemaLocation = ((XSDSchema) parent).getSchemaLocation();
-                String schemaRelativePath = null;
-                String targetSchemaLocation = null;
+                final String targetSchemaLocation = schema.getSchemaLocation();
 
-                final IXSDModelRoot modelRoot = (IXSDModelRoot) getModelRoot();
-                targetSchemaLocation = modelRoot.getSchema().getComponent().getSchemaLocation();
-
-                schemaRelativePath = ResourceUtils.constructURI(targetSchemaLocation, sourceTypeSchemaLocation).toString();
+                String schemaRelativePath = ResourceUtils.constructURI(targetSchemaLocation,sourceTypeSchemaLocation).toString();
                 if (schemaRelativePath.length() == 0) {
                     schemaRelativePath = null;
                 }

@@ -31,6 +31,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
@@ -368,8 +369,12 @@ public final class EmfXsdUtils {
     public static final XSDSchema resolveSchema(final java.net.URI uri) {
 
         final ResourceSet resourceSet = new ResourceSetImpl();
-        final XSDResourceImpl xsdr = (XSDResourceImpl) resourceSet.getResource(URI.createURI(uri.toString()), true);
-        return xsdr.getSchema();
+		final Resource resource = resourceSet.getResource(URI.createURI(uri.toString()), true);
+		if (resource instanceof XSDResourceImpl) {
+			final XSDResourceImpl xsdr = (XSDResourceImpl) resource;
+			return xsdr.getSchema();
+		}
+		return null;
     }
 
     /**
