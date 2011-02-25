@@ -161,9 +161,10 @@ public class SetBaseTypeCommand extends AbstractNotificationOperation {
              * Create PT ST - Create PT PT Create ST -
              */
             if (baseType instanceof XSDSimpleTypeDefinition && (null == content || content instanceof XSDParticle)) {
-                complexType.eUnset(xsdPackage.getXSDComplexTypeDefinition_Content());
-                complexType.setContent(content = factory.createXSDSimpleTypeDefinition());
-                complexType.setDerivationMethod(XSDDerivationMethod.EXTENSION_LITERAL);
+                complexType.setContent(null);
+				complexType.setDerivationMethod(XSDDerivationMethod.EXTENSION_LITERAL);
+				final XSDComplexTypeContent complexTypeContent = factory.createXSDSimpleTypeDefinition();
+				complexType.setContent(content = complexTypeContent);
             } else {
                 if (baseType instanceof XSDComplexTypeDefinition) {
                     if (null == content || content instanceof XSDSimpleTypeDefinition) {
