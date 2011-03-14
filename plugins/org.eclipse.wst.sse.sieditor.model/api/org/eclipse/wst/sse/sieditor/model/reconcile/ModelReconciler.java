@@ -57,7 +57,20 @@ public class ModelReconciler implements IModelReconciler {
 
     @Override
     public boolean needsToReconcileModel(final IModelReconcileRegistry modelReconcileRegistry) {
-        return modelReconcileRegistry.needsReconciling();
+        // This is a patch overriding an optimisation in the model reconciler
+        // execution. It strives to reduce the amount of unnecessary model
+        // reconciler executions.
+        // The modelReconcileRegistry is designed to indicate if the model
+        // reconciler needs to be run. In order to do so, flags in it should be
+        // raised in certain cases. Unfortunately not all cases have been
+        // handled, thus the optimisation is not always functionally correct.
+        // *****
+        // Therefore with this patch the reconciler will always be called. If
+        // there
+        // is a performance issue, commented code should be placed(applying the
+        // optimisation), and the unhandled cases - handled.
+
+        return true/* modelReconcileRegistry.needsReconciling() */;
     }
 
     @Override
@@ -106,5 +119,4 @@ public class ModelReconciler implements IModelReconciler {
             throw new RuntimeException(e);
         }
     }
-
 }
