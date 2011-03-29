@@ -30,11 +30,13 @@ public interface IConstraintsController {
 	public abstract void setLength(String value);
 
 	public abstract boolean isLengthVisible();
-
+    
         public abstract boolean isMinMaxVisible();
-	
-	public abstract boolean isMinMaxInclusiveExclusiveVisible();
-
+    	
+        public abstract boolean isMinMaxExclusiveVisible();
+        	
+        public abstract boolean isMinMaxInclusiveVisible();
+        	
 	public abstract String getMinLength();
 
 	public abstract void setMinLength(String value);

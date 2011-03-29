@@ -39,8 +39,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.xsd.XSDPackage;
-
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IFacet;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISimpleType;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISimpleType.Whitespace;
@@ -54,6 +52,7 @@ import org.eclipse.wst.sse.sieditor.ui.v2.sections.elements.ElementNodeDetailsCo
 import org.eclipse.wst.sse.sieditor.ui.v2.sections.tables.FacetTable;
 import org.eclipse.wst.sse.sieditor.ui.v2.sections.tables.editing.EnumsTableEditingSupport;
 import org.eclipse.wst.sse.sieditor.ui.v2.sections.tables.editing.PatternsTableEditingSupport;
+import org.eclipse.xsd.XSDPackage;
 
 public class SimpleTypeConstraintsSection extends AbstractDetailsPageSection implements ModifyListener, FocusListener {
 
@@ -128,7 +127,8 @@ public class SimpleTypeConstraintsSection extends AbstractDetailsPageSection imp
 
         boolean lengthVisible = false;
         boolean minMaxVisible = false;
-        boolean minMaxInclusiveExclusiveVisible = false;
+        boolean minMaxInclusiveVisible = false;
+        boolean minMaxExclusiveVisible = false;
         boolean totalDigitsVisible = false;
         boolean fractionDigitsVisible = false;
         boolean whitespaceVisible = false;
@@ -144,14 +144,15 @@ public class SimpleTypeConstraintsSection extends AbstractDetailsPageSection imp
 
             lengthVisible = constraintsController.isLengthVisible();
             minMaxVisible = constraintsController.isMinMaxVisible();
-            minMaxInclusiveExclusiveVisible = constraintsController.isMinMaxInclusiveExclusiveVisible();
+            minMaxExclusiveVisible = constraintsController.isMinMaxExclusiveVisible(); 
+            minMaxInclusiveVisible = constraintsController.isMinMaxInclusiveVisible();
             totalDigitsVisible = constraintsController.isTotalDigitsVisible();
             fractionDigitsVisible = constraintsController.isFractionDigitsVisible();
             whitespaceVisible = constraintsController.isWhitespaceVisible();
             patternsVisible = constraintsController.isPatternsVisible();
             enumsVisible = constraintsController.isEnumsVisible();
 
-            applicable = lengthVisible || minMaxVisible || minMaxInclusiveExclusiveVisible || totalDigitsVisible
+            applicable = lengthVisible || minMaxVisible || minMaxInclusiveVisible || minMaxExclusiveVisible || totalDigitsVisible
                     || fractionDigitsVisible || whitespaceVisible || patternsVisible || enumsVisible;
 
         }
@@ -188,25 +189,28 @@ public class SimpleTypeConstraintsSection extends AbstractDetailsPageSection imp
         changed = minLengthControl.setVisible(minMaxVisible) ? true : changed;
         changed = maxLengthControl.setVisible(minMaxVisible) ? true : changed;
 
-        if (minMaxInclusiveExclusiveVisible) {
-            updateTextControl(minInclusiveControl, constraintsController.getMinInclusive());
-            updateTextControl(maxInclusiveControl, constraintsController.getMaxInclusive());
+        if (minMaxExclusiveVisible) {
             updateTextControl(minExclusiveControl, constraintsController.getMinExclusive());
             updateTextControl(maxExclusiveControl, constraintsController.getMaxExclusive());
 
-            minInclusiveControl.getControl().setEnabled(enabled);
-            maxInclusiveControl.getControl().setEnabled(enabled);
             minExclusiveControl.getControl().setEnabled(enabled);
             maxExclusiveControl.getControl().setEnabled(enabled);
-            getProblemDecorator().bind(XSDPackage.Literals.XSD_MIN_FACET__INCLUSIVE, minInclusiveControl);
             getProblemDecorator().bind(XSDPackage.Literals.XSD_MIN_FACET__EXCLUSIVE, minExclusiveControl);
-            getProblemDecorator().bind(XSDPackage.Literals.XSD_MAX_FACET__INCLUSIVE, maxInclusiveControl);
             getProblemDecorator().bind(XSDPackage.Literals.XSD_MAX_FACET__EXCLUSIVE, maxExclusiveControl);
         }
-        changed = minInclusiveControl.setVisible(minMaxInclusiveExclusiveVisible) ? true : changed;
-        changed = maxInclusiveControl.setVisible(minMaxInclusiveExclusiveVisible) ? true : changed;
-        changed = minExclusiveControl.setVisible(minMaxInclusiveExclusiveVisible) ? true : changed;
-        changed = maxExclusiveControl.setVisible(minMaxInclusiveExclusiveVisible) ? true : changed;
+        
+        if(minMaxInclusiveVisible){
+        	updateTextControl(minInclusiveControl, constraintsController.getMinInclusive());
+            updateTextControl(maxInclusiveControl, constraintsController.getMaxInclusive());
+            minInclusiveControl.getControl().setEnabled(enabled);
+            maxInclusiveControl.getControl().setEnabled(enabled);
+            getProblemDecorator().bind(XSDPackage.Literals.XSD_MIN_FACET__INCLUSIVE, minInclusiveControl);
+            getProblemDecorator().bind(XSDPackage.Literals.XSD_MAX_FACET__INCLUSIVE, maxInclusiveControl);            
+        }
+        changed = minInclusiveControl.setVisible(minMaxInclusiveVisible) ? true : changed;
+        changed = maxInclusiveControl.setVisible(minMaxInclusiveVisible) ? true : changed;
+        changed = minExclusiveControl.setVisible(minMaxExclusiveVisible) ? true : changed;
+        changed = maxExclusiveControl.setVisible(minMaxExclusiveVisible) ? true : changed;
 
         if (totalDigitsVisible) {
             updateTextControl(totalDigitsControl, constraintsController.getTotalDigits());
@@ -268,19 +272,19 @@ public class SimpleTypeConstraintsSection extends AbstractDetailsPageSection imp
         getProblemDecorator().updateDecorations();
     }
 
-    private boolean showUnresolvableMessage(final boolean visible) {
-        // do nothing
-        return false;
-        // if (unresolvedLabel.getVisible() != visible) {
-        // unresolvedLabel.setVisible(!visible);
-        // Object layoutData = unresolvedLabel.getLayoutData();
-        // if (layoutData instanceof GridData) {
-        // ((GridData) layoutData).exclude = !visible;
-        // }
-        // return true;
-        // }
-        // return false;
-    }
+//    private boolean showUnresolvableMessage(final boolean visible) {
+//        // do nothing
+//        return false;
+//        // if (unresolvedLabel.getVisible() != visible) {
+//        // unresolvedLabel.setVisible(!visible);
+//        // Object layoutData = unresolvedLabel.getLayoutData();
+//        // if (layoutData instanceof GridData) {
+//        // ((GridData) layoutData).exclude = !visible;
+//        // }
+//        // return true;
+//        // }
+//        // return false;
+//    }
 
     public void modifyText(final ModifyEvent e) {
         // TODO Auto-generated method stub

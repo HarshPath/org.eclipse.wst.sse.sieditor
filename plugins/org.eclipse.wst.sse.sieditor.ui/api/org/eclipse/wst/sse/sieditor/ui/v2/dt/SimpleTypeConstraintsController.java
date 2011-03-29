@@ -14,8 +14,6 @@
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.ui.v2.dt;
 
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.utils.ISimpleTypeFacetsUtils;
 import org.eclipse.wst.sse.sieditor.model.utils.SimpleTypeFacetsUtils;
@@ -23,6 +21,7 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IFacet;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISimpleType;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISimpleType.Whitespace;
 import org.eclipse.wst.sse.sieditor.model.xsd.impl.UnresolvedType;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
 
 public class SimpleTypeConstraintsController implements IConstraintsController {
 
@@ -85,12 +84,19 @@ public class SimpleTypeConstraintsController implements IConstraintsController {
      * @seeorg.eclipse.wst.sse.sieditor.ui.v2.dt.IConstraintsController#
      * isMinMaxInclusiveExclusiveVisible()
      */
-    public boolean isMinMaxInclusiveExclusiveVisible() {
-        if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition && type.getComponent().getSchema() != null) {
-            return getSimpleTypeFacets().areInclusiveExclusiveFacetsSupported((XSDSimpleTypeDefinition) type.getComponent());
+   public boolean isMinMaxExclusiveVisible(){
+    	if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition && type.getComponent().getSchema() != null) {
+            return getSimpleTypeFacets().areExclusiveFacetsSupported((XSDSimpleTypeDefinition) type.getComponent());
         }
-        return false;
-    }
+        return false;	
+	}
+	
+	public boolean isMinMaxInclusiveVisible(){
+		if (type != null && type.getComponent() instanceof XSDSimpleTypeDefinition && type.getComponent().getSchema() != null) {
+            return getSimpleTypeFacets().areInclusiveFacetsSupported((XSDSimpleTypeDefinition) type.getComponent());
+        }
+        return false;	
+	}
 
     /*
      * (non-Javadoc)

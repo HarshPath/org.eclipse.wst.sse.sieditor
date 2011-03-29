@@ -48,21 +48,21 @@ public class SimpleTypeFacetsUtils implements ISimpleTypeFacetsUtils {
         return false;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seeorg.eclipse.wst.sse.sieditor.model.utils.ISimpleTypeFacetsUtils#
-     * areInclusiveExclusiveFacetsSupported
-     * (org.eclipse.xsd.XSDSimpleTypeDefinition)
-     */
-    public boolean areInclusiveExclusiveFacetsSupported(final XSDSimpleTypeDefinition type) {
+    @Override
+    public boolean areExclusiveFacetsSupported(final XSDSimpleTypeDefinition type) {
+        return areMinMaxFacetsSupported(type,XSDConstants.MAXEXCLUSIVE_ELEMENT_TAG, XSDConstants.MINEXCLUSIVE_ELEMENT_TAG);
+    }
+
+    @Override
+    public boolean areInclusiveFacetsSupported(final XSDSimpleTypeDefinition type) {
+        return areMinMaxFacetsSupported(type,XSDConstants.MAXINCLUSIVE_ELEMENT_TAG, XSDConstants.MININCLUSIVE_ELEMENT_TAG);
+    }
+    
+    private boolean areMinMaxFacetsSupported(final XSDSimpleTypeDefinition type, String maxFacet, String minFacet) {
         final XSDTypeDefinition rootType = EmfXsdUtils.getRootBaseType(type);
         if (rootType instanceof XSDSimpleTypeDefinition) {
             final EList<String> validFacets = ((XSDSimpleTypeDefinition) rootType).getValidFacets();
-            return validFacets.contains(XSDConstants.MAXINCLUSIVE_ELEMENT_TAG)
-                    || validFacets.contains(XSDConstants.MAXEXCLUSIVE_ELEMENT_TAG)
-                    || validFacets.contains(XSDConstants.MININCLUSIVE_ELEMENT_TAG)
-                    || validFacets.contains(XSDConstants.MINEXCLUSIVE_ELEMENT_TAG);
+            return validFacets.contains(maxFacet) || validFacets.contains(minFacet);
         }
         return false;
     }

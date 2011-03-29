@@ -22,7 +22,9 @@ public interface ISimpleTypeFacetsUtils {
 
     public boolean areLengthFacetsSupported(final XSDSimpleTypeDefinition type);
 
-    public boolean areInclusiveExclusiveFacetsSupported(final XSDSimpleTypeDefinition type);
+    public boolean areInclusiveFacetsSupported(final XSDSimpleTypeDefinition type);
+    
+    public boolean areExclusiveFacetsSupported(final XSDSimpleTypeDefinition type);
 
     public boolean isEnumerationFacetSupported(final XSDSimpleTypeDefinition type);
 

@@ -218,11 +218,13 @@ public class SetBaseTypeCommand extends AbstractNotificationOperation {
                 return true;
             }
         }
-        if (getSimpleTypeFacets().areInclusiveExclusiveFacetsSupported(newType)) {
-            if ((oldType.getMinInclusiveFacet() != null) || (oldType.getMaxInclusiveFacet() != null)
-                    || (oldType.getMinExclusiveFacet() != null) || (oldType.getMaxExclusiveFacet() != null)) {
-                return true;
-            }
+        if (getSimpleTypeFacets().areExclusiveFacetsSupported(newType) && (oldType.getMinExclusiveFacet() != null
+                || oldType.getMaxExclusiveFacet() != null)) {
+            return true;
+        }
+        if (getSimpleTypeFacets().areInclusiveFacetsSupported(newType)
+                && (oldType.getMinInclusiveFacet() != null || oldType.getMaxInclusiveFacet() != null)) {
+            return true;
         }
         if (getSimpleTypeFacets().isFractionDigitsFacetSupported(newType) && oldType.getFractionDigitsFacet() != null) {
             return true;
@@ -259,12 +261,16 @@ public class SetBaseTypeCommand extends AbstractNotificationOperation {
             removeFacet(facets, type.getMinLengthFacet());
             removeFacet(facets, type.getMaxLengthFacet());
         }
-        if (!getSimpleTypeFacets().areInclusiveExclusiveFacetsSupported(baseType)) {
+        if (!getSimpleTypeFacets().areInclusiveFacetsSupported(baseType)) {
             removeFacet(facets, type.getMinInclusiveFacet());
             removeFacet(facets, type.getMaxInclusiveFacet());
+        }
+        
+        if(!getSimpleTypeFacets().areExclusiveFacetsSupported(baseType)){
             removeFacet(facets, type.getMinExclusiveFacet());
             removeFacet(facets, type.getMaxExclusiveFacet());
         }
+        
         if (!getSimpleTypeFacets().isFractionDigitsFacetSupported(baseType)) {
             removeFacet(facets, type.getFractionDigitsFacet());
         }
