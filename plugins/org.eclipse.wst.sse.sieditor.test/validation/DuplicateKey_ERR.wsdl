@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/DuplicateKey_ERR/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DuplicateKey_ERR"
+	targetNamespace="http://www.example.org/DuplicateKey_ERR/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/DuplicateKey_ERR/">
+			<xsd:element name="NewOperation">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="NewOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:import location="A" namespace="http://my.name.space"/>
+	<wsdl:import location="B" namespace="http://my.name.space"/>
+	
+	<wsdl:message name="DuplicateMessageName">
+		<wsdl:part element="tns:NewOperation" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="DuplicateMessageName">
+		<wsdl:part element="tns:NewOperation" name="parameters" />
+	</wsdl:message>
+	
+	<wsdl:portType name="DuplicatePortTypeName">
+		<wsdl:operation name="NewOperation">
+			<wsdl:input message="tns:NewOperationRequest" />
+			<wsdl:output message="tns:NewOperationResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DuplicatePortTypeName">
+	</wsdl:portType>	
+	
+	<wsdl:binding name="DuplicateBindingName"/>
+	<wsdl:binding name="DuplicateBindingName"/>
+	
+	<wsdl:service name="DuplicateServiceName" />
+	<wsdl:service name="DuplicateServiceName" />
+</wsdl:definitions>

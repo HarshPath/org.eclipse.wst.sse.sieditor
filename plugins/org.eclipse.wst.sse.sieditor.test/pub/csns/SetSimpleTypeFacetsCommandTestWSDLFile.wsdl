@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="set_type_command_test_ns" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SimpleTypeFacetsWSDLFile"
+	targetNamespace="set_type_command_test_ns" xmlns:ns0="set_type_command_test_ns222">
+	<wsdl:message name="NewOperationRequest">
+		<wsdl:part name="Parameter1" element="tns:Element2"></wsdl:part>
+		<wsdl:part name="Parameter2123123" element="tns:Element3"></wsdl:part>
+		<wsdl:part name="Parameter32313" element="tns:Element4"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="NewOperationResponse">
+		<wsdl:part element="tns:NewOperationResponse" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="NewOperation1Request">
+		<wsdl:part name="Parameter" element="tns:Element5"></wsdl:part>
+		<wsdl:part name="Parameter32313" element="tns:Element4"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="NewOperation1Response">
+		<wsdl:part name="Parameter" element="tns:Element6"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="SimpleTypeFacetsWSDLFile">
+		<wsdl:operation name="NewOperation">
+			<wsdl:input message="tns:NewOperationRequest" />
+			<wsdl:output message="tns:NewOperationResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="NewOperation1">
+			<wsdl:input message="tns:NewOperation1Request"></wsdl:input>
+			<wsdl:output message="tns:NewOperation1Response"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SimpleTypeFacetsWSDLFileSOAP" type="tns:SimpleTypeFacetsWSDLFile">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="NewOperation">
+			<soap:operation
+				soapAction="http://www.example.org/SimpleTypeFacetsWSDLFile/NewOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SimpleTypeFacetsWSDLFile">
+		<wsdl:port binding="tns:SimpleTypeFacetsWSDLFileSOAP" name="SimpleTypeFacetsWSDLFileSOAP">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

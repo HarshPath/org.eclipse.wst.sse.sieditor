@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/NewWSDLFile/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="NewWSDLFile"
+	targetNamespace="http://www.example.org/NewWSDLFile/" xmlns:ns0="http://namespace1"
+	xmlns:ns1="http://namespace2" xmlns:ns2="http://namespace3">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/NewWSDLFile/">
+			<xsd:attribute name="Attribute1111" type="tns:SimpleType111"></xsd:attribute>
+			<xsd:element name="NewOperation">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="NewOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" name="out" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="StructureType1">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+						type="xsd:string"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="StructureType2">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+						type="xsd:string"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:simpleType name="SimpleType111">
+				<xsd:restriction base="xsd:string"></xsd:restriction>
+			</xsd:simpleType>
+		</xsd:schema>
+		<xsd:schema xmlns:ns0="http://namespace1" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://namespace1" xmlns:Q1="http://www.example.org/NamespaceImportsXSD">
+			<xsd:import schemaLocation="NamespaceImportsXSD.xsd"
+				namespace="http://www.example.org/NamespaceImportsXSD"></xsd:import>
+			<xsd:import namespace="http://namespace3"></xsd:import>
+			<xsd:import namespace="http://namespace2"></xsd:import>
+			<xsd:import namespace="http://www.example.org/NewWSDLFile/"></xsd:import>
+			<xsd:complexType name="StructureType1">                <xsd:simpleContent><xsd:restriction></xsd:restriction></xsd:simpleContent>
+            </xsd:complexType>
+			<xsd:element name="Element2" type="ns1:SimpleType1"></xsd:element>
+			<xsd:element name="Element1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" maxOccurs="1" name="string"
+							type="xsd:string"></xsd:element>
+						<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+							type="xsd:string"></xsd:element>
+						<xsd:element minOccurs="1" maxOccurs="1" name="Element2"
+							type="xsd:string"></xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="Attribute1" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="Attribute2" type="xsd:string"></xsd:attribute>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Element3" type="ns2:SimpleType2"></xsd:element>
+			<xsd:complexType name="StructureType2">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+						type="Q1:StructureTypeImport1"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="StructureType3">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" maxOccurs="1" ref="tns:NewOperation"></xsd:element>
+					<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+						type="xsd:string"></xsd:element>
+					<xsd:element minOccurs="1" maxOccurs="1" name="Element2"
+						type="xsd:string"></xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="Attribute1" type="xsd:string"></xsd:attribute>
+				<xsd:attribute name="Attribute2" type="xsd:string"></xsd:attribute>
+			</xsd:complexType>
+			<xsd:complexType name="StructureType4">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" maxOccurs="1" name="string"
+						type="xsd:string"></xsd:element>
+					<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+						type="xsd:string"></xsd:element>
+					<xsd:element minOccurs="1" maxOccurs="1" name="Element2"
+						type="xsd:string"></xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="Attribute1" type="xsd:string"></xsd:attribute>
+				<xsd:attribute name="Attribute2" type="xsd:string"></xsd:attribute>
+			</xsd:complexType>
+		</xsd:schema>
+		<xsd:schema xmlns:ns1="http://namespace2" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://namespace2">
+			<xsd:include schemaLocation="NamespaceIncludesXSD.xsd"></xsd:include>
+			<xsd:simpleType name="SimpleType1">
+				<xsd:restriction base="xsd:string"></xsd:restriction>
+			</xsd:simpleType>
+		</xsd:schema>
+		<xsd:schema xmlns:ns2="http://namespace3" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://namespace3">
+			<xsd:import namespace="http://www.example.org/NewWSDLFile/"></xsd:import>
+			<xsd:import namespace="http://namespace1"></xsd:import>
+			<xsd:simpleType name="SimpleType2">
+				<xsd:restriction base="xsd:string"></xsd:restriction>
+			</xsd:simpleType>
+			<xsd:complexType name="StructureType1">
+				<xsd:sequence>
+					<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+						type="tns:StructureType2"></xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="Attribute1" type="tns:SimpleType111"></xsd:attribute>
+				<xsd:attribute name="Attribute2" ref="tns:Attribute1111"></xsd:attribute>
+			</xsd:complexType>
+            <xsd:complexType name="ComplexTypeComplexContent"><xsd:complexContent><xsd:extension base="tns:StructureType1"><xsd:sequence><xsd:element minOccurs="1" maxOccurs="1" name="Element1" type="xsd:string"></xsd:element></xsd:sequence><xsd:attribute name="Attribute1" type="xsd:string"></xsd:attribute></xsd:extension></xsd:complexContent></xsd:complexType>
+            <xsd:complexType name="ComplexTypeSimpleContent"><xsd:simpleContent><xsd:extension base="tns:SimpleType111"><xsd:attribute name="Attribute1" type="xsd:string"></xsd:attribute><xsd:attribute name="Attribute2" type="xsd:string"></xsd:attribute></xsd:extension></xsd:simpleContent></xsd:complexType>
+        </xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="NewOperationRequest">
+		<wsdl:part element="tns:NewOperation" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="NewOperationResponse">
+		<wsdl:part element="tns:NewOperationResponse" name="parameters" />
+	</wsdl:message>
+	<wsdl:portType name="NewWSDLFile">
+		<wsdl:operation name="NewOperation">
+			<wsdl:input message="tns:NewOperationRequest" />
+			<wsdl:output message="tns:NewOperationResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="NewWSDLFileSOAP" type="tns:NewWSDLFile">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="NewOperation">
+			<soap:operation soapAction="http://www.example.org/NewWSDLFile/NewOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="NewWSDLFile">
+		<wsdl:port binding="tns:NewWSDLFileSOAP" name="NewWSDLFileSOAP">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

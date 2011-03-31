@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema xmlns='http://www.w3.org/2001/XMLSchema'
+	xmlns:ctc='http://sap.com/ctc' xmlns:xs='http://www.w3.org/2001/XMLSchema'
+	xmlns:xsd='http://www.w3.org/2001/XMLSchema' targetNamespace="http://cyclic.org"
+	xmlns:tns="http://cyclic.org">
+	<xsd:element name="Element1" nillable="false">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element minOccurs="1" maxOccurs="1" ref="tns:Element2"></xsd:element>
+                <xsd:element minOccurs="1" maxOccurs="1" ref="tns:Element1"></xsd:element>
+                <xsd:element minOccurs="1" maxOccurs="1" name="ValidElement" type="string"></xsd:element>
+                <xsd:element name="AnonymousElement?">
+					<xsd:complexType>
+						<xsd:sequence>
+                            <xsd:element ref="tns:Element2" />
+                            <xsd:element minOccurs="1" maxOccurs="1" name="Element2" type="string"></xsd:element>
+                        </xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+            </xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Element2" nillable="false">
+		<xsd:complexType>
+			<xsd:sequence>
+                <xsd:element minOccurs="1" maxOccurs="1" ref="tns:Element1"></xsd:element>
+                <xsd:element name="AnonymousElement">
+					<xsd:complexType>
+						<xsd:sequence>
+                            <xsd:element ref="tns:Element1" />
+                            <xsd:element minOccurs="1" maxOccurs="1" name="Element2" type="string"></xsd:element>
+                        </xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="AnonymousAttribute">
+            	<xsd:simpleType>
+					<xsd:restriction base="string">
+						<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+					</xsd:restriction>
+				</xsd:simpleType>
+            </xsd:attribute>
+        </xsd:complexType>
+	</xsd:element>
+</xsd:schema>

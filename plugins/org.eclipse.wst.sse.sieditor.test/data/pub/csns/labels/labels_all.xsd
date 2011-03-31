@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/empty/"
+	targetNamespace="http://www.example.org/empty/" xmlns:Q1="http://www.example.org/empty/22">
+    <import schemaLocation="labels_to_import.xsd" namespace="http://www.example.org/empty/22"></import>
+    <simpleType name="SimpleTypeWithBaseType">
+		<restriction base="string"></restriction>
+	</simpleType>
+	<simpleType name="SimpleTypeWithAnonymousSimpleType">
+		<restriction base="tns:SimpleTypeWithBaseType">
+			<length value="11"></length>
+		</restriction>
+	</simpleType>
+	<simpleType name="SimpleTypeWithAnonymousBaseType">
+		<restriction base="string"><length value="11"></length></restriction>
+	</simpleType>
+	<complexType name="ComplexTypeComplexContent">
+		<complexContent>
+			<extension base="tns:ClassicComplexType">
+				<sequence>
+					<element minOccurs="1" maxOccurs="1" name="Element2">
+						<simpleType>
+							<restriction base="string">
+								<length value="7"></length>
+							</restriction>
+						</simpleType>
+					</element>
+					<element minOccurs="1" maxOccurs="1"
+						ref="tns:GlobalElementWithSimpleContent"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ClassicComplexType">
+		<sequence>
+			<element minOccurs="1" maxOccurs="1" name="Element1" type="string"></element>
+		</sequence>
+	</complexType>
+	<complexType name="ComplexTypeSimpleContent">
+		<simpleContent>
+			<extension base="tns:SimpleTypeWithBaseType"></extension>
+		</simpleContent>
+	</complexType>
+	<element name="ClassicGlobalElement">
+		<complexType>
+			<sequence>
+				<element minOccurs="1" maxOccurs="1" name="string">
+					<simpleType>
+						<restriction base="string">
+							<length value="1"></length>
+						</restriction>
+					</simpleType>
+				</element>
+			</sequence>
+			<attribute name="Attribute_NoFacet" type="string"></attribute>
+			<attribute name="Attribute_Facet">
+				<simpleType>
+					<restriction base="string">
+						<length value="1"></length>
+					</restriction>
+				</simpleType>
+			</attribute>
+			<attribute name="Attribute1"><simpleType><restriction base="tns:SimpleTypeWithAnonymousSimpleType"><length value="11"></length></restriction></simpleType></attribute>
+		</complexType>
+	</element>
+	<element name="GlobalElementWithComplexContent">
+		<complexType>
+			<complexContent>
+				<extension base="tns:ClassicComplexType">
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="string"
+							type="tns:ClassicComplexType"></element>
+                        <element minOccurs="1" maxOccurs="1" ref="tns:ClassicGlobalElement"></element>
+                    </sequence>
+					<attribute name="Attribute1" type="string"></attribute>
+                    <attribute name="Attribute2"><simpleType><restriction base="string"><length value="1"></length></restriction></simpleType></attribute>
+                </extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="GlobalElementWithSimpleContent">
+		<complexType>
+			<simpleContent>
+				<extension base="tns:SimpleTypeWithBaseType">
+					<attribute name="Attribute1" type="string"></attribute>
+					<attribute name="AttributeWithRestriction"><simpleType><restriction base="tns:SimpleTypeWithBaseType"></restriction></simpleType></attribute>
+				</extension>
+			</simpleContent>
+		</complexType>
+	</element>
+	<element name="GlobalElementWithAnonymousSimpleType"><simpleType><restriction base="tns:SimpleTypeWithAnonymousBaseType"><maxLength value="5"></maxLength></restriction></simpleType></element>
+	<element name="GlobalElementWithAnonymousBaseType">
+		<simpleType>
+			<restriction base="float">
+				<minInclusive value="11"></minInclusive>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="GlobalElementWithBaseType">
+		<simpleType>
+			<restriction base="float">
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="GlobalElementWithComplexType" type="tns:ClassicComplexType"></element>
+	<element name="GlobalElementWithSimpleType" type="tns:SimpleTypeWithAnonymousBaseType"></element>
+    <simpleType name="SimpleTypeWithSimpleType"><restriction base="tns:SimpleTypeWithBaseType"></restriction></simpleType>
+    <element name="Element6"><complexType><sequence><element minOccurs="1" maxOccurs="1" name="string" type="Q1:SimpleTypeImport1"></element></sequence></complexType></element>
+</schema>

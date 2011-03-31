@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:this="http:///test_730_sp1/test/import/MySchema.xsd"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http:///test_730_sp1/test/import/MySchema.xsd"
+	xmlns:imported="http:///test_730_sp1/test/import/MySchema2.xsd">
+	<xsd:import schemaLocation="MySchema2.xsd"
+		namespace="http:///test_730_sp1/test/import/MySchema2.xsd"></xsd:import>
+	<xsd:element name="GlobalElement">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element minOccurs="1" maxOccurs="1"
+					ref="imported:GlobalElement2"></xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

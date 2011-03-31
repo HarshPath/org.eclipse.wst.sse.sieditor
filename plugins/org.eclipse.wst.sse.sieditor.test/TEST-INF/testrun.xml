@@ -1,0 +1,25 @@
+<test> 
+  
+
+  <run type="junit4_ec" purpose="component,scenario,weekstone,global">
+    <name>Service Interface And Data Types Editors</name>
+    <plugin-name>org.eclipse.wst.sse.sieditor.test</plugin-name>
+    <plugin-suite>org.eclipse.wst.sse.sieditor.test.all.AllTestSuites</plugin-suite>
+    <code-coverage>org.eclipse.wst.sse.sieditor.core;org.eclipse.wst.sse.sieditor.fwk;org.eclipse.wst.sse.sieditor.model;org.eclipse.wst.sse.sieditor.ui</code-coverage>
+    <mail>biser.tzvetkov@sap.com, georgi.konstantinov@sap.com</mail>
+	<timeout>1500</timeout> 
+   </run>
+   
+   <run type="junit4_ec" purpose="smoke,weekstone">
+    <name>SIEditor Smoke Test Suite: 1. Create Java Project and import WSDL Document 2. Check imported WSDl File 3. Add Service Interface
+    4. Add Operation with Input, Output and Fault Parameters 5. Add Namespace with Simple type, Complex Type with Element and Attribute types 
+    6. Save all created objects 7. Delete all created objects </name>
+    <plugin-name>org.eclipse.wst.sse.sieditor.test</plugin-name>
+    <plugin-suite>org.eclipse.wst.sse.sieditor.test.smoke.SIEditorSmokeTestSuite</plugin-suite>
+    <code-coverage>org.eclipse.wst.sse.sieditor.fwk;org.eclipse.wst.sse.sieditor.model;org.eclipse.wst.sse.sieditor.ui</code-coverage>
+    <mail>biser.tzvetkov@sap.com, georgi.konstantinov@sap.com</mail>
+	<timeout>1500</timeout> 
+   </run>
+
+ </test>
+

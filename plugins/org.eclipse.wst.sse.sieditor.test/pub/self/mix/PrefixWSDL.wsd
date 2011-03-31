@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/PrefixWSDL/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PrefixWSDL"
+	targetNamespace="http://www.example.org/PrefixWSDL/">
+	<types>
+		<xsd:schema targetNamespace="http://www.example.org/PrefixWSDL/">
+			<xsd:element name="NewOperation">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="NewOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</types>
+	<message name="NewOperationRequest">
+		<part element="tns:NewOperation" name="parameters" />
+	</message>
+	<message name="NewOperationResponse">
+		<part element="tns:NewOperationResponse" name="parameters" />
+	</message>
+	<portType name="PrefixWSDL">
+		<operation name="NewOperation">
+			<input message="tns:NewOperationRequest" />
+			<output message="tns:NewOperationResponse" />
+		</operation>
+	</portType>
+	<binding name="PrefixWSDLSOAP" type="tns:PrefixWSDL">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="NewOperation">
+			<soap:operation soapAction="http://www.example.org/PrefixWSDL/NewOperation" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="PrefixWSDL">
+		<port binding="tns:PrefixWSDLSOAP" name="PrefixWSDLSOAP">
+			<soap:address location="http://www.example.org/" />
+		</port>
+	</service>
+</definitions>

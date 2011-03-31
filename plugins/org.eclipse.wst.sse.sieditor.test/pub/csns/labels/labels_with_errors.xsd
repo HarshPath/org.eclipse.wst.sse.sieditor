@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/empty/"
+	targetNamespace="http://www.example.org/empty/">
+	<simpleType name="SimpleType1">
+		<restriction base="string"></restriction>
+	</simpleType>
+	<complexType name="ComplexTypeComplexContent">
+		<complexContent>
+			<extension base="tns:ClassicComplexType">
+				<sequence>
+					<element minOccurs="1" maxOccurs="1" name="Element2">
+						<simpleType>
+							<restriction base="string">
+								<length value="7"></length>
+							</restriction>
+						</simpleType>
+					</element>
+					<element minOccurs="1" maxOccurs="1"
+						ref="tns:GlobalElementSimpleContent"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ComplexTypeSimpleContent">
+		<simpleContent>
+			<extension base="tns:SimpleType1"></extension>
+		</simpleContent>
+	</complexType>
+	<element name="ClassicGlobalElement">
+		<complexType>
+			<sequence>
+				<element minOccurs="1" maxOccurs="1" name="string">
+					<simpleType>
+						<restriction base="string">
+							<length value="1"></length>
+						</restriction>
+					</simpleType>
+				</element>
+			</sequence>
+			<attribute name="Attribute_NoFacet" type="string"></attribute>
+			<attribute name="Attribute_Facet">
+				<simpleType>
+					<restriction base="string">
+						<length value="1"></length>
+					</restriction>
+				</simpleType>
+			</attribute>
+			<attribute name="Attribute1" type="tns:SimpleType2"></attribute>
+		</complexType>
+	</element>
+	<element name="GlobalElementComplexContent">
+		<complexType>
+			<complexContent>
+				<extension base="tns:ClassicComplexType">
+					<sequence>
+						<element minOccurs="1" maxOccurs="1" name="string"
+							type="tns:ClassicComplexType"></element>
+                        <element minOccurs="1" maxOccurs="1" ref="tns:ClassicGlobalElement"></element>
+                    </sequence>
+					<attribute name="Attribute1" type="string"></attribute>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="Element1" type="double"></element>
+	<element name="Element2">
+		<simpleType>
+			<restriction base="float">
+				<minInclusive value="11"></minInclusive>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="Element3">
+		<simpleType>
+			<restriction base="float">
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="Element4" type="tns:ClassicComplexType"></element>
+	<element name="Element5" type="tns:SimpleType3"></element>
+    <simpleType name="SimpleType4"><restriction base="tns:SimpleType1"></restriction></simpleType>
+    <element name="Element6"><complexType><sequence><element minOccurs="1" maxOccurs="1" name="string" type="string"></element></sequence></complexType></element>
+</schema>

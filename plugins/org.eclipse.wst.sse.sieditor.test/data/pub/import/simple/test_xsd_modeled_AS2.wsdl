@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns:cafpref0="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled"
+	xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS2"
+	xmlns:imp22="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled2"
+	name="AS2" targetNamespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS2"
+	xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<jaxws:bindings>
+		<jaxws:package name="com.sap.demo.test_xsd.modeled.appsrv.as2" />
+	</jaxws:bindings>
+	
+	
+	<types>
+		<xsd:schema xmlns:Q1="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled"
+			xmlns:Q2="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled2"
+			xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			attributeFormDefault="unqualified" elementFormDefault="unqualified"
+			jaxb:version="2.0"
+			targetNamespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS2">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<jaxb:schemaBindings>
+						<jaxb:package name="com.sap.demo.test_xsd.modeled.appsrv.as2" />
+					</jaxb:schemaBindings>
+				</xsd:appinfo>
+			</xsd:annotation>
+
+			<xsd:import schemaLocation="as2_schema.xsd" namespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled"></xsd:import>
+			
+			<xsd:import namespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled2" schemaLocation="as2_schema2.xsd"></xsd:import>
+			
+			<xsd:simpleType name="AS2_String_wsdl">
+				<xsd:restriction base="Q2:AS2_String2_Type" />
+			</xsd:simpleType>
+
+			<xsd:element name="op2">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="0" name="inputParameter1"
+							nillable="false" type="xsd:int" />
+						<xsd:element maxOccurs="1" minOccurs="0" name="inputParameter2"
+							nillable="false" type="Q1:AS2_String" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="op2Response">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="0"
+							name="outputParameter1" nillable="false" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+		
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:imp2="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled2"
+			attributeFormDefault="unqualified" elementFormDefault="unqualified"
+			targetNamespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled_wsdl">
+			
+			<xsd:import namespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled2" schemaLocation="as2_schema2.xsd"></xsd:import>
+			
+			<xsd:simpleType name="AS2_String">
+				<xsd:restriction base="xsd:string" />
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="imp2_AS2_String">
+				<xsd:restriction base="imp2:AS2_String2_Type" />
+			</xsd:simpleType>
+			
+		</xsd:schema>
+		
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			
+			<xsd:import namespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled2" schemaLocation="as2_schema2.xsd"></xsd:import>
+			
+		</xsd:schema>
+	</types>
+	<message name="op2">
+		<part element="tns:op2" name="op2" />
+		<part element="imp22:AS2_String2_Element" name="imp2_op" />
+	</message>
+	<message name="op2Response">
+		<part element="tns:op2Response" name="op2Response" />
+	</message>
+	<portType name="AS2">
+		<jaxws:bindings>
+			<jaxws:class name="AS2SEI" />
+		</jaxws:bindings>
+		<operation name="op2">
+			<input message="tns:op2" />
+			<output message="tns:op2Response" />
+		</operation>
+	</portType>
+	<binding name="AS2Binding" type="tns:AS2">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="op2">
+			<soap:operation
+				soapAction="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS2/op2" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="AS2">
+		<jaxws:bindings>
+			<jaxws:class name="AS2Client" />
+		</jaxws:bindings>
+		<port binding="tns:AS2Binding" name="AS2BindingPort">
+			<soap:address location="http://www.example.org/" />
+		</port>
+	</service>
+</definitions>

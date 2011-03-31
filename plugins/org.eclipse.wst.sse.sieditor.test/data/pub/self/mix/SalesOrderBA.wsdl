@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" xmlns:tns="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" xmlns:p0="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:caf_fake="http://caf_fake" elementFormDefault="qualified" targetNamespace="http://caf_fake">
+      <xsd:import namespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" schemaLocation="yokbap.xsd"></xsd:import>
+      <xsd:import namespace="http://www.sap.com/caf/query_filter" schemaLocation="ewdomo.xsd"></xsd:import>
+      <xsd:import namespace="http://www.sap.com/caf/sap.com/caf.core/services" schemaLocation="xisons.xsd"></xsd:import>
+      
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="salesOrderReadFromODLIn">
+    <wsdl:part name="systemId" type="p0:string"></wsdl:part>
+    <wsdl:part name="odlId" type="p0:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="salesOrderReadFromODLOut">
+    <wsdl:part name="return" type="tns:SalesOrderList"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="salesOrdersReadIn">
+    <wsdl:part name="salesOrderIds" type="tns:SalesOrderIdList"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="salesOrdersReadOut">
+    <wsdl:part name="return" type="tns:SalesOrderList"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="salesOrderReadIn">
+    <wsdl:part name="salesOrderId" type="p0:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="salesOrderReadOut">
+    <wsdl:part name="return" type="tns:SalesOrder"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="salesOrderByElementsQueryIn">
+    <wsdl:part name="soldToParty" type="p0:string"></wsdl:part>
+    <wsdl:part name="purchaseOrder" type="p0:string"></wsdl:part>
+    <wsdl:part name="processType" type="p0:string"></wsdl:part>
+    <wsdl:part name="maxHits" type="p0:int"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="salesOrderByElementsQueryOut">
+    <wsdl:part name="return" type="tns:SalesOrderList"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SalesOrderBA">
+    <wsdl:operation name="salesOrderReadFromODL" parameterOrder="systemId odlId">
+      <wsdl:input message="tns:salesOrderReadFromODLIn"></wsdl:input>
+      <wsdl:output message="tns:salesOrderReadFromODLOut"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="salesOrdersRead" parameterOrder="salesOrderIds">
+      <wsdl:input message="tns:salesOrdersReadIn"></wsdl:input>
+      <wsdl:output message="tns:salesOrdersReadOut"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="salesOrderRead" parameterOrder="salesOrderId">
+      <wsdl:input message="tns:salesOrderReadIn"></wsdl:input>
+      <wsdl:output message="tns:salesOrderReadOut"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="salesOrderByElementsQuery" parameterOrder="soldToParty purchaseOrder processType maxHits">
+      <wsdl:input message="tns:salesOrderByElementsQueryIn"></wsdl:input>
+      <wsdl:output message="tns:salesOrderByElementsQueryOut"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SalesOrderBABinding" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" type="tns:SalesOrderBA">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+    <wsdl:operation name="salesOrderReadFromODL">
+      <soap:operation></soap:operation>
+      <wsdl:input>
+        <soap:body namespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" use="literal"></soap:body>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="salesOrdersRead">
+      <soap:operation></soap:operation>
+      <wsdl:input>
+        <soap:body namespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" use="literal"></soap:body>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="salesOrderRead">
+      <soap:operation></soap:operation>
+      <wsdl:input>
+        <soap:body namespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" use="literal"></soap:body>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="salesOrderByElementsQuery">
+      <soap:operation></soap:operation>
+      <wsdl:input>
+        <soap:body namespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="http://www.sap.com/caf/sap.com/is.cmp.bop.bal/modeled" use="literal"></soap:body>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SalesOrderBA">
+    <wsdl:port name="SalesOrderBAPort" binding="tns:SalesOrderBABinding">
+      <soap:address xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" location="Empty"></soap:address>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

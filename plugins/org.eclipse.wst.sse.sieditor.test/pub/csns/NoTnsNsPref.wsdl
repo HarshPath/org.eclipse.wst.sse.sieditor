@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="aaaC" targetNamespace="ATNS"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+	<wsdl:portType name="APortType">
+		<wsdl:operation name="AnOperation">
+		</wsdl:operation>
+	</wsdl:portType>
+</wsdl:definitions>

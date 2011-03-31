@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Schema2" xmlns:tns="http://www.example.org/Schema2" elementFormDefault="qualified">
+    <simpleType name="TypeFromSchema2"><restriction base="string"></restriction></simpleType>
+    <simpleType name="SimpleType1"><restriction base="string"><enumeration value="x\"></enumeration><pattern value="sa"></pattern></restriction></simpleType>
+    <element name="Element1" type="int"></element>
+</schema>

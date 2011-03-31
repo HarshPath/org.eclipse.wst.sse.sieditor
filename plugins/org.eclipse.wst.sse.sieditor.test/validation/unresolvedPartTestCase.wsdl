@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/unresolvedPartTestCase/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="unresolvedPartTestCase"
+	targetNamespace="http://www.example.org/unresolvedPartTestCase/"
+	xmlns:ns0="http://namespace1">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/unresolvedPartTestCase/">
+			<xsd:element name="NewOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Element1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" maxOccurs="1" name="string"
+							type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Element2">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" maxOccurs="1" name="string"
+							type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Element3">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" maxOccurs="1" name="string"
+							type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Element4">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" maxOccurs="1" name="string"
+							type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Element5">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" maxOccurs="1" name="string"
+							type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+		<xsd:schema xmlns:ns1="http://namespace1" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://namespace1"></xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="NewOperationRequest">
+		<wsdl:part element="tns:NewOperation" name="parameters" />
+		<wsdl:part name="Parameter1" element="tns:Element1"></wsdl:part>
+		<wsdl:part name="Parameter2" element="ns0:testType"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="NewOperationResponse">
+		<wsdl:part element="tns:NewOperationResponse" name="parameters" />
+		<wsdl:part name="Parameter1" element="tns:Element2"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="NewOperationFault">
+		<wsdl:part name="Parameter" element="tns:FaultElement1"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="NewOperation1Request">
+		<wsdl:part name="Parameter" type="xsd:date"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="NewOperation1Response">
+		<wsdl:part name="Parameter" type="ns0:customSimpleType"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="unresolvedPartTestCase">
+		<wsdl:operation name="NewOperation">
+			<wsdl:input message="tns:NewOperationRequest" />
+			<wsdl:output message="tns:NewOperationResponse" />
+			<wsdl:fault name="Fault1" message="tns:NewOperationFault"></wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="NewOperation1">
+			<wsdl:input message="tns:NewOperation1Request"></wsdl:input>
+			<wsdl:output message="tns:NewOperation1Response"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="unresolvedPartTestCaseSOAP" type="tns:unresolvedPartTestCase">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="NewOperation">
+			<soap:operation
+				soapAction="http://www.example.org/unresolvedPartTestCase/NewOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="unresolvedPartTestCase">
+		<wsdl:port binding="tns:unresolvedPartTestCaseSOAP" name="unresolvedPartTestCaseSOAP">
+			<soap:address location="http://www.example.org/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

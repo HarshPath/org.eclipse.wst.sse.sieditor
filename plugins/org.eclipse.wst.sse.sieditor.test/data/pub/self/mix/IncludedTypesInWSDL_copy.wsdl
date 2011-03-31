@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:tns="http://www.example.org/MultipleNamespaces/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/MultipleNamespaces/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/MultipleNamespaces/">
+		
+			<xsd:group name="modelGroup">
+				<xsd:sequence>
+					<xsd:element name="mgElement1" type="tns:simpleType"/>
+					<xsd:element name="mgElement2" type="tns:simpleType"/>
+					<xsd:group ref="tns:secondModelGroup"/>
+				</xsd:sequence>
+			</xsd:group>
+
+			<xsd:group name="secondModelGroup">
+				<xsd:sequence>
+					<xsd:element name="smgElement1" type="tns:simpleType"/>
+					<xsd:element name="smgElement2" type="tns:simpleType"/>
+				</xsd:sequence>
+			</xsd:group>
+			
+			<xsd:simpleType name="simpleTypeWithTypeRef">
+				<xsd:restriction base="tns:simpleType">
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="simpleTypeWithExternalTypeRef">
+				<xsd:restriction base="tns:simpleType">
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="simpleTypeWithAnonymousRefType">
+				<xsd:restriction>
+					<xsd:simpleType>
+						<xsd:restriction base="tns:simpleType">
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="simpleTypeWithAnonymousRefExternalType">
+				<xsd:restriction>
+					<xsd:simpleType>
+						<xsd:restriction base="tns:simpleType">
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:attribute name="attributeWithSimpleTypeRef" type="tns:simpleType"/>
+			
+			<xsd:element name="globalElementWithAnonymousComplexType">
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="tns:complexType">
+							<xsd:sequence>
+								<xsd:element ref="tns:globalElement"/>
+								<xsd:element name="elementWithTypeSimpleTypeRef" type="tns:simpleType"/>			
+								<xsd:element name="elementWithTypeComplexTypeRef" type="tns:ComplexCompositeType"/>
+							</xsd:sequence>
+						</xsd:extension>
+					</xsd:complexContent>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:complexType name="TypeWithElementRef">
+				<xsd:sequence>
+					<xsd:element ref="tns:globalElement"/>
+					<xsd:element ref="tns:globalElementWithSimpleTypeRef"/>
+					<xsd:element ref="tns:globalElementWithComplexTypeRef"/>
+					<xsd:element ref="tns:globalElementWithAnonymousComplexType"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="TypeWithAttributeRef">
+				<xsd:attribute ref="tns:attribute"/>
+				<xsd:attribute ref="tns:secondAttribute"/>
+				<xsd:attribute ref="tns:attributeWithSimpleTypeRef"/>
+			</xsd:complexType>
+			
+			<xsd:complexType name="TypeWithAttributes">
+				<xsd:attribute name="attributeWithSimpleTypeHavingBTRef">
+					<xsd:simpleType>
+						<xsd:restriction base="tns:secondSimpleType">
+							<xsd:enumeration value="1"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="attribtuteWithExternalTypeRef" type="tns:secondSimpleType"/>
+			</xsd:complexType>
+			
+			<xsd:complexType name="TypeWithAttribtueGroupRef">
+				<xsd:attributeGroup ref="tns:attributeGroup"/>
+			</xsd:complexType>
+			
+			<xsd:complexType name="TypeWithRef">
+				<xsd:sequence>
+					<xsd:group ref="tns:modelGroup"/>
+					<xsd:group ref="tns:modelGroupOne"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="ComplexTypeWithSimpleTypeRef">
+				<xsd:sequence>
+					<xsd:element name="element1" type="tns:simpleType" />
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="ComplexTypeWithComplexTypeRef">
+				<xsd:sequence>
+					<xsd:element name="element1" type="tns:complexType" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="ComplexCompositeType">
+				<xsd:sequence>
+					<xsd:element name="element1" type="tns:simpleType" />
+					<xsd:element name="element2" type="tns:complexType" />
+					<xsd:element name="element5" type="tns:simpleTypeWithTypeRef" />
+					<xsd:element name="element6" type="tns:simpleTypeWithExternalTypeRef" />
+					<xsd:element name="element7" type="tns:simpleTypeWithAnonymousRefType" />
+					<xsd:element name="element8" type="tns:simpleTypeWithAnonymousRefExternalType" />
+					<xsd:element ref="tns:globalElement"/>
+					<xsd:element ref="tns:globalElementWithSimpleTypeRef"/>
+					<xsd:element ref="tns:globalElementWithComplexTypeRef"/>
+					<xsd:element ref="tns:globalElementWithAnonymousComplexType"/>
+					<xsd:element name="element9" type="tns:TypeWithElementRef" />					
+				</xsd:sequence>
+				<xsd:attribute ref="tns:attribute"/>
+				<xsd:attribute ref="tns:secondAttribute"/>
+				<xsd:attribute ref="tns:attributeWithSimpleTypeRef"/>
+				<xsd:attribute name="attributeWithSimpleTypeHavingBTRef">
+					<xsd:simpleType>
+						<xsd:restriction base="tns:secondSimpleType">
+							<xsd:enumeration value="1"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="attribtuteWithExternalTypeRef" type="tns:secondSimpleType"/>
+				<xsd:attributeGroup ref="tns:attributeGroup"/>
+			</xsd:complexType>
+		</xsd:schema>
+		
+		<xsd:schema targetNamespace="http://www.example.org/MultipleNamespaces/"
+			xmlns:imp="http://www.example.org/Imported2/">
+			<xsd:import namespace="http://www.example.org/Imported2/"/>
+			
+			<xsd:complexType name="complexType">
+				<xsd:sequence>
+					<xsd:element name="element" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:simpleType name="simpleType">
+				<xsd:restriction base="xsd:int">
+					<xsd:maxInclusive value="10"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="secondSimpleType">
+				<xsd:restriction base="xsd:int">
+					<xsd:maxInclusive value="10"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:attribute name="attribute" type="tns:simpleType"/>
+			
+			<xsd:attribute name="secondAttribute" type="tns:simpleType"/>
+			
+			<xsd:element name="globalElement" type="xsd:int"/>
+			
+			<xsd:element name="globalElementWithSimpleTypeRef" type="tns:simpleType"/>
+			
+			<xsd:element name="globalElementWithComplexTypeRef" type="tns:complexType"/>
+			
+			<xsd:attributeGroup name="attributeGroup">
+				<xsd:attribute name="agAttr2" type="xsd:string"/>
+			</xsd:attributeGroup>
+			
+			<xsd:group name="modelGroupOne">
+				<xsd:sequence>
+					<xsd:element name="mgElement1" type="tns:simpleType"/>
+					<xsd:element name="mgElement2" type="imp:simpleType"/>
+					<xsd:group ref="tns:secondModelGroupOne"/>
+				</xsd:sequence>
+			</xsd:group>
+
+			<xsd:group name="secondModelGroupOne">
+				<xsd:sequence>
+					<xsd:element name="smgElement1" type="tns:simpleType"/>
+					<xsd:element name="smgElement2" type="imp:simpleType"/>
+				</xsd:sequence>
+			</xsd:group>
+
+		</xsd:schema>
+		
+		<xsd:schema targetNamespace="http://www.example.org/Imported2/">
+			<xsd:complexType name="ElementType">
+				<xsd:sequence>
+					<xsd:element name="out" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:simpleType name="simpleTypeBase">
+				<xsd:restriction base="xsd:int">
+					<xsd:maxInclusive value="10"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="simpleType">
+				<xsd:restriction base="xsd:int">
+					<xsd:maxInclusive value="10"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:schema>
+	</wsdl:types>
+</wsdl:definitions>

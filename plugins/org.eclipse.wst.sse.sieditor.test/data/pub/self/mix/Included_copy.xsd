@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:tns="http://www.example.org/MultipleNamespaces/"
+	targetNamespace="http://www.example.org/MultipleNamespaces/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:imp="http://www.example.org/Imported2/">
+	<xsd:import namespace="http://www.example.org/Imported2/" schemaLocation="./Imported1_copy.xsd"/>
+
+	<xsd:complexType name="complexType">
+		<xsd:sequence>
+			<xsd:element name="element" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="simpleType">
+		<xsd:restriction base="xsd:int">
+			<xsd:maxInclusive value="10" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="secondSimpleType">
+		<xsd:restriction base="xsd:int">
+			<xsd:maxInclusive value="10" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:attribute name="attribute" type="tns:simpleType" />
+
+	<xsd:attribute name="secondAttribute" type="tns:simpleType" />
+
+	<xsd:element name="globalElement" type="xsd:int" />
+
+	<xsd:element name="globalElementWithSimpleTypeRef" type="tns:simpleType" />
+
+	<xsd:element name="globalElementWithComplexTypeRef" type="tns:complexType" />
+
+	<xsd:attributeGroup name="attributeGroup">
+		<xsd:attribute name="agAttr2" type="xsd:string" />
+	</xsd:attributeGroup>
+
+	<xsd:group name="modelGroupOne">
+		<xsd:sequence>
+			<xsd:element name="mgElement1" type="tns:simpleType" />
+			<xsd:element name="mgElement2" type="imp:simpleType" />
+			<xsd:group ref="tns:secondModelGroupOne" />
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:group name="secondModelGroupOne">
+		<xsd:sequence>
+			<xsd:element name="smgElement1" type="tns:simpleType" />
+			<xsd:element name="smgElement2" type="imp:simpleType" />
+		</xsd:sequence>
+	</xsd:group>
+
+</xsd:schema>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/NoComponents/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="NoPortTypes"
+	targetNamespace="http://www.example.org/NoComponents/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/NoComponents/">
+			<xsd:element name="OperationWithNoInputOutput">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="NewOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="OperationWithNoInputOutputResponse1">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="out" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="Message">
+		<wsdl:part element="tns:NewOperation" name="parameters" />
+	</wsdl:message>
+	
+	<wsdl:message name="NoParametersMessage">
+	</wsdl:message>
+
+	<wsdl:message name="OperationWithNoInputOutputRequest">
+		<wsdl:part name="parameters" element="tns:OperationWithNoInputOutput"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="OperationWithNoInputOutputResponse">
+		<wsdl:part name="parameters" element="tns:OperationWithNoInputOutputResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="PortType">
+		<wsdl:operation name="OperationWithNoInParametersAndFaults">
+			<wsdl:input message="tns:NoParametersMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="OperationWithNoOutParameters">
+			<wsdl:input message="tns:Message" />
+			<wsdl:output message="tns:NoParametersMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="OperationWithNoFaults">
+			<wsdl:input message="tns:Message" />
+			<wsdl:output message="tns:Message" />
+		</wsdl:operation>
+		<wsdl:operation name="OperationWithNoFaultParameters">
+			<wsdl:input message="tns:Message" />
+			<wsdl:fault name="fault" message="tns:NoParametersMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="OperationWithNoInputOutput">
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:portType name="PortTypeWithNoOperations">
+	</wsdl:portType>
+
+	<wsdl:portType name="PortTypeWithInvalidOperations">
+		<wsdl:operation name="SolicitResponseOperation">
+			<wsdl:output message="tns:Message" />
+			<wsdl:input message="tns:Message" />
+		</wsdl:operation>
+		<wsdl:operation name="NotificationResponseOperation">
+			<wsdl:output message="tns:Message" />
+			<wsdl:input message="tns:Message" />
+		</wsdl:operation>
+	</wsdl:portType>
+</wsdl:definitions>

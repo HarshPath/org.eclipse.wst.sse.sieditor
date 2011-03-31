@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/TypesImporting/"
+	xmlns:tns="http://www.example.org/TypesImporting/">
+
+	<complexType name="Address">
+		<sequence>
+			<element name="name" type="string" />
+			<element name="street" type="string" />
+			<element name="city" type="string" />
+		</sequence>
+	</complexType>
+
+	<element name="purchaseOrder" type="tns:PurchaseOrderType" />
+
+	<element name="comment" type="string" />
+
+	<complexType name="PurchaseOrderType">
+		<sequence>
+			<element name="shipTo" type="tns:Address" />
+			<element name="billTo" type="tns:Address" />
+			<element name="items" type="tns:ItemsExtended" />
+		</sequence>
+		<attribute name="orderDate" type="date" />
+	</complexType>
+
+	<complexType name="ItemsExtended">
+		<complexContent>
+			<extension base="tns:Items">
+				<sequence>
+					<element name="specialId" type="integer" />
+					<element ref="tns:comment" minOccurs="0" />
+				</sequence>
+				<attribute name="specialAtt" type="string" use="required" />
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ItemsBase">
+		<sequence>
+			<element name="item" minOccurs="0" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="productName" type="string" />
+						<element name="quantity">
+							<simpleType>
+								<restriction base="positiveInteger">
+									<maxExclusive value="100"></maxExclusive>
+								</restriction>
+							</simpleType>
+						</element>
+						<element name="USPrice" type="decimal" />
+						<element name="shipDate" type="date" minOccurs="0" />
+					</sequence>
+					<attribute name="partNum" type="tns:SKU" use="required" />
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="Items">
+		<complexContent>
+			<extension base="tns:ItemsBase">
+				<sequence minOccurs="0">
+					<element name="elementBase" type="decimal" />
+				</sequence>
+				<attribute name="atributeBase" type="string" />
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="SKU">
+		<restriction base="string">
+		</restriction>
+	</simpleType>
+
+	<attribute name="globalAttributeDeclaration">
+		<simpleType>
+			<restriction base="string">
+				<enumeration value="value1" />
+			</restriction>
+		</simpleType>
+	</attribute>
+
+</schema>

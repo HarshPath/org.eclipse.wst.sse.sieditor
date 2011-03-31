@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/TypesImporting/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TypesImporting"
+	targetNamespace="http://www.example.org/TypesImporting/" xmlns:impex="http://www.example.com/"
+	xmlns:imppo="http://www.example.com/IPO">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/TypesImporting/">
+			<xsd:include schemaLocation="included.xsd" />
+			<xsd:complexType name="complexType">
+				<xsd:annotation>
+					<xsd:documentation>Documentation</xsd:documentation>
+					<xsd:documentation>Documentation1</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="elementParticle" type="tns:Address">
+						<xsd:annotation>
+							<xsd:documentation>Documentation</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="elementParticle1" type="tns:SKU">
+						<xsd:annotation>
+							<xsd:documentation></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element ref="tns:comment"/>
+				</xsd:sequence>
+				<xsd:attribute name="attribute1" type="tns:SKU" />
+				<xsd:attribute name="attribute2">
+					<xsd:simpleType>
+						<xsd:restriction base="tns:SKU">
+							<xsd:enumeration value="value1" />
+							<xsd:enumeration value="value2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:complexType>
+			<xsd:element name="globalElement" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Documentation</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:simpleType name="simpleType">
+				<xsd:restriction base="tns:SKU">
+					<xsd:enumeration value="value1" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:element name="globalElementWithSt">
+				<xsd:simpleType>
+					<xsd:restriction base="tns:SKU">
+						<xsd:enumeration value="value1" />
+						<xsd:enumeration value="value2" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:complexType name="ctSimpleContentExtension">
+				<xsd:simpleContent>
+					<xsd:extension base="tns:SKU">
+						<xsd:attribute name="attribute1" type="tns:SKU" />
+						<xsd:attribute name="attribute2" type="tns:SKU" />
+						<xsd:attribute ref="tns:globalAttributeDeclaration" />
+					</xsd:extension>
+				</xsd:simpleContent>
+			</xsd:complexType>
+			<xsd:complexType name="ctSimpleContentRestriction">
+				<xsd:simpleContent>
+					<xsd:restriction base="tns:ctSimpleContentExtension">
+						<xsd:enumeration value="value1" />
+						<xsd:attribute name="attribute1">
+							<xsd:simpleType>
+								<xsd:restriction base="tns:SKU">
+									<xsd:enumeration value="value1" />
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:attribute>
+						<xsd:attribute name="attribute2" type="tns:SKU" />
+					</xsd:restriction>
+				</xsd:simpleContent>
+			</xsd:complexType>
+			<xsd:complexType name="ctImportedExtension">
+				<xsd:complexContent>
+					<xsd:extension base="tns:Address">
+						<xsd:attribute ref="tns:globalAttributeDeclaration" />
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="ctImportedRestriction">
+				<xsd:complexContent>
+					<xsd:restriction base="tns:Address">
+						<xsd:sequence>
+							<xsd:element name="name" type="xsd:string" />
+							<xsd:element name="street" type="xsd:string" />
+							<xsd:element name="city" type="xsd:string" />
+						</xsd:sequence>
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+</wsdl:definitions>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/Target/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Source"
+	xmlns:undefined="http://www.example.org/target/undefined/"
+	xmlns:qualified="http://www.example.org/target/qualified/"
+	xmlns:unqualified="http://www.example.org/target/unqualified/"
+	targetNamespace="http://www.example.org/Target/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/target/undefined/">
+			
+		</xsd:schema>
+		<xsd:schema targetNamespace="http://www.example.org/target/qualified/" elementFormDefault="qualified" attributeFormDefault="qualified">
+			
+		</xsd:schema>
+		<xsd:schema targetNamespace="http://www.example.org/target/unqualified/" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+			
+		</xsd:schema>
+	</wsdl:types>
+</wsdl:definitions>

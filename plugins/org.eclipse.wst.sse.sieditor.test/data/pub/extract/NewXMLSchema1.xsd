@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/NewXMLSchema1" xmlns:tns="http://www.example.org/NewXMLSchema1" elementFormDefault="qualified">
+    <element name="Element1"><complexType><sequence><element minOccurs="1" maxOccurs="1" name="string" type="string"></element></sequence></complexType></element>
+    <simpleType name="SimpleType1"><restriction base="string"></restriction></simpleType>
+    <complexType name="NewXMLSchema1_StructureType"><sequence><element minOccurs="1" maxOccurs="1" name="Element1" type="string"></element></sequence></complexType>
+</schema>

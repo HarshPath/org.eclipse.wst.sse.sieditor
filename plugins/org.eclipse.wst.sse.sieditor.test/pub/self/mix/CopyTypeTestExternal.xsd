@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema targetNamespace="http://www.example.org/CopyTypeTest/Types"
+	xmlns:tns="http://www.example.org/CopyTypeTest/Types"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="GlobalElementWithSimpleType">
+		<xsd:simpleType>
+			<xsd:restriction base="tns:BusinessTransactionDocumentIDContent">
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:group name="ModelGroupDefinitionOne">
+		<xsd:sequence>
+			<xsd:element name="elementm1" type="tns:CatalogueItemID" />
+			<xsd:element name="elementm2" type="xsd:int" />
+			<xsd:sequence>
+				<xsd:element name="elementm4">
+					<xsd:simpleType>
+						<xsd:restriction base="tns:ContactPersonPartyIDOne">
+							<xsd:maxLength value="40" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:attributeGroup name="AttributeGroupDefinitionOne">
+		<xsd:attribute name="attributeaa1" type="xsd:string" />
+		<xsd:attribute name="attributeaa2">
+			<xsd:simpleType>
+				<xsd:restriction base="tns:AcceptanceStatusCode">
+					<xsd:length value="2" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:anyAttribute />
+	</xsd:attributeGroup>
+	<xsd:simpleType name="AcceptanceStatusCode">
+		<xsd:restriction base="xsd:token">
+			<xsd:length value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ActionCode">
+		<xsd:restriction base="xsd:token">
+			<xsd:length value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CatalogueItemID">
+		<xsd:restriction base="xsd:token">
+			<xsd:maxLength value="40" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ContactPersonPartyID">
+		<xsd:restriction base="xsd:token">
+			<xsd:maxLength value="60" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ContactPersonPartyIDOne">
+		<xsd:restriction base="xsd:token">
+			<xsd:maxLength value="60" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Date">
+		<xsd:restriction base="xsd:date" />
+	</xsd:simpleType>
+	<xsd:attribute name="AttributeWithSimpleType">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:token">
+				<xsd:length value="3" />
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name="AttributeWithSimpleTypeOne">
+		<xsd:simpleType>
+			<xsd:restriction base="tns:Date">
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:simpleType name="BusinessTransactionDocumentIDContent">
+		<xsd:restriction base="xsd:token">
+			<xsd:maxLength value="35" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BusinessTransactionDocumentItemGroupID">
+		<xsd:restriction base="xsd:token">
+			<xsd:length value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BusinessTransactionDocumentItemID">
+		<xsd:restriction base="xsd:token">
+			<xsd:maxLength value="10" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BusinessTransactionDocumentItemTypeCode">
+		<xsd:restriction base="tns:BusinessTransactionDocumentItemID">
+			<xsd:maxLength value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

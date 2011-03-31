@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS"
+	name="AS" targetNamespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:nswsdl="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS2" xmlns:ns0="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled" xmlns:ns1="http://namespace1">
+	<jaxws:bindings>
+		<jaxws:package name="com.sap.demo.test_xsd.modeled.appsrv.as" />
+	</jaxws:bindings>
+
+	<import location="test_xsd_modeled_AS2.wsdl"
+		namespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS2"></import>
+
+	<types>
+		<xsd:schema xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
+			elementFormDefault="unqualified" jaxb:version="2.0"
+			targetNamespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS">
+            <xsd:import namespace="http://namespace1"></xsd:import>
+            <xsd:annotation>
+				<xsd:appinfo>
+					<jaxb:schemaBindings>
+						<jaxb:package name="com.sap.demo.test_xsd.modeled.appsrv.as" />
+					</jaxb:schemaBindings>
+				</xsd:appinfo>
+			</xsd:annotation>
+
+			<!--
+				<xsd:simpleType name="AS2_String_wsdl"> <xsd:restriction
+				base="Q2_imp:AS2_String2" /> </xsd:simpleType>
+			-->
+
+			<xsd:element name="op1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="0" name="inputParameter1"
+							nillable="false" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="op1Response">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="0"
+							name="outputParameter1" nillable="false" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Element1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" maxOccurs="1" name="string"
+							type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Element2">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="1" maxOccurs="1" name="string"
+							type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+            <xsd:element name="ElementRefTo_NSElement1"><xsd:complexType><xsd:sequence><xsd:element minOccurs="1" maxOccurs="1" ref="ns1:NS_Element1"></xsd:element></xsd:sequence></xsd:complexType></xsd:element>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"><xsd:import schemaLocation="as2_schema.xsd" namespace="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled"></xsd:import></xsd:schema>
+        <xsd:schema xmlns:ns1="http://namespace1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://namespace1"><xsd:element name="NS_Element1"><xsd:complexType><xsd:sequence><xsd:element minOccurs="1" maxOccurs="1" name="string" type="xsd:string"></xsd:element></xsd:sequence></xsd:complexType></xsd:element></xsd:schema>
+    </types>
+	<message name="op1">
+		<part element="tns:op1" name="internalType1" />
+        <part name="importedSchemaType" type="ns0:imp2_AS2_String"></part>
+    </message>
+	<message name="op1Response">
+		<part element="tns:op1Response" name="internalType2" />
+	</message>
+	<message name="NewOperation1Request">
+		<part name="Parameter" element="tns:Element1"></part>
+	</message>
+	<message name="NewOperation1Response">
+		<part name="internalType3" element="tns:Element2"></part>
+	</message>
+	<portType name="AS">
+		<jaxws:bindings>
+			<jaxws:class name="ASSEI" />
+		</jaxws:bindings>
+		<operation name="op1">
+			<input message="tns:op1" />
+			<output message="tns:op1Response" />
+		</operation>
+	</portType>
+	<portType name="ServiceInterface1">
+		<operation name="NewOperation1">
+			<input message="nswsdl:op2"></input>
+			<output message="tns:NewOperation1Response"></output>
+		</operation>
+	</portType>
+	<binding name="ASBinding" type="tns:AS">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="op1">
+			<soap:operation
+				soapAction="http://www.sap.com/caf/demo.sap.com/test_xsd/modeled/AS/op1" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="AS">
+		<jaxws:bindings>
+			<jaxws:class name="ASClient" />
+		</jaxws:bindings>
+		<port binding="tns:ASBinding" name="ASBindingPort">
+			<soap:address location="http://www.example.org/" />
+		</port>
+	</service>
+</definitions>

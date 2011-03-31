@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/DuplicateComponents/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DuplicateComponents"
+	targetNamespace="http://www.example.org/DuplicateComponents/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/DuplicateComponents/">
+			<xsd:element name="NewOperation">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="NewOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="NewOperationRequest">
+		<wsdl:part element="tns:NewOperation" name="duplicateparameter" />
+		<wsdl:part element="tns:NewOperation" name="duplicateparameter" />
+		<wsdl:part element="tns:NewOperation" name="parameter" />
+	</wsdl:message>
+	<wsdl:message name="NewOperationResponse">
+		<wsdl:part element="tns:NewOperationResponse" name="duplicateparameter" />
+		<wsdl:part element="tns:NewOperationResponse" name="duplicateparameter" />
+		<wsdl:part element="tns:NewOperationResponse" name="parameter" />
+	</wsdl:message>
+	<wsdl:portType name="PortType">
+		<wsdl:operation name="DuplicateOperation">
+			<wsdl:input message="tns:NewOperationRequest" />
+			<wsdl:output message="tns:NewOperationResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="DuplicateOperation">
+			<wsdl:input message="tns:NewOperationRequest" />
+			<wsdl:output message="tns:NewOperationResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="Operation">
+			<wsdl:input message="tns:NewOperationRequest" />
+			<wsdl:output message="tns:NewOperationResponse" />
+			<wsdl:fault name="duplicatefault" message="tns:NewOperationRequest"/>
+			<wsdl:fault name="duplicatefault" message="tns:NewOperationRequest"/>
+			<wsdl:fault name="fault" message="tns:NewOperationRequest"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DuplicatePortType">
+		<wsdl:operation name="NewOperation">
+			<wsdl:input message="tns:NewOperationRequest" />
+			<wsdl:output message="tns:NewOperationResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="DuplicatePortType">
+		<wsdl:operation name="NewOperation">
+			<wsdl:input message="tns:NewOperationRequest" />
+			<wsdl:output message="tns:NewOperationResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+</wsdl:definitions>

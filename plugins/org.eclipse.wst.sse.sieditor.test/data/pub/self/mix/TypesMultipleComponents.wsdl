@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/StructureType/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/StructureType/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/StructureType/">
+			<xsd:complexType name="complexType">
+				<xsd:annotation>
+					<xsd:documentation>Documentation</xsd:documentation>
+					<xsd:documentation>Documentation1</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="elementParticle" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>Documentation</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="elementParticle1" type="xsd:int"
+						minOccurs="2" maxOccurs="5" nillable="true">
+						<xsd:annotation>
+							<xsd:documentation></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="complexType">
+				<xsd:annotation>
+					<xsd:documentation>Documentation</xsd:documentation>
+					<xsd:documentation>Documentation1</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="elementParticle" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>Documentation</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="elementParticle1" type="xsd:int"
+						minOccurs="2" maxOccurs="5" nillable="true">
+						<xsd:annotation>
+							<xsd:documentation></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="sameType">
+				<xsd:annotation>
+					<xsd:documentation>Documentation</xsd:documentation>
+					<xsd:documentation>Documentation1</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="elementParticle" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>Documentation</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="elementParticle1" type="xsd:int"
+						minOccurs="2" maxOccurs="5" nillable="true">
+						<xsd:annotation>
+							<xsd:documentation></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:simpleType name="sameType">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="value1" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:element name="complexType">
+				<xsd:annotation>
+					<xsd:documentation>Documentation</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="elementParticle" type="xsd:string" />
+						<xsd:element name="elementParticle1" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="complexType1">
+				<xsd:annotation>
+					<xsd:documentation>Documentation</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="elementParticle" type="xsd:string" />
+						<xsd:element name="elementParticle1" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="complexType">
+				<xsd:annotation>
+					<xsd:documentation>Documentation</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="elementParticle" type="xsd:string" />
+						<xsd:element name="elementParticle1" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="ctWithAttributes">
+				<xsd:sequence>
+					<xsd:element ref="tns:globalElement" minOccurs="10"
+						maxOccurs="100" />
+					<xsd:element name="elementParticle3" type="xsd:string" />
+				</xsd:sequence>
+				<xsd:attribute name="attribute1" type="xsd:string" />
+			</xsd:complexType>
+			<xsd:simpleType name="simpleType">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="value1" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="simpleType">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="value1" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:element name="globalElement" type="xsd:string" />
+			<xsd:element name="globalElementWithElements">
+				<xsd:sequence>
+					<xsd:element ref="tns:globalElement" minOccurs="10"
+						maxOccurs="100" />
+					<xsd:element name="elementParticle3" type="xsd:string" />
+				</xsd:sequence>
+				<xsd:attribute name="attribute1" type="xsd:string" />
+			</xsd:element>
+			<xsd:element name="globalElementWithElements1">
+				<xsd:sequence>
+					<xsd:element ref="tns:globalElement" minOccurs="10"
+						maxOccurs="100" />
+					<xsd:element name="elementParticle3" type="xsd:string" />
+				</xsd:sequence>
+				<xsd:attribute name="attribute1" type="xsd:string" />
+			</xsd:element>
+			<xsd:attribute name="globalAttribute1" type="xsd:string" />
+			<xsd:attribute name="globalAttribute2" type="xsd:string" />
+			<xsd:complexType name="ctExtension">
+				<xsd:complexContent>
+					<xsd:extension base="tns:complexType">
+						<xsd:sequence>
+							<xsd:element ref="tns:complexType" />
+							<xsd:element ref="tns:complexType" />
+							<xsd:element name="elementParticle1" type="tns:complexType" />
+							<xsd:element name="elementParticle1" type="tns:simpleType" />
+							<xsd:element name="elementParticle4" type="tns:sameType" />
+						</xsd:sequence>
+						<xsd:attribute name="attribute1" type="xsd:string" />
+						<xsd:attribute name="attribute1" type="tns:simpleType" />
+						<xsd:attribute ref="tns:globalAttribute1" />
+						<xsd:attribute ref="tns:globalAttribute1" />
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:element name="NewOperation">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="NewOperation1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="NewOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+		<xsd:schema targetNamespace="http://www.example.org/StructureType/">
+			<xsd:element name="NewOperationResponse1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+		<xsd:schema targetNamespace="http://www.example.org/StructureType/NoComponents"/>			
+		<xsd:schema targetNamespace="http://www.example.org/StructureType/NoElements">
+			<xsd:complexType name="complexTypeWithModelGroup">
+				<xsd:sequence>					
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="complexTypeWithNoModelGroup"/>
+		</xsd:schema>
+	</wsdl:types>
+</wsdl:definitions>

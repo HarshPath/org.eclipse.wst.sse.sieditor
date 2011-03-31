@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:tns="http://www.example.org/CopyTypeTest/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/CopyTypeTest/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.example.org/CopyTypeTest/Imported/ns1"
+			xmlns:tns="http://www.example.org/CopyTypeTest/Imported/ns1"
+			xmlns:imp="http://www.example.org/CopyTypeTest/Types">
+			<xsd:import namespace="http://www.example.org/CopyTypeTest/Types" schemaLocation="CopyTypeTestExternal.xsd"/>
+			<xsd:complexType name="GlobalComplexType">
+				<xsd:sequence>
+					<xsd:element name="element1" type="xsd:string" />
+					<xsd:element name="element2" type="xsd:int" />
+					<xsd:sequence>
+						<xsd:element name="element4" type="tns:CountryCode" />
+						<xsd:group ref="tns:ModelGroupDefinition" />
+					</xsd:sequence>
+				</xsd:sequence>
+				<xsd:attribute name="attr1" type="xsd:string" />
+				<xsd:attribute ref="imp:AttributeWithSimpleType" />
+				<xsd:attributeGroup ref="tns:AttributeGroupDefinition" />
+				
+			</xsd:complexType>
+			<xsd:element name="myEl" type="tns:CountryCode" />
+			<xsd:group name="ModelGroupDefinition">
+				<xsd:sequence>
+					<xsd:element name="elementm1" type="imp:CatalogueItemID" />
+					<xsd:element name="elementm2" type="xsd:int" />
+					<xsd:sequence>
+						<xsd:element name="elementm4">
+							<xsd:simpleType>
+								<xsd:restriction base="imp:ContactPersonPartyID">
+									<xsd:maxLength value="40" />
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:group ref="imp:ModelGroupDefinitionOne"/>
+					</xsd:sequence>
+				</xsd:sequence>
+			</xsd:group>
+			<xsd:attributeGroup name="AttributeGroupDefinition">
+				<xsd:attribute name="attributea1" type="xsd:string" />
+				<xsd:attribute name="attributea2">
+					<xsd:simpleType>
+						<xsd:restriction base="imp:ActionCode">
+							<xsd:length value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute ref="imp:AttributeWithSimpleTypeOne" />
+				<xsd:attributeGroup ref="imp:AttributeGroupDefinitionOne" />
+				<xsd:anyAttribute />
+			</xsd:attributeGroup>
+			<xsd:simpleType name="CountryCode">
+				<xsd:restriction base="xsd:token">
+					<xsd:length value="3" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="AcceptanceStatusCodeOne">
+				<xsd:restriction base="imp:AcceptanceStatusCode">
+					<xsd:length value="2" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:schema>
+	</wsdl:types>
+</wsdl:definitions>
