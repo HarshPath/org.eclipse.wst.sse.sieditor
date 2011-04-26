@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/wsdlspace/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="wsdl space" targetNamespace="http://www.example.org/wsdlspace/">
-    <wsdl:types><xsd:schema xmlns:ns0="http://www.example.org/wsdlspace/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/wsdlspace/"><xsd:element name="Element1"><xsd:complexType><xsd:sequence><xsd:element minOccurs="1" maxOccurs="1" name="string" type="xsd:string"></xsd:element></xsd:sequence></xsd:complexType></xsd:element><xsd:element name="Element2"><xsd:complexType><xsd:sequence><xsd:element minOccurs="1" maxOccurs="1" name="string" type="xsd:string"></xsd:element></xsd:sequence></xsd:complexType></xsd:element></xsd:schema></wsdl:types>
-    <wsdl:message name="NewOperation1Request"><wsdl:part name="Parameter" element="tns:Element1"></wsdl:part></wsdl:message>
-    <wsdl:message name="NewOperation1Response"><wsdl:part name="Parameter" element="tns:Element2"></wsdl:part></wsdl:message>
-    <wsdl:portType name="ServiceInterface1"><wsdl:operation name="NewOperation1"><wsdl:input message="tns:NewOperation1Request"></wsdl:input><wsdl:output message="tns:NewOperation1Response"></wsdl:output></wsdl:operation></wsdl:portType>
-</wsdl:definitions>

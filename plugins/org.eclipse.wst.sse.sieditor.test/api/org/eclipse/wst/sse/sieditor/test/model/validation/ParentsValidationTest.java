@@ -43,7 +43,7 @@ import org.eclipse.wst.sse.sieditor.test.util.ResourceUtils;
 import org.eclipse.wst.sse.sieditor.test.util.SIEditorBaseTest;
 import org.junit.Before;
 import org.junit.Test;
-
+//A Transaction Rollback exception is thrown in the end ot the test execution. This is perfectly normal and out of the test scope!
 @SuppressWarnings("nls")
 public class ParentsValidationTest extends SIEditorBaseTest {
 
@@ -77,7 +77,7 @@ public class ParentsValidationTest extends SIEditorBaseTest {
         env.setOperationHistory(operationHistory);
         env.setUndoContext(ctx);
     }
-
+  //A Transaction Rollback exception is thrown in the end ot the test execution. This is perfectly normal and out of the test scope!
     @Test
     public void testParentsAreInvalid() throws Throwable {
 
@@ -88,7 +88,6 @@ public class ParentsValidationTest extends SIEditorBaseTest {
 
                 ISchema modelsSchema = modelDescription
                         .getSchema("http://webservices.amazon.com/AWSECommerceService/2010-04-01_simplified")[0];
-
                 validationService.validate(modelsSchema);
                 IValidationStatusProvider validationStatusProvider = validationService.getValidationStatusProvider();
                 assertNotNull(validationStatusProvider.getStatus(modelsSchema));

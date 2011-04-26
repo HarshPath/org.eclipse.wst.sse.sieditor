@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:ns0="http://namespace1" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:Q1="http://www.example.org/NamespaceImportsXSD" xmlns:ns2="http://namespace3"
+	xmlns:ns1="http://namespace2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://www.example.org/NewWSDLFile/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	targetNamespace="http://namespace1">
+    <xsd:import schemaLocation="DependentSchema1.xsd" namespace="http://www.example.org/NewWSDLFile/"></xsd:import>
+    <xsd:import schemaLocation="DependentSchema2.xsd" namespace="http://namespace3"></xsd:import>
+	<xsd:import schemaLocation="DependentSchema3.xsd" namespace="http://namespace2"></xsd:import>
+	<xsd:import schemaLocation="NamespaceImportsXSD.xsd"
+		namespace="http://www.example.org/NamespaceImportsXSD" />
+	<xsd:complexType name="StructureType1">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:NCName" />
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:element name="Element2" type="ns1:SimpleType1" />
+	<xsd:element name="Element1">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element minOccurs="1" maxOccurs="1" name="string"
+					type="xsd:string" />
+				<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+					type="xsd:string" />
+				<xsd:element minOccurs="1" maxOccurs="1" name="Element2"
+					type="xsd:string" />
+			</xsd:sequence>
+			<xsd:attribute name="Attribute1" type="xsd:string" />
+			<xsd:attribute name="Attribute2" type="xsd:string" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Element3" type="ns2:SimpleType2" />
+	<xsd:complexType name="StructureType2">
+		<xsd:sequence>
+			<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+				type="Q1:StructureTypeImport1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StructureType3">
+		<xsd:sequence>
+			<xsd:element minOccurs="1" maxOccurs="1" ref="tns:NewOperation" />
+			<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+				type="xsd:string" />
+			<xsd:element minOccurs="1" maxOccurs="1" name="Element2"
+				type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Element3" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+		<xsd:attribute name="Attribute1" type="xsd:string" />
+		<xsd:attribute name="Attribute2" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="StructureType4">
+		<xsd:sequence>
+			<xsd:element minOccurs="1" maxOccurs="1" name="string"
+				type="xsd:string" />
+			<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+				type="xsd:string" />
+			<xsd:element minOccurs="1" maxOccurs="1" name="Element2"
+				type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="Attribute1" type="xsd:string" />
+		<xsd:attribute name="Attribute2" type="xsd:string" />
+	</xsd:complexType>
+</xsd:schema>

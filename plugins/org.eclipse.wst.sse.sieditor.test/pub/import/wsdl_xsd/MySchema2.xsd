@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xsd:schema xmlns:this="http:///test_730_sp1/test/import/MySchema2.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http:///test_730_sp1/test/import/MySchema2.xsd"><xsd:element name="GlobalElement2"><xsd:complexType><xsd:sequence><xsd:element minOccurs="1" maxOccurs="1" name="string" type="xsd:string"></xsd:element></xsd:sequence></xsd:complexType></xsd:element></xsd:schema>

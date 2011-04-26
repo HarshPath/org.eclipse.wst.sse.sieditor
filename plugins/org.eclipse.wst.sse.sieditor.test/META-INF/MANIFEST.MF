@@ -32,7 +32,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.wst.sse.sieditor.core;bundle-version="1.0.0",
  org.eclipse.wst.sse.sieditor.fwk;bundle-version="1.0.0",
  org.eclipse.wst.sse.sieditor.model;bundle-version="1.0.0",
- org.eclipse.wst.sse.sieditor.ui;bundle-version="1.0.0"
+ org.eclipse.wst.sse.sieditor.ui;bundle-version="1.0.0",
+ org.easymock3;bundle-version="3.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.wst.sse.sieditor.test;uses:="org.osgi.framework",

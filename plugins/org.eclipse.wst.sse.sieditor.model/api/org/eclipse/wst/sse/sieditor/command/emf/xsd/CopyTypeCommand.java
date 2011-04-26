@@ -816,7 +816,7 @@ public class CopyTypeCommand extends AbstractNotificationOperation {
                 }
 
                 XSDSchemaDirective directive = null;
-                if (null == nameSpace || schema.getTargetNamespace().equals(nameSpace)) {
+                if (null == nameSpace || nameSpace.equals(schema.getTargetNamespace())) {
                     final Collection<XSDInclude> includes = EmfXsdUtils.filterComponents(schema.getContents(), XSDInclude.class);
                     for (final XSDInclude include : includes) {
                         if (null != schemaRelativePath && schemaRelativePath.equals(include.getSchemaLocation())) {

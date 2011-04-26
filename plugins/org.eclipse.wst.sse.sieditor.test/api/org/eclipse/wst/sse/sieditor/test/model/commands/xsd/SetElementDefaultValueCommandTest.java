@@ -26,6 +26,7 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
 import org.eclipse.wst.sse.sieditor.test.model.commands.AbstractCommandTest;
+import org.eclipse.wst.sse.sieditor.ui.v2.UIConstants;
 
 public class SetElementDefaultValueCommandTest extends AbstractCommandTest {
     private static final String TARGET_NAMESPACE = "http://www.example.org/NewWSDLFile/";
@@ -57,8 +58,8 @@ public class SetElementDefaultValueCommandTest extends AbstractCommandTest {
     	XSDElementDeclaration elementDeclaration = (XSDElementDeclaration) ((XSDParticle)elementInt.getComponent()).getContent();
     	assertEquals("Default value not unset to element.", null, elementDeclaration.getValue());
     	
-    	String defaultAttributeValue = elementDeclaration.getElement().getAttribute(XSDConstants.DEFAULT_ATTRIBUTE);
-    	assertEquals("Default value not unset to DOM attribute.", null, defaultAttributeValue);
+    	boolean hasAttribute = elementDeclaration.getElement().hasAttribute(XSDConstants.DEFAULT_ATTRIBUTE);
+    	assertFalse("Default value not unset to DOM attribute.", hasAttribute);
     }
 
     @Override

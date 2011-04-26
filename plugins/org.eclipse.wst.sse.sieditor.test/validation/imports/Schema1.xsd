@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Schema1"
-	xmlns:tns="http://www.example.org/Schema1" elementFormDefault="qualified"
-	xmlns:Q1="http://www.example.org/Schema2">
-	<import schemaLocation="Schema2.xsd" namespace="http://www.example.org/Schema"></import>
-	<element name="Element1" type="Q1:SimpleType1">
-    </element>
-</schema>

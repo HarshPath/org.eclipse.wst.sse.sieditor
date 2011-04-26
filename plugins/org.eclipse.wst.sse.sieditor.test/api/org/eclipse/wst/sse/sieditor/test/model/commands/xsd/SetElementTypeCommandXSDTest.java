@@ -32,6 +32,7 @@ import org.eclipse.wst.sse.sieditor.model.xsd.impl.AbstractType;
 import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
 import org.eclipse.wst.sse.sieditor.test.model.commands.AbstractXSDCommandTest;
 import org.eclipse.wst.sse.sieditor.test.util.ResourceUtils;
+import org.eclipse.wst.sse.sieditor.ui.v2.UIConstants;
 
 public class SetElementTypeCommandXSDTest extends AbstractXSDCommandTest {
         
@@ -66,8 +67,8 @@ public class SetElementTypeCommandXSDTest extends AbstractXSDCommandTest {
         final Element xsdElement = element2.getElements("Sch2Element1").iterator().next().getComponent().getElement();
         
         assertTrue("Element2 must has 'ref' to Sch2Element1", xsdElement.getAttribute("ref").length() > 0);
-        assertEquals("Element2 must not has 'type' xml attribute.", null, xsdElement.getAttribute("type"));
-        assertEquals("Element2 must not has 'name' xml attribute.", null, xsdElement.getAttribute("name"));
+        assertFalse("Element2 must not has 'type' xml attribute.", xsdElement.hasAttribute("type"));
+        assertFalse("Element2 must not has 'name' xml attribute.", xsdElement.hasAttribute("name"));
         
         int numberOfImports = 0;
         for(final XSDSchemaContent content : mySchema.getComponent().getContents()) {
@@ -88,7 +89,7 @@ public class SetElementTypeCommandXSDTest extends AbstractXSDCommandTest {
         
         final Element xsdElement = element2.getElements("string").iterator().next().getComponent().getElement();
         
-        assertEquals("Element2 must not has 'ref' to Sch2Element1", null, xsdElement.getAttribute("ref"));
+        assertEquals("Element2 must not has 'ref' to Sch2Element1", UIConstants.EMPTY_STRING, xsdElement.getAttribute("ref"));
         assertTrue("Element2 must has 'type' xml attribute.", xsdElement.getAttribute("type").length() > 0);
         assertTrue("Element2 must has 'name' xml attribute.", xsdElement.getAttribute("name").length() > 0);
         
