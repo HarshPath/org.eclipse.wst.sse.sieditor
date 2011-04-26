@@ -283,7 +283,7 @@ public class SIFormPageController extends AbstractFormPageController {
     /*
      * Adds a new Input parameter for
      */
-    private void addNewInputParameter(final IOperation operation) {
+    protected void addNewInputParameter(final IOperation operation) {
 
         final String newInputParamName = NameGenerator.getInputParameterName(operation);
 
@@ -335,7 +335,7 @@ public class SIFormPageController extends AbstractFormPageController {
     /*
      * Adds a Output parameter to the given Operation
      */
-    private void addNewOutputParameter(final IOperation operation) {
+    protected void addNewOutputParameter(final IOperation operation) {
 
         final String newOutputParamName = NameGenerator.getOutputParameterName(operation);
 
