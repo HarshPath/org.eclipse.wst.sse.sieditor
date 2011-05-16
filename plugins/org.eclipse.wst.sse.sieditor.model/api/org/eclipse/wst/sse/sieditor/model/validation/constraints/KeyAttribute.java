@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.validation.IValidationContext;
 import org.eclipse.emf.validation.model.ConstraintStatus;
+import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 import org.eclipse.wst.wsdl.Binding;
 import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Import;
@@ -36,8 +37,6 @@ import org.eclipse.wst.wsdl.PortType;
 import org.eclipse.wst.wsdl.Service;
 import org.eclipse.wst.wsdl.WSDLElement;
 import org.eclipse.wst.wsdl.WSDLPackage;
-
-import org.eclipse.wst.sse.sieditor.model.i18n.Messages;
 
 public class KeyAttribute extends AbstractConstraint {
 
@@ -70,21 +69,27 @@ public class KeyAttribute extends AbstractConstraint {
                     new ConstraintData(element, WSDLPackage.DEFINITION__EBINDINGS, WSDLPackage.Literals.BINDING__QNAME),
                     new ConstraintData(element, WSDLPackage.DEFINITION__ESERVICES, WSDLPackage.Literals.SERVICE__QNAME),
                     new ConstraintData(element, WSDLPackage.DEFINITION__EIMPORTS, WSDLPackage.Literals.IMPORT__NAMESPACE_URI) };
-        } else if (element instanceof Message) {
-            return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__EMESSAGES,
-                    WSDLPackage.Literals.MESSAGE__QNAME) };
-        } else if (element instanceof PortType) {
-            return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__EPORT_TYPES,
-                    WSDLPackage.Literals.PORT_TYPE__QNAME) };
-        } else if (element instanceof Binding) {
-            return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__EBINDINGS,
-                    WSDLPackage.Literals.BINDING__QNAME) };
-        } else if (element instanceof Service) {
-            return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__ESERVICES,
-                    WSDLPackage.Literals.SERVICE__QNAME) };
-        } else if (element instanceof Import) {
-            return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__EIMPORTS,
-                    WSDLPackage.Literals.IMPORT__NAMESPACE_URI) };
+        } else {
+            if (element.eContainer() == null) {
+                // inner elements with null container are deleted and should not be processed
+                return new ConstraintData[] {};
+            }
+            if (element instanceof Message) {
+                return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__EMESSAGES,
+                        WSDLPackage.Literals.MESSAGE__QNAME) };
+            } else if (element instanceof PortType) {
+                return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__EPORT_TYPES,
+                        WSDLPackage.Literals.PORT_TYPE__QNAME) };
+            } else if (element instanceof Binding) {
+                return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__EBINDINGS,
+                        WSDLPackage.Literals.BINDING__QNAME) };
+            } else if (element instanceof Service) {
+                return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__ESERVICES,
+                        WSDLPackage.Literals.SERVICE__QNAME) };
+            } else if (element instanceof Import) {
+                return new ConstraintData[] { new ConstraintData(element.getContainer(), WSDLPackage.DEFINITION__EIMPORTS,
+                        WSDLPackage.Literals.IMPORT__NAMESPACE_URI) };
+            }
         }
 
         throw new IllegalArgumentException();
@@ -106,7 +111,7 @@ public class KeyAttribute extends AbstractConstraint {
             Set<Object> allKeys = new HashSet<Object>();
             EList<WSDLElement> collection = (EList<WSDLElement>) parent.eGet(collectionFeature);
             List<IStatus> statusList = new ArrayList<IStatus>(collection.size());
-            
+
             // the location of the error will be the name
             Collection<EObject> locus = new ArrayList<EObject>();
             locus.add(this.keyFeature);
