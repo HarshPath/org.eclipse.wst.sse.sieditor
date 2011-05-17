@@ -14,20 +14,12 @@
  *******************************************************************************/
 package org.eclipse.wst.sse.sieditor.test.model.commands.wsdl;
 
-import java.io.IOException;
 import java.util.Collection;
 
 import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.wst.sse.sieditor.test.model.commands.AbstractCommandChainTest;
-import org.eclipse.wst.sse.sieditor.test.util.ResourceUtils;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDParticle;
-import org.junit.Before;
-
 import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
 import org.eclipse.wst.sse.sieditor.command.emf.wsdl.InlineNamespaceCompositeCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetElementTypeCommand;
@@ -36,9 +28,11 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IStructureType;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
-import org.eclipse.wst.sse.sieditor.model.xsd.impl.Element;
 import org.eclipse.wst.sse.sieditor.model.xsd.impl.StructureType;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.ComplexType;
+import org.eclipse.wst.sse.sieditor.test.model.commands.AbstractCommandChainTest;
+import org.eclipse.wst.sse.sieditor.test.util.ResourceUtils;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.junit.Before;
 
 public class ReconcilerCalledAfterInliningTest extends AbstractCommandChainTest {
     private static final String XSD1_NS = "http://www.example.org/NamespaceImportsXSD";

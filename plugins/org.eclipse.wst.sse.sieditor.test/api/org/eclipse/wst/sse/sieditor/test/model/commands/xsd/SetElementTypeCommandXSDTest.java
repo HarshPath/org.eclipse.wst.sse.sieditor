@@ -25,6 +25,7 @@ import org.w3c.dom.Element;
 import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.SetElementTypeCommand;
 import org.eclipse.wst.sse.sieditor.model.api.IXSDModelRoot;
+import org.eclipse.wst.sse.sieditor.model.utils.ElementAttributeUtils;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
@@ -89,7 +90,7 @@ public class SetElementTypeCommandXSDTest extends AbstractXSDCommandTest {
         
         final Element xsdElement = element2.getElements("string").iterator().next().getComponent().getElement();
         
-        assertEquals("Element2 must not has 'ref' to Sch2Element1", UIConstants.EMPTY_STRING, xsdElement.getAttribute("ref"));
+        assertFalse("Element2 must not has 'ref' to Sch2Element1", ElementAttributeUtils.hasAttributeValue(xsdElement, "ref"));
         assertTrue("Element2 must has 'type' xml attribute.", xsdElement.getAttribute("type").length() > 0);
         assertTrue("Element2 must has 'name' xml attribute.", xsdElement.getAttribute("name").length() > 0);
         

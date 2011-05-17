@@ -31,6 +31,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 
 import org.eclipse.wst.sse.sieditor.model.api.IModelObject;
+import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IFault;
@@ -114,7 +115,9 @@ public abstract class TypePropertyEditor extends AbstractProblemDecoratableContr
         protected boolean hasToOpenTheSelectedTypeInNewEditor(final ITreeNode input, final IType selectedType) {
             // reach the parent model root in case that the input object is
             // imported tree node
-            final IModelObject originalModelObject = input.getModelObject().getModelRoot().getModelObject();
+            IModelObject modelObject = input.getModelObject();
+			IModelRoot modelRoot = modelObject.getModelRoot();
+			final IModelObject originalModelObject = modelRoot.getModelObject();
             final Collection<ISchema> allVisibleSchemas = new HashSet<ISchema>();
             if (originalModelObject instanceof IDescription) {
                 allVisibleSchemas.addAll(((IDescription) originalModelObject).getAllVisibleSchemas());
