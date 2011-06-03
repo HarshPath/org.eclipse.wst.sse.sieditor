@@ -13,7 +13,7 @@
 	</properties>
  
 	<modules>
-	
+	 
 		<module>../../plugins/org.eclipse.wst.sse.sieditor.core</module>
 		<module>../../plugins/org.eclipse.wst.sse.sieditor.fwk</module>
 		<module>../../plugins/org.eclipse.wst.sse.sieditor.model</module>
