@@ -134,16 +134,7 @@ Export-Package: org.eclipse.wst.sse.sieditor.test;uses:="org.osgi.framework",
   uses:="org.eclipse.core.runtime,
    org.eclipse.jface.resource,
    org.eclipse.wst.sse.sieditor.ui.v2.input,
-   org.eclipse.ui",
- org.eclipse.wst.sse.sieditor.test.wizard;uses:="junit.framework,org.eclipse.wst.sse.sieditor.test.util",
- org.eclipse.wst.sse.sieditor.test.wizard.mocks;
-  uses:="org.eclipse.ui,
-   org.eclipse.core.resources,
-   org.eclipse.jface.viewers,
-   org.eclipse.swt.widgets,
-   org.eclipse.wst.sse.sieditor.ui.listeners,
-   org.eclipse.wst.sse.sieditor.ui.view,
-   org.eclipse.wst.sse.sieditor.fwk.mvp.ui"
+   org.eclipse.ui"
 Bundle-ClassPath: .
 Eclipse-RegisterBuddy: org.eclipse.wst.sse.sieditor.ui
 Import-Package: org.eclipse.ui.editors.text,

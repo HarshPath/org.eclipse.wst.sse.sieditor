@@ -30,9 +30,6 @@ import org.eclipse.wst.sse.sieditor.test.model.xsd.ResolveReferredSchemasCommand
 import org.eclipse.wst.sse.sieditor.test.model.xsd.XSDModelRootTest;
 import org.eclipse.wst.sse.sieditor.test.ui.TestXMLModelNotifierWrapper;
 import org.eclipse.wst.sse.sieditor.test.ui.XMLModelNotifierWrapperSingleTransactionTest;
-import org.eclipse.wst.sse.sieditor.test.wizard.WizardCreatorTest;
-import org.eclipse.wst.sse.sieditor.test.wizard.WizardTest;
-import org.eclipse.wst.sse.sieditor.test.wizard.WizardViewFactoryTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -50,9 +47,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	ModelCommandsTestSuite.class,
 	XSDModelRootTest.class,
 	TestSuiteForMVP.class,
-	WizardTest.class,
-	WizardCreatorTest.class,
-	WizardViewFactoryTest.class,
 	AbstractModelObjectFactoryTest.class,
 	ModelHandlerTest.class,
 	EmfXsdUtilsTest.class,

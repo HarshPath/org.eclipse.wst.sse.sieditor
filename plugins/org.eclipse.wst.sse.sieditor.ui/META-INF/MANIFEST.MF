@@ -40,17 +40,10 @@ Export-Package: org.eclipse.wst.sse.sieditor.ui;
    org.eclipse.core.resources,
    org.eclipse.swt.graphics,
    org.osgi.framework",
- org.eclipse.wst.sse.sieditor.ui.factory;
-  uses:="org.eclipse.core.runtime,
-   org.eclipse.jface.viewers,
-   org.eclipse.wst.sse.sieditor.ui.listeners,
-   org.eclipse.wst.sse.sieditor.ui.view,
-   org.eclipse.wst.sse.sieditor.fwk.mvp.ui",
  org.eclipse.wst.sse.sieditor.ui.i18n;uses:="org.eclipse.osgi.util",
  org.eclipse.wst.sse.sieditor.ui.listeners;uses:="org.eclipse.wst.sse.sieditor.fwk.mvp.ui",
  org.eclipse.wst.sse.sieditor.ui.preedit,
  org.eclipse.wst.sse.sieditor.ui.preferences,
- org.eclipse.wst.sse.sieditor.ui.presenters;uses:="org.eclipse.wst.sse.sieditor.ui.view,org.eclipse.wst.sse.sieditor.fwk.mvp.ui",
  org.eclipse.wst.sse.sieditor.ui.providers;
   uses:="org.eclipse.wst.sse.sieditor.ui.v2.dt.nodes,
    org.eclipse.wst.sse.sieditor.model.api,
@@ -222,15 +215,6 @@ Export-Package: org.eclipse.wst.sse.sieditor.ui;
    org.eclipse.ui,
    org.eclipse.ui.part,
    org.eclipse.wst.sse.sieditor.ui.view,
-   org.eclipse.wst.sse.ui",
- org.eclipse.wst.sse.sieditor.ui.wizard;
-  uses:="org.eclipse.jface.wizard,
-   org.eclipse.ui,
-   org.eclipse.core.resources,
-   org.eclipse.jface.viewers,
-   org.eclipse.swt.widgets,
-   org.eclipse.wst.sse.sieditor.ui.view,
-   org.eclipse.wst.sse.sieditor.ui.listeners,
-   org.eclipse.wst.sse.sieditor.fwk.mvp.ui"
+   org.eclipse.wst.sse.ui"
 Bundle-Localization: plugin
 Eclipse-BuddyPolicy: registered
