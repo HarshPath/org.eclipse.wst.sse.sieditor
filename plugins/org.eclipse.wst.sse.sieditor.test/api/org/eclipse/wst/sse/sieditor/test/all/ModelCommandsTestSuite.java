@@ -103,6 +103,7 @@ import org.eclipse.wst.sse.sieditor.test.model.commands.xsd.AddEnumerationFacetC
 import org.eclipse.wst.sse.sieditor.test.model.commands.xsd.AddFacetCommandTest;
 import org.eclipse.wst.sse.sieditor.test.model.commands.xsd.AddFacetToElementTest;
 import org.eclipse.wst.sse.sieditor.test.model.commands.xsd.AddGlobalElementCommandTest;
+import org.eclipse.wst.sse.sieditor.test.model.commands.xsd.AddGlobalElementToSchemaWithNullTargetNamespaceTest;
 import org.eclipse.wst.sse.sieditor.test.model.commands.xsd.AddSchemaForSchemaXSDCommandTest;
 import org.eclipse.wst.sse.sieditor.test.model.commands.xsd.AddSimpleTypeCommandTest;
 import org.eclipse.wst.sse.sieditor.test.model.commands.xsd.CopyElementCommandTest;
@@ -176,10 +177,11 @@ import org.junit.runners.Suite.SuiteClasses;
     AddEnumFacetToElementTest.class,
     AddComplexTypeCommandTest.class,
     AddGlobalElementCommandTest.class,
+    AddGlobalElementToSchemaWithNullTargetNamespaceTest.class,
     /*
      * AddAnotationToXSDTypeDefinitionCommandTest. class , - EXCLUDED UNTIL
      * THE FEATURE IS FIXED
-     */
+     */ 
     AddAnotationToXSDElementDeclarationCommandTest.class,
     AddAnotationToXSDAttributeDeclarationCommandTest.class,
     AddAnotationToXSDAttributeDeclarationSimpleCommandTest.class,
@@ -259,7 +261,6 @@ import org.junit.runners.Suite.SuiteClasses;
     SetElementTypeCommandXSDTest.class,
     OperationsOnRemovedObjectTest.class,
     AddMessageNoNSCommandTest.class,
-
     SetElementTypeCannotReuseFacetsCommandTest.class,
     SetElementTypeReuseFacetsCommandTest.class,
     TestRenamePartCommandWithMultiReferredPart.class,
@@ -267,11 +268,9 @@ import org.junit.runners.Suite.SuiteClasses;
     MakeTypeAnonymousCommandTest.class,
     InlineStructureTypeCommandTest.class,
     ToggleBetweenMakeTypeAnonymousAndMakeTypeGlobalCommandTest.class,
-
     SetTargetNamespaceTestsSuite.class,
     CompositeTextOperationWrapperTest.class,
     AddGlobalElementAndRenameToExistingOneCommandTest.class,
-
     ExtractNamespaceRunnableWithoutImportTest.class,
     ExtractNamespaceRunnableWithImportTest.class,
     SchemaDependenciesUtilsTest.class,
@@ -283,10 +282,8 @@ import org.junit.runners.Suite.SuiteClasses;
     CloneNamespaceCommandTest.class,
     InlineNamespaceCompositeCommandTest.class,
     InlineNamespaceCompositeCommandTestWithAnnotations.class,
-
     SetStructureTypeBaseTypeTestsSuite.class,
     CompositeTextOperationWrapperNotifiesTest.class,
-
     SetAttributeDefaultValueCommandTest.class,
     SetElementDefaultValueCommandTest.class,
     ReconcilerCalledAfterInliningTest.class,

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="Element1" type="StructureType1"/>
+	<xsd:complexType name="StructureType1">
+		<xsd:sequence>
+			<xsd:element minOccurs="1" maxOccurs="1" name="Element1"
+				type="xsd:string"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

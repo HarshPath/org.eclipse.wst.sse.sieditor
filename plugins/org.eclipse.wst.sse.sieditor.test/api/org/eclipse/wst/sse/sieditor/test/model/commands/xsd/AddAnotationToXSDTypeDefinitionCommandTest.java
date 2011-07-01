@@ -15,9 +15,6 @@
 package org.eclipse.wst.sse.sieditor.test.model.commands.xsd;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDTypeDefinition;
-
 import org.eclipse.wst.sse.sieditor.command.common.AbstractNotificationOperation;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.AddAnotationCommand;
 import org.eclipse.wst.sse.sieditor.command.emf.xsd.AddSimpleTypeCommand;
@@ -27,58 +24,64 @@ import org.eclipse.wst.sse.sieditor.model.impl.XSDFactory;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
 import org.eclipse.wst.sse.sieditor.test.model.commands.AbstractCommandTest;
+import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDTypeDefinition;
+import org.junit.Ignore;
 
 /**
  * This test fails due to a bug or wrong usage of classes from org.eclipse.xsd
  * When the issue is fixed, the test should perform fine
- * 
- *
- * 
  */
 public class AddAnotationToXSDTypeDefinitionCommandTest extends AbstractCommandTest {
-    private static final String TYPE_NAME = "SimpleTypeWithDoc"; //$NON-NLS-1$
-    private static final String TARGET_NAMESPACE = "http://sap.com/xi/Purchasing"; //$NON-NLS-1$
+	private static final String TYPE_NAME = "SimpleTypeWithDoc"; //$NON-NLS-1$
+	private static final String TARGET_NAMESPACE = "http://sap.com/xi/Purchasing"; //$NON-NLS-1$
 
-    @Override
-    protected void assertPostRedoState(final IStatus redoStatus, final IWsdlModelRoot modelRoot) {
-        final XSDNamedComponent component = modelRoot.getDescription().getSchema(TARGET_NAMESPACE)[0].getType(false, TYPE_NAME)
-                .getComponent();
-        assertTrue(component instanceof XSDTypeDefinition);
-        assertNotNull(((XSDTypeDefinition) component).getAnnotation());
-        assertTrue(((XSDTypeDefinition) component).getAnnotations().size() == 1);
-    }
+	@Ignore("this test is skipped because of bug in the eclipse xsd project")
+	@Override
+	public void testCommandExecution() throws Throwable {
+		super.testCommandExecution();
+	}
 
-    @Override
-    protected void assertPostUndoState(final IStatus undoStatus, final IWsdlModelRoot modelRoot) {
-        final XSDNamedComponent component = modelRoot.getDescription().getSchema(TARGET_NAMESPACE)[0].getType(false, TYPE_NAME)
-                .getComponent();
-        assertTrue(component instanceof XSDTypeDefinition);
-        assertNull(((XSDTypeDefinition) component).getAnnotation());
-        assertTrue(((XSDTypeDefinition) component).getAnnotations().size() == 0);
-    }
+	@Override
+	protected void assertPostRedoState(final IStatus redoStatus, final IWsdlModelRoot modelRoot) {
+		final XSDNamedComponent component = modelRoot.getDescription().getSchema(TARGET_NAMESPACE)[0].getType(false,
+				TYPE_NAME).getComponent();
+		assertTrue(component instanceof XSDTypeDefinition);
+		assertNotNull(((XSDTypeDefinition) component).getAnnotation());
+		assertTrue(((XSDTypeDefinition) component).getAnnotations().size() == 1);
+	}
 
-    @Override
-    protected AbstractNotificationOperation getOperation(final IWsdlModelRoot modelRoot) throws Exception {
-        final ISchema schema = modelRoot.getDescription().getSchema(TARGET_NAMESPACE)[0];
-        final IXSDModelRoot xsdModelRoot = XSDFactory.getInstance().createXSDModelRoot(schema.getComponent());
-        final AddSimpleTypeCommand command = new AddSimpleTypeCommand(xsdModelRoot, schema, TYPE_NAME) {
-            @Override
-            public boolean canUndo() {
-                return false;
-            }
+	@Override
+	protected void assertPostUndoState(final IStatus undoStatus, final IWsdlModelRoot modelRoot) {
+		final XSDNamedComponent component = modelRoot.getDescription().getSchema(TARGET_NAMESPACE)[0].getType(false,
+				TYPE_NAME).getComponent();
+		assertTrue(component instanceof XSDTypeDefinition);
+		assertNull(((XSDTypeDefinition) component).getAnnotation());
+		assertTrue(((XSDTypeDefinition) component).getAnnotations().size() == 0);
+	}
 
-            @Override
-            public boolean canRedo() {
-                return false;
-            }
-        };
-        assertTrue(xsdModelRoot.getEnv().execute(command).isOK());
-        final IType type = schema.getType(false, TYPE_NAME);
-        final XSDNamedComponent component = type.getComponent();
-        assertTrue(component instanceof XSDTypeDefinition);
-        final XSDTypeDefinition typeDef = (XSDTypeDefinition) component;
-        assertNull(typeDef.getAnnotation());
-        return new AddAnotationCommand(typeDef, xsdModelRoot, type);
-    }
+	@Override
+	protected AbstractNotificationOperation getOperation(final IWsdlModelRoot modelRoot) throws Exception {
+		final ISchema schema = modelRoot.getDescription().getSchema(TARGET_NAMESPACE)[0];
+		final IXSDModelRoot xsdModelRoot = XSDFactory.getInstance().createXSDModelRoot(schema.getComponent());
+		final AddSimpleTypeCommand command = new AddSimpleTypeCommand(xsdModelRoot, schema, TYPE_NAME) {
+			@Override
+			public boolean canUndo() {
+				return false;
+			}
+
+			@Override
+			public boolean canRedo() {
+				return false;
+			}
+		};
+		assertTrue(xsdModelRoot.getEnv().execute(command).isOK());
+		final IType type = schema.getType(false, TYPE_NAME);
+		final XSDNamedComponent component = type.getComponent();
+		assertTrue(component instanceof XSDTypeDefinition);
+		final XSDTypeDefinition typeDef = (XSDTypeDefinition) component;
+		assertNull(typeDef.getAnnotation());
+		return new AddAnotationCommand(typeDef, xsdModelRoot, type);
+	}
 
 }
