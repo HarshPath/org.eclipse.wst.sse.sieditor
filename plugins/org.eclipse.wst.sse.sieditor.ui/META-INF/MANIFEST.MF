@@ -41,7 +41,8 @@ Export-Package: org.eclipse.wst.sse.sieditor.ui;
    org.eclipse.swt.graphics,
    org.osgi.framework",
  org.eclipse.wst.sse.sieditor.ui.i18n;uses:="org.eclipse.osgi.util",
- org.eclipse.wst.sse.sieditor.ui.listeners;uses:="org.eclipse.wst.sse.sieditor.fwk.mvp.ui",
+ org.eclipse.wst.sse.sieditor.ui.listeners,
+ org.eclipse.wst.sse.sieditor.ui.listeners.impl,
  org.eclipse.wst.sse.sieditor.ui.preedit,
  org.eclipse.wst.sse.sieditor.ui.preferences,
  org.eclipse.wst.sse.sieditor.ui.providers;

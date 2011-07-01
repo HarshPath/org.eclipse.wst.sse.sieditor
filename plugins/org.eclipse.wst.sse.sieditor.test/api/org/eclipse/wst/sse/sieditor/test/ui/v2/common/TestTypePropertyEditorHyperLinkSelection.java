@@ -18,19 +18,6 @@ import java.util.Collection;
 
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
-import org.eclipse.wst.sse.sieditor.ui.v2.AbstractFormPageController;
-import org.eclipse.wst.sse.sieditor.ui.v2.dt.DataTypesEditorPage;
-import org.eclipse.wst.sse.sieditor.ui.v2.dt.ITypeDisplayer;
-import org.eclipse.wst.sse.sieditor.ui.v2.newtypedialog.ITypeDialogStrategy;
-import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
-import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.TypePropertyEditor;
-import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.typecommitters.ITypeCommitter;
-import org.eclipse.wst.sse.sieditor.test.util.ResourceUtils;
-import org.eclipse.wst.sse.sieditor.test.util.SIEditorBaseTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import org.eclipse.wst.sse.sieditor.model.api.IWsdlModelRoot;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IOperation;
@@ -39,8 +26,22 @@ import org.eclipse.wst.sse.sieditor.model.xsd.api.IElement;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IStructureType;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.IType;
+import org.eclipse.wst.sse.sieditor.test.util.ResourceUtils;
+import org.eclipse.wst.sse.sieditor.test.util.SIEditorBaseTest;
 import org.eclipse.wst.sse.sieditor.ui.AbstractEditorPage;
 import org.eclipse.wst.sse.sieditor.ui.ServiceInterfaceEditor;
+import org.eclipse.wst.sse.sieditor.ui.v2.AbstractFormPageController;
+import org.eclipse.wst.sse.sieditor.ui.v2.dt.DataTypesEditorPage;
+import org.eclipse.wst.sse.sieditor.ui.v2.dt.DataTypesFormPageController;
+import org.eclipse.wst.sse.sieditor.ui.v2.dt.ITypeDisplayer;
+import org.eclipse.wst.sse.sieditor.ui.v2.newtypedialog.ITypeDialogStrategy;
+import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
+import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.TypePropertyEditor;
+import org.eclipse.wst.sse.sieditor.ui.v2.propertyeditor.typecommitters.ITypeCommitter;
+import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller.SIFormPageController;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 @SuppressWarnings( { "nls", "deprecation" })
 public class TestTypePropertyEditorHyperLinkSelection extends SIEditorBaseTest {
@@ -57,8 +58,8 @@ public class TestTypePropertyEditorHyperLinkSelection extends SIEditorBaseTest {
     private TypePropertyEditorTest typePropEditor;
     private DataTypesEditorPage dtPage;
     private AbstractEditorPage serviceInterfaceEditorPage;
-    private AbstractFormPageController siController;
-    private AbstractFormPageController dtController;
+    private SIFormPageController siController;
+    private DataTypesFormPageController dtController;
 
     private class TypePropertyEditorTest extends TypePropertyEditor {
 
@@ -164,8 +165,8 @@ public class TestTypePropertyEditorHyperLinkSelection extends SIEditorBaseTest {
         typePropEditor.initTypeDisplayer(new DataTypeEditorPageTest(dtPage.getEditor()));
 
         serviceInterfaceEditorPage = (AbstractEditorPage) editor.getPages().get(0);
-        siController = serviceInterfaceEditorPage.getController();
-        dtController = ((AbstractEditorPage) editor.getPages().get(1)).getController();
+        siController = (SIFormPageController)serviceInterfaceEditorPage.getController();
+        dtController = (DataTypesFormPageController)((AbstractEditorPage) editor.getPages().get(1)).getController();
     }
 
     @Test
@@ -227,7 +228,7 @@ public class TestTypePropertyEditorHyperLinkSelection extends SIEditorBaseTest {
 
     @Test
     public void testTypeHyperLinkWithImportedMessage() throws Exception {
-        final IOperation operation = modelDescription.getInterface("ServiceInterface1").get(0) //$NON-NLS-1$
+         final IOperation operation = modelDescription.getInterface("ServiceInterface1").get(0) //$NON-NLS-1$
                 .getOperation("NewOperation1").get(0); //$NON-NLS-1$
 
         final IParameter importedWsdlType1 = operation.getInputParameter("importedWsdlType1").get(0);
@@ -240,7 +241,7 @@ public class TestTypePropertyEditorHyperLinkSelection extends SIEditorBaseTest {
 
     }
 
-    private void handleLinkActivatedWhenSelectedTypeIsNotVisible(final IParameter importedWsdlType1,
+     private void handleLinkActivatedWhenSelectedTypeIsNotVisible(final IParameter importedWsdlType1,
             final IParameter importedWsdlFromSchemaType) {
         selectedTypeExistInVisibleSchemas[0] = true;
         final ITreeNode treeNodeForInternalType1 = siController.getTreeNodeMapper().getTreeNode(importedWsdlType1);

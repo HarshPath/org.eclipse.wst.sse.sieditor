@@ -16,6 +16,7 @@ package org.eclipse.wst.sse.sieditor.test.all;
 
 import org.eclipse.wst.sse.sieditor.test.core.common.TestDisposableInstances;
 import org.eclipse.wst.sse.sieditor.test.model.commands.TestUndoRedoInSourceAndEMF;
+import org.eclipse.wst.sse.sieditor.test.ui.PageChangedListenersManagerTest;
 import org.eclipse.wst.sse.sieditor.test.ui.TestAbstractDetailsPage;
 import org.eclipse.wst.sse.sieditor.test.ui.TestServiceInterfaceEditor;
 import org.eclipse.wst.sse.sieditor.test.ui.preferences.TestServiceInterfaceEditorPreferencePage;
@@ -266,18 +267,17 @@ import org.junit.runners.Suite.SuiteClasses;
     ElementDetailsSectionRefreshFromRefToNonRefReLayoutTest.class,
     TestSIEActionEnablementForSelectionManager.class,
     TestServiceInterfaceEditor.class,
-    
     EditorTitleMessagesManagerTest.class,
     TestIsSetEditValidatorWhenCreateModel.class,
     TestDisposableInstances.class,
     TestSetSelectionInSourceWithDataTypesEditor.class,
     TestSetSelectionInSourceWithSIEditor.class,
-    
     ExtractNamespaceWizardTest.class,
     ExtractSchemaTextFieldModifyListenerTest.class,
     TestSetSelectionInDTPageFromSourcePageWithDTE.class,
     TestSetSelectionInSIPageFromSourcePageWithSIE.class,
-    TestTypePropertyEditorHyperLinkSelection.class
+    TestTypePropertyEditorHyperLinkSelection.class,
+    PageChangedListenersManagerTest.class
 })
 public class UITestsSuite {
 

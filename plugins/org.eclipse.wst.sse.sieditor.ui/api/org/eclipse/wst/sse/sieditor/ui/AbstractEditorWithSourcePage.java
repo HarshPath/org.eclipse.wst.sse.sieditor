@@ -59,10 +59,6 @@ import org.eclipse.ui.operations.UndoActionHandler;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.xml.core.internal.document.XMLModelNotifier;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
-import org.w3c.dom.Document;
-
 import org.eclipse.wst.sse.sieditor.command.common.SaveCommand;
 import org.eclipse.wst.sse.sieditor.core.common.IEnvironment;
 import org.eclipse.wst.sse.sieditor.core.common.Logger;
@@ -83,10 +79,9 @@ import org.eclipse.wst.sse.sieditor.model.validation.impl.XSDDiagnosticValidatio
 import org.eclipse.wst.sse.sieditor.model.wsdl.api.IDescription;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.ui.i18n.Messages;
+import org.eclipse.wst.sse.sieditor.ui.listeners.PageChangedListenersManager;
 import org.eclipse.wst.sse.sieditor.ui.preedit.EditValidator;
 import org.eclipse.wst.sse.sieditor.ui.providers.SurrogateSelectionProvider;
-import org.eclipse.wst.sse.sieditor.ui.v2.PageChangedReconcileManager;
-import org.eclipse.wst.sse.sieditor.ui.v2.PageChangedSelectionManager;
 import org.eclipse.wst.sse.sieditor.ui.v2.UIConstants;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.ThreadUtils;
 import org.eclipse.wst.sse.sieditor.ui.v2.common.ValidationListener;
@@ -94,6 +89,9 @@ import org.eclipse.wst.sse.sieditor.ui.v2.dt.DataTypesEditorPage;
 import org.eclipse.wst.sse.sieditor.ui.v2.resources.ResourceChangeHandler;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.formpage.ServiceIntefaceEditorPage;
 import org.eclipse.wst.sse.sieditor.ui.view.impl.SISourceEditorPart;
+import org.eclipse.wst.xml.core.internal.document.XMLModelNotifier;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.w3c.dom.Document;
 
 /**
  * Base class to provide common infrastructure for the Service Interface editor
@@ -141,8 +139,7 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
 
     private IStructuredModel structuredModel;
 
-    private PageChangedSelectionManager pageChangedSelectionManager;
-    private PageChangedReconcileManager pageChangedReconcileManager;
+    private PageChangedListenersManager pageChangedListenersManager;
 
     public AbstractEditorWithSourcePage() {
         super();
@@ -366,8 +363,8 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
 
         try {
             sourcePage = new SISourceEditorPart();
-            pageChangedSelectionManager = new PageChangedSelectionManager(sourcePage);
-            pageChangedReconcileManager = new PageChangedReconcileManager();
+
+            pageChangedListenersManager = new PageChangedListenersManager(sourcePage);
 
             addPage(sourcePage, in);
             sourcePage.initPart(in, this);
@@ -395,6 +392,7 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
     public void reloadModel(final IStorageEditorInput newEditorInput, final boolean syncExec) {
         final Runnable reloadRunnable = new Runnable() {
 
+            @Override
             public void run() {
                 // Clear undo/redo history
                 final int oldUndoLimit = operationHistory.getLimit(undoContext);
@@ -465,6 +463,7 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
     private void revertModelToSaved() {
 
         final Runnable executeReload = new Runnable() {
+            @Override
             public void run() {
                 // this command should not notify SIE Model
                 final AbstractEMFOperation reloadCommand = new AbstractEMFOperation(commonModel.getEnv().getEditingDomain(),
@@ -495,8 +494,8 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
                     final IStatus status = reloadCommand.execute(null, null);
                     if (!StatusUtils.canContinue(status)) {
                         Logger.log(status);
-                        StatusUtils.showStatusDialog(Messages.AbstractEditorWithSourcePage_1, MessageFormat.format(
-                                Messages.AbstractEditorWithSourcePage_2, getPartName()), status);
+                        StatusUtils.showStatusDialog(Messages.AbstractEditorWithSourcePage_1,
+                                MessageFormat.format(Messages.AbstractEditorWithSourcePage_2, getPartName()), status);
                     }
                 } catch (final ExecutionException e) {
                     throw new RuntimeException(e);
@@ -510,6 +509,7 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
 
     protected abstract void validate();
 
+    @Override
     public void gotoMarker(final IMarker marker) {
     }
 
@@ -521,18 +521,14 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
     public void pageChange(final int newPageIndex) {
         final int oldPageIndex = getCurrentPage();
         super.pageChange(newPageIndex);
-        if (pageChangedSelectionManager != null) {
-            pageChangedSelectionManager.performSelection(newPageIndex, oldPageIndex, getPages(), getModelRoot());
-        }
-        if (pageChangedReconcileManager != null) {
-            pageChangedReconcileManager.performReconcile(newPageIndex, oldPageIndex, getPages(), getModelRoot());
-        }
+        getPageChangedListenersManager().notifyPageChanged(newPageIndex, oldPageIndex, getPages(), getModelRoot());
     }
 
     protected void validate(final Collection<? extends IModelObject> validatedEntitites) {
         final Set<String> locationUris = new HashSet<String>();
         final IWorkspaceRunnable vr = new IWorkspaceRunnable() {
 
+            @Override
             public void run(final IProgressMonitor monitor) throws CoreException {
                 final Set<IModelObject> validatedObjects = new HashSet<IModelObject>();
 
@@ -676,5 +672,9 @@ public abstract class AbstractEditorWithSourcePage extends FormEditor implements
 
     public IStructuredModel getStructuredModel() {
         return structuredModel;
+    }
+
+    public PageChangedListenersManager getPageChangedListenersManager() {
+        return pageChangedListenersManager;
     }
 }

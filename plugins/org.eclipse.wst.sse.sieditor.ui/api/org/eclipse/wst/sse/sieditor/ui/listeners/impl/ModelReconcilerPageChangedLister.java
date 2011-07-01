@@ -12,7 +12,7 @@
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
  *******************************************************************************/
-package org.eclipse.wst.sse.sieditor.ui.v2;
+package org.eclipse.wst.sse.sieditor.ui.listeners.impl;
 
 import java.util.List;
 
@@ -20,11 +20,12 @@ import org.eclipse.wst.sse.sieditor.model.api.IModelRoot;
 import org.eclipse.wst.sse.sieditor.model.reconcile.IModelReconciler;
 import org.eclipse.wst.sse.sieditor.model.reconcile.ModelReconciler;
 import org.eclipse.wst.sse.sieditor.ui.AbstractEditorPage;
+import org.eclipse.wst.sse.sieditor.ui.listeners.IPageChangedListener;
 import org.eclipse.wst.sse.sieditor.ui.view.impl.SISourceEditorPart;
 
-public class PageChangedReconcileManager {
+public class ModelReconcilerPageChangedLister implements IPageChangedListener {
 
-    public void performReconcile(final int newPageIndex, final int oldPageIndex, final List pages, final IModelRoot modelRoot) {
+    public void pageChanged(final int newPageIndex, final int oldPageIndex, final List pages, final IModelRoot modelRoot) {
         if (oldPageIndex == -1) {
             return;
         }

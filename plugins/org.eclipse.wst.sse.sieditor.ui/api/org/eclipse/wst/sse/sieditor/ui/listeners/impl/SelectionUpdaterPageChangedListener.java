@@ -12,7 +12,7 @@
  *    Nevena Manova - initial API and implementation.
  *    Georgi Konstantinov - initial API and implementation.
  *******************************************************************************/
-package org.eclipse.wst.sse.sieditor.ui.v2;
+package org.eclipse.wst.sse.sieditor.ui.listeners.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +37,7 @@ import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
 import org.eclipse.wst.sse.sieditor.model.wsdl.impl.Description;
 import org.eclipse.wst.sse.sieditor.model.xsd.api.ISchema;
 import org.eclipse.wst.sse.sieditor.ui.AbstractEditorPage;
+import org.eclipse.wst.sse.sieditor.ui.listeners.IPageChangedListener;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.DataTypesEditorPage;
 import org.eclipse.wst.sse.sieditor.ui.v2.dt.DataTypesFormPageController;
 import org.eclipse.wst.sse.sieditor.ui.v2.nodes.ITreeNode;
@@ -44,10 +45,10 @@ import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.controller.SIFormPageController;
 import org.eclipse.wst.sse.sieditor.ui.v2.wsdl.formpage.ServiceIntefaceEditorPage;
 import org.eclipse.wst.sse.sieditor.ui.view.impl.SISourceEditorPart;
 
-public class PageChangedSelectionManager {
+public class SelectionUpdaterPageChangedListener implements IPageChangedListener {
     private final SISourceEditorPart sourcePage;
 
-    public PageChangedSelectionManager(final SISourceEditorPart sourcePage) {
+    public SelectionUpdaterPageChangedListener(final SISourceEditorPart sourcePage) {
         this.sourcePage = sourcePage;
     }
 
@@ -55,7 +56,7 @@ public class PageChangedSelectionManager {
         return sourcePage;
     }
 
-    public void performSelection(final int newPageIndex, final int currentPageIndex, final List pages, final IModelRoot modelRoot) {
+    public void pageChanged(final int newPageIndex, final int currentPageIndex, final List pages, final IModelRoot modelRoot) {
         if (currentPageIndex == -1) {
             // e.g. there is no selected page already
             return;
