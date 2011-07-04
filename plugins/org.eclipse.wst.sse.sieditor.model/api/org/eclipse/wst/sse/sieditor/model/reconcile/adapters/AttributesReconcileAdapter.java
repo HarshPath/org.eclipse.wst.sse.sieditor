@@ -36,10 +36,11 @@ import org.eclipse.xsd.impl.XSDImportImpl;
 import org.eclipse.xsd.util.XSDConstants;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import org.eclipse.wst.sse.sieditor.model.reconcile.adapters.componentsource.IConcreteComponentSource;
 import org.eclipse.wst.sse.sieditor.model.utils.EmfXsdUtils;
-
 
 /**
  * Subclass of the {@link AbstractModelReconcileAdapter}. This adapter is
@@ -171,11 +172,23 @@ public class AttributesReconcileAdapter extends AbstractModelReconcileAdapter {
         final String prefix = getPrefix(attr);
         if (newValue == null) {
             /*
-             * the new value is null, so we need to remove the prefix/namespace
+             * The new value is null, so we need to remove the prefix/namespace
              * from the EMF model map. In some cases (on undo/redo) the EMF
-             * didn't do that
+             * didn't do that.
+             * 
+             * We also need to check the number of times this attribute is
+             * appearing in the schema element's body, because we don't want to
+             * update the map if more than one attribute with the same name
+             * exists. This is causing an unwanted DOM update of all the
+             * attribute values with the same name, instead of just the
+             * currently edited one.
+             * 
+             * Please note here that the currently edited attribute is already
+             * removed from DOM and that's why we check if the current count is
+             * zero
              */
-            if (xsdSchema.getQNamePrefixToNamespaceMap().containsKey(prefix)) {
+            if (countAttributeWithSameName(attr.getName(), xsdSchema.getElement()) == 0
+                    && xsdSchema.getQNamePrefixToNamespaceMap().containsKey(prefix)) {
                 xsdSchema.getQNamePrefixToNamespaceMap().remove(prefix);
             }
             /*
@@ -188,11 +201,14 @@ public class AttributesReconcileAdapter extends AbstractModelReconcileAdapter {
              * we have non-null value, so we must be updating existing
              * namespace, or adding a new one
              */
-            if (/*
-                 * XSDConstants.isSchemaForSchemaNamespace(attr.getValue()) &&
-                 */!attr.getValue().equals(xsdSchema.getQNamePrefixToNamespaceMap().get(prefix))) {
-                // add the namespace to the map
-                xsdSchema.getQNamePrefixToNamespaceMap().put(prefix, attr.getValue());
+            final String newNamespaceValue = attr.getValue();
+            final String oldNamespaceValue = xsdSchema.getQNamePrefixToNamespaceMap().get(prefix);
+
+            // we should not be updating the map when there are more than one
+            // attribute with same name in the element
+            if (countAttributeWithSameName(attr.getName(), xsdSchema.getElement()) <= 1
+                    && !newNamespaceAndOldNamespaceAreTheSame(newNamespaceValue, oldNamespaceValue)) {
+                xsdSchema.getQNamePrefixToNamespaceMap().put(prefix, newNamespaceValue);
             }
             /*
              * notify for the change anyway, since we want to run the
@@ -200,6 +216,37 @@ public class AttributesReconcileAdapter extends AbstractModelReconcileAdapter {
              */
             xsdSchema.eNotify(new ENotificationImpl((InternalEObject) xsdSchema, Notification.ADD, null, null, null));
         }
+    }
+
+    /**
+     * @return the number of times the given attribute name is appearing in the
+     *         element attributes collection.
+     */
+    private int countAttributeWithSameName(final String attributeName, final Element element) {
+        final NamedNodeMap attributes = element.getAttributes();
+        final int attributesSize = attributes.getLength();
+
+        int count = 0;
+        for (int i = 0; i < attributesSize; i++) {
+            final Node item = attributes.item(i);
+            if (attributeName.equals(item.getNodeName())) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private boolean newNamespaceAndOldNamespaceAreTheSame(final String newNamespaceValue, final String oldNamespaceValue) {
+        if (newNamespaceValue == null && oldNamespaceValue == null) {
+            return true;
+        }
+        if (oldNamespaceValue == null && newNamespaceValue.isEmpty()) {
+            // generally, "null" namespace and empty one will be treated the
+            // same
+            return true;
+        }
+        // XSDConstants.isSchemaForSchemaNamespace(attr.getValue()) &&
+        return newNamespaceValue.equals(oldNamespaceValue);
     }
 
     private void processParameterOrderAttribute(final INodeNotifier notifier, final String attributeName) {
@@ -300,7 +347,7 @@ public class AttributesReconcileAdapter extends AbstractModelReconcileAdapter {
                 final EObject eObject = concreteComponentSource.getConcreteComponentFor((Element) notifier);
                 ((XSDFeature)eObject).setLexicalValue((String)newValue);
                 eObject.eNotify(new ENotificationImpl((InternalEObject) eObject, Notification.SET, XSDPackage.XSD_FEATURE__VALUE, null,
-                	     newValue));
+                             newValue));
             }
         }
     }
