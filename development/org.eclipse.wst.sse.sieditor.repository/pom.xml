@@ -11,21 +11,67 @@
 	</parent>
 
 
-  <artifactId>org.eclipse.wst.sse.sieditor.repository</artifactId>
-  <packaging>eclipse-update-site</packaging>
-  <name>Service Interface and Data Types Editors Update Site</name>
-  
-  <build>
-	<plugins>
-		<plugin>
-			<groupId>org.sonatype.tycho</groupId>
-			<artifactId>maven-osgi-packaging-plugin</artifactId>
-			<configuration>
-				<archiveSite>true</archiveSite>
-			</configuration>
-		</plugin>
-	</plugins>
-  </build>
-  
+	<artifactId>org.eclipse.wst.sse.sieditor.repository</artifactId>
+	<packaging>eclipse-update-site</packaging>
+	<name>Service Interface and Data Types Editors Update Site</name>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-packaging-plugin</artifactId>
+				<configuration>
+					<archiveSite>true</archiveSite>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<properties>
+		<snapshotRepository>/home/data/httpd/download.eclipse.org/webtools/incubator/repository/sieditor/snapshots</snapshotRepository>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>build-at-eclipse</id>
+			<activation>
+				<file>
+					<exists>${snapshotRepository}</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>deploy</id>
+								<phase>install</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<delete includeemptydirs="false">
+											<fileset dir="${snapshotRepository}">
+												<include name="**" />
+											</fileset>
+										</delete>
+										<copy includeemptydirs="false" todir="${snapshotRepository}">
+											<fileset dir="target/site">
+												<include name="**" />
+											</fileset>
+										</copy>
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
 
 </project>
