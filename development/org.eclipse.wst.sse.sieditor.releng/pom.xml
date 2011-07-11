@@ -56,12 +56,21 @@
 			
 		</pluginManagement>
 	</build>
-	<repositories>
-		<repository>
-			<id>${repo-id}</id>
-			<url>${repo-url}</url>
-			<layout>p2</layout>
-		</repository>
-	</repositories>
+	
+	<profiles>
+		<profile>
+			<id>indigo</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<id>indigo</id>
+					<url>http://download.eclipse.org/releases/galileo/</url>
+					<layout>p2</layout>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
 </project>
 
