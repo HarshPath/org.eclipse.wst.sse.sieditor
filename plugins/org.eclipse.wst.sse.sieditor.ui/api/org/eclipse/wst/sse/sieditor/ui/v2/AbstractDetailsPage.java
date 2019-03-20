@@ -88,8 +88,10 @@ public abstract class AbstractDetailsPage implements IDetailsPage {
         createSections(parent);
         for (Control control : parent.getChildren()) {
             GridData gd = (GridData) control.getLayoutData();
-            gd.grabExcessHorizontalSpace = true;
-            gd.horizontalAlignment = SWT.FILL;
+		if(gd != null) {
+            		gd.grabExcessHorizontalSpace = true;
+           		gd.horizontalAlignment = SWT.FILL;
+		}
         }
     }
 
